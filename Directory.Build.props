@@ -6,7 +6,7 @@
     <!-- Enable C#13 keyword "field" -->
     <LangVersion>preview</LangVersion>
     <NoWarn>$(NoWarn);1573;1591;1712</NoWarn>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
 
     <ImplicitUsings>enable</ImplicitUsings>
