@@ -1,3 +1,4 @@
+// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;

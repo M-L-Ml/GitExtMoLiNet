@@ -8,6 +8,8 @@ using GitUI.Properties;
 using GitUI.UserControls;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
+// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
+
 namespace GitUI.HelperDialogs
 {
     public partial class FormStatus : GitExtensionsDialog

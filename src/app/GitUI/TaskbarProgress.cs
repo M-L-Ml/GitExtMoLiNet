@@ -1,3 +1,4 @@
+// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
 using GitCommands.Utils;
 using Microsoft.WindowsAPICodePack.Taskbar;
 

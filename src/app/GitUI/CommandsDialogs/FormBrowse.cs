@@ -39,6 +39,8 @@ using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using ResourceManager;
 
+// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
+
 namespace GitUI.CommandsDialogs
 {
     public sealed partial class FormBrowse : GitModuleForm, IBrowseRepo

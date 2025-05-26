@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAPICodePack.Taskbar;
+﻿// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace GitUI
 {
