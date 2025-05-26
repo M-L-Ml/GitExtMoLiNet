@@ -12,6 +12,7 @@
 *.sh text eol=lf
 *.py text eol=lf
 .gitattributes text eol=lf
+.editorconfig text eol=lf
 
 # Used in unit tests - try text diff
 *.bin binary diff=text
