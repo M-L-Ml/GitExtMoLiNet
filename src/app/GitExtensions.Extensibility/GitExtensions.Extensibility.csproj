@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AdysTech.CredentialManager" />
+    <PackageReference Include="Core.System.Windows.Forms" />
     <PackageReference Include="StrongOf" />
   </ItemGroup>
 
