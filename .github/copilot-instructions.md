@@ -4,9 +4,8 @@
 
 ## General
 
-* Make only high confidence suggestions when reviewing code changes.
 * Always use the latest version C#, currently C# 13 features.
-* Files must have CRLF line endings.
+* .Cs and Windows-originated files must have CRLF line endings.
 
 ## Formatting
 
