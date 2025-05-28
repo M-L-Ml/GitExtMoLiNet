@@ -1,4 +1,4 @@
-//
+﻿//
 // Settings.cs
 //
 // Contact:
@@ -36,7 +36,7 @@ namespace System.Windows.Interop {
 		public Settings ()
 		{
 		}
-
+#if MOONFULL
 		public bool EnableFrameRateCounter {
 			get {
 				return NativeMethods.plugin_instance_get_enable_frame_rate_counter (XamlLoader.PluginInDomain);
@@ -114,5 +114,7 @@ namespace System.Windows.Interop {
 				return NativeMethods.plugin_instance_get_enable_navigation (XamlLoader.PluginInDomain);
 			}
 		}
-	}
+#endif
+
+    }
 }

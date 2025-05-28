@@ -1,4 +1,4 @@
-//
+﻿//
 // Helper.cs: Exposes some methods that require access to mscorlib or
 // System but are not exposed in the 2.1 profile.
 //
@@ -39,7 +39,6 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Windows;
 
-using Mono.Security.Cryptography;
 using System.Collections.Generic;
 
 namespace Mono {
@@ -137,8 +136,9 @@ namespace Mono {
 
 			if (at == null) {
 				if (target_type == typeof (bool?)) {
-					t = typeof (NullableBoolConverter);
-				} else {
+					
+					throw new NotImplementedException("NullableBoolConverter is not implemented in Moonlight yet. need t = typeof (NullableBoolConverter);");
+                } else {
 					cachedConverters.Add (converterKey, null);
 					return null;
 				}
@@ -299,8 +299,9 @@ namespace Mono {
 		public static bool IsUserInitiated ()
 		{
 			// FIXME: requirement to be waived (i.e. return true) with used under SL4 elevated trust
-			return NativeMethods.surface_is_user_initiated_event (Deployment.Current.Surface.Native);
-		}
+			
+			throw new NotImplementedException ("Helper.IsUserInitiated is not implemented in Moonlight yet. need return NativeMethods.surface_is_user_initiated_event (Deployment.Current.Surface.Native);");
+        }
 
 		public unsafe static string CreateMediaLogXml (IntPtr *names, IntPtr *values)
 		{
