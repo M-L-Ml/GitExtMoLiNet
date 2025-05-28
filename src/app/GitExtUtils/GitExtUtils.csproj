@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="AdysTech.CredentialManager" />
     <PackageReference Include="Ben.Demystifier" />
+    <PackageReference Include="Core.System.Windows.Forms" />
     <PackageReference Include="JetBrains.Annotations" />
   </ItemGroup>
 

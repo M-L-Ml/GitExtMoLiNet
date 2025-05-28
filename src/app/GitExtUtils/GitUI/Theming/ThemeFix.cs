@@ -84,7 +84,8 @@ namespace GitExtUtils.GitUI.Theming
         private static void SetupButton(this Button button)
         {
             // .net9 fix for https://github.com/dotnet/winforms/issues/11949 (only supposed to occur for 100%)
-            if (Application.IsDarkModeEnabled && button.FlatStyle == FlatStyle.Standard)
+            if (Application2.IsDarkModeEnabled &&
+                button.FlatStyle == FlatStyle.Standard)
             {
                 // In addition to not setting the BackColor (TouchBackColor() will fix),
                 // FlatStyle.Standard buttons look ugly in dark mode
@@ -128,5 +129,14 @@ namespace GitExtUtils.GitUI.Theming
             weakTable.Add(element, element);
             return true;
         }
+    }
+
+    public static class Application2
+    {
+        /// <summary>
+        /// TODO: Core.System.Windows.Forms Application not supports it yet
+        /// Placeholder for actual implementation
+        /// </summary>
+        public static bool IsDarkModeEnabled => false;
     }
 }

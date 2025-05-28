@@ -58,7 +58,9 @@
     <!-- Coverlet assumes PDB files exist on disk https://github.com/tonerdo/coverlet/issues/362 -->
     <DebugType Condition="'$(DebugType)' == 'embedded'">portable</DebugType>
   </PropertyGroup>
-
+	<ItemGroup>
+		<Using Include="System.Windows.Forms" />
+	</ItemGroup>
   <ItemGroup>
     <Compile Include="$(RepoRoot)\CommonAssemblyInfo.cs" Link="Properties\CommonAssemblyInfo.cs" />
   </ItemGroup>
