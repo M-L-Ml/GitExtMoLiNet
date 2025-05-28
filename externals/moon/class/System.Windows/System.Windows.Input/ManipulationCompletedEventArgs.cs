@@ -1,4 +1,4 @@
-// Contact:
+﻿// Contact:
 //   Moonlight List (moonlight-list@lists.ximian.com)
 //
 // Copyright 2010 Novell, Inc.
@@ -29,7 +29,6 @@ namespace System.Windows.Input {
 	[EditorBrowsable (EditorBrowsableState.Never)]
 	public sealed class ManipulationCompletedEventArgs : RoutedEventArgs {
 
-		[MonoTODO ("design-mode time not supported")]
 		public ManipulationCompletedEventArgs ()
 		{
 			if (!DesignerProperties.GetIsInDesignMode (Application.Current.RootVisual))
@@ -41,7 +40,6 @@ namespace System.Windows.Input {
 		public bool IsInertial { get; private set; }
 		public UIElement ManipulationContainer { get; private set; }
 		public Point ManipulationOrigin { get; private set; }
-		public ManipulationDelta TotalManipulation { get; private set; }
 	}
 }
 

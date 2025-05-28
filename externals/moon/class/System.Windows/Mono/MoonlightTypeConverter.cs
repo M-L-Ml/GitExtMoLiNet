@@ -1,4 +1,4 @@
-//
+﻿//
 // MoonlightTypeConverter.cs
 //
 // Contact:
@@ -42,223 +42,33 @@ namespace Mono {
 	internal class MoonlightTypeConverter : TypeConverter {
 
 		protected bool nullableDestination;
-		protected Kind destinationKind;
+
 		protected Type destinationType;
 		protected string propertyName;
 
 		public MoonlightTypeConverter (string propertyName, Type destinationType)
 		{
-			this.propertyName = propertyName;
-			this.destinationType = destinationType;
-
-			destinationKind = Deployment.Current.Types.TypeToKind (destinationType);
-			if (destinationKind == Kind.INVALID)
-				throw new InvalidOperationException (string.Format ("Cannot convert to type {0} (property {1})", destinationType, propertyName));
-
-			var nullable = Nullable.GetUnderlyingType (destinationType);
-			if (nullable != null) {
-				this.destinationType = nullable;
-				nullableDestination = true;
-			}
-		}
+throw new NotImplementedException("This code is not implemented in the current context. Please refer to the original source for details."); 
+        }
 
 		public override bool CanConvertFrom (ITypeDescriptorContext context, Type sourceType)
 		{
-			if (sourceType == typeof(string))
-				return true;
-
-			// allow specifying SolidColorBrushes using color literals
-			if (sourceType == typeof(Color) && destinationType.IsAssignableFrom(typeof(SolidColorBrush)))
-				return true;
-
-			if (IsAssignableToIConvertible (sourceType) && IsAssignableToIConvertible (destinationType))
-				return true;
-
-			if (destinationType.IsAssignableFrom (sourceType))
-				return true;
-
-			// in 2.0 we need to allow converting from integers to FontStyle/FontStretch/FontWeight
-			if (Deployment.Current.RuntimeVersion[0] == '2' &&
-			    sourceType == typeof (UInt32) &&
-			    (destinationType == typeof (FontStyle) ||
-			     destinationType == typeof (FontStretch) ||
-			     destinationType == typeof (FontWeight)))
-				return true;
-			    
-			return base.CanConvertFrom (context, sourceType);
-		}
+            throw new NotImplementedException("This code is not implemented in the current context. Please refer to the original source for details.");
+        }
 
 		public override object ConvertFrom (ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
 		{
-			if (destinationType == typeof (object))
-				return value;
-
-			if (destinationType == typeof (string))
-				return value.ToString ();
-
-			if (destinationType.IsInstanceOfType (value))
-				return value;
-			
-			string str_val = value as String;
-			if (str_val != null) {
-				if (destinationType.IsEnum)
-					return Enum.Parse (destinationType, str_val, true);
-				
-				if (destinationType == typeof (GridLength)) {
-					if (String.Compare (str_val, "Auto", true) == 0)
-						return new GridLength (1, GridUnitType.Auto);
-					else {
-						str_val = str_val.Trim ();
-						var length = 1.0;
-						var type = str_val.EndsWith ("*") ? GridUnitType.Star : GridUnitType.Pixel;
-						if (str_val.Length == 0)
-							length = 0.0;
-						if (type == GridUnitType.Star)
-							str_val = str_val.Substring (0, str_val.Length - 1);
-						if (str_val.Length > 0)
-							length = double.Parse (str_val, Helper.DefaultCulture);
-
-						return new GridLength (length, type);
-					}
-				}
-
-				if (destinationType == typeof (int))
-					return int.Parse (str_val, NumberStyles.Any, Helper.DefaultCulture);
-
-				if (destinationType == typeof (double) && str_val == "Auto")
-					return Double.NaN;
-				
-				if (destinationType == typeof (TimeSpan)) {
-					TimeSpan span;
-					if (TimeSpan.TryParse (str_val, out span))
-						return span;
-				}
-
-				if (destinationType == typeof (FontWeight))
-					return new FontWeight ((FontWeightKind) Enum.Parse (typeof (FontWeightKind), str_val, true));
-
-				if (destinationType == typeof (FontStyle))
-					return new FontStyle ((FontStyleKind) Enum.Parse (typeof (FontStyleKind), str_val, true));
-
-				if (destinationType == typeof (FontStretch))
-					return new FontStretch ((FontStretchKind) Enum.Parse (typeof (FontStretchKind), str_val, true));
-
-				if (destinationType == typeof (Cursor))
-					return Cursors.FromEnum ((CursorType) Enum.Parse (typeof (CursorType), str_val, true));
-
-				if (destinationType == typeof (CacheMode)) {
-					if (str_val == "BitmapCache")
-						return new BitmapCache ();
-				}
-
-				if (destinationType == typeof (Rect)) {
-					return Rect.FromString (str_val);
-				}
-
-				if (destinationType == typeof (Point)) {
-					return Point.FromString (str_val);
-				}
-
-				if (destinationType == typeof (FontFamily)) {
-					return new FontFamily (str_val);
-				}
-				
-				if (destinationType == typeof (TextDecorationCollection)) {
-					if (str_val == "Underline") {
-						return TextDecorations.Underline;
-					} else if (str_val == "None") {
-						return null;
-					}
-				}
-
-				if (destinationType == typeof (System.Globalization.CultureInfo))
-					return CultureInfo.GetCultureInfo (str_val);
-
-				if (destinationType == typeof (ImageSource) ||
-				    destinationType == typeof (BitmapSource) ||
-				    destinationType == typeof (BitmapImage))
-					return new BitmapImage (new Uri (str_val, UriKind.RelativeOrAbsolute));
-			}
-
-			if (value is Color && destinationType.IsAssignableFrom(typeof(SolidColorBrush))) {
-				return new SolidColorBrush ((Color)value);
-			}
-
-			// FontStretch/Style/Weight and enums are stored as uint32 in 2.0
-			if (Deployment.Current.RuntimeVersion[0] == '2' && value is UInt32) {
-				if (destinationType == typeof (FontStyle))
-					return new FontStyle ((FontStyleKind)value);
-				
-				if (destinationType == typeof (FontStretch))
-					return new FontStretch ((FontStretchKind)value);
-				
-				if (destinationType == typeof (FontWeight))
-					return new FontWeight ((FontWeightKind)value);
-				
-				if (destinationType.IsEnum) {
-					try {
-						object v = Enum.ToObject (destinationType, value);
-						
-						if (Enum.IsDefined (destinationType, v))
-							return v;
-					} catch (Exception) {
-					}
-				}
-			}
-			
-			if (IsAssignableToIConvertible (value.GetType ()) && IsAssignableToIConvertible (destinationType))
-				return ValueFromConvertible (destinationType, (IConvertible) value);
-			
-			if (value is Thickness) {
-				if (destinationType == typeof (CornerRadius)) {
-					Thickness thickness = (Thickness) value;
-					
-					// Give the same results as if we did Thickness.ToString() and then parsed that as a CornerRadius
-					return new CornerRadius (thickness.Left, thickness.Top, thickness.Right, thickness.Bottom);
-				} else if (destinationType == typeof (double))
-					return ((Thickness) value).Left;
-			}
-			
-			if (str_val != null) {
-				Kind k = destinationKind;
-
-				IntPtr unmanaged_value = IntPtr.Zero;
-				try {
-					if (NativeMethods.value_from_str (k,
-									   propertyName,
-									   str_val,
-									   out unmanaged_value)) {
-						value = Value.ToObject (destinationType, unmanaged_value);
-						return value;
-					}
-				} finally {
-					NativeMethods.value_delete_value2 (unmanaged_value);
-				}
-			}
-
-			if (destinationType.IsAssignableFrom (value.GetType ()))
-				return value;
-			
-			// The base implementation doesn't do anything but
-			// throw, so throw here instead so we have more
-			// context.
+		
 			throw new NotImplementedException (String.Format ("Unimplemented type conversion from {0} to {1}",
 									  value.GetType ().ToString (),
 									  destinationType.ToString ()));
 			
-			return base.ConvertFrom (context, culture, value);
 		}
 
 		public override object ConvertTo (ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
-			// Yeah, this is kinda broken. Why would ConvertTo just call ConvertFrom in a proper converter, eh?
-			// We need this so we can support ConvertFrom/ConvertTo properly in databinding.
-			this.destinationType = destinationType;
-			this.destinationKind = Deployment.Current.Types.TypeToKind (destinationType);
-			if (destinationKind == Kind.STRING)
-				return value == null ? null : value.ToString ();
-			return ConvertFrom (context, culture, value);
-		}
+            throw new NotImplementedException("This code is not implemented in the current context. Please refer to the original source for details.");
+        }
 
 		public static bool IsAssignableToIConvertible (Type type)
 		{

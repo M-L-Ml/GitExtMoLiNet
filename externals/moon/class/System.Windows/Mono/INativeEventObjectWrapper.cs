@@ -1,4 +1,4 @@
-//
+﻿//
 // INativeEventObjectWrapper.cs
 //
 // Contact:
@@ -38,4 +38,11 @@ namespace Mono {
 
 		void MentorChanged (IntPtr mentor_ptr);
 	}
+
+	/// <summary>
+	/// TODO: it's a stub
+	/// </summary>
+    public class Kind
+    {
+    }
 }
