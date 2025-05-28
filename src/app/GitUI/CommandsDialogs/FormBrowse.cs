@@ -36,7 +36,9 @@ using GitUIPluginInterfaces;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
 using Microsoft.Win32;
+#if WINDOWS && WINDOWSAPICODEPACK
 using Microsoft.WindowsAPICodePack.Taskbar;
+#endif
 using ResourceManager;
 
 // This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
@@ -354,11 +356,12 @@ namespace GitUI.CommandsDialogs
                         // fall back to operation without info in the button
                         UpdateCommitButtonAndGetBrush(null, showCount: false);
                         RevisionGrid.UpdateArtificialCommitCount(null);
+#if WINDOWS && WINDOWSAPICODEPACK
                         if (EnvUtils.RunningOnWindowsWithMainWindow())
                         {
                             TaskbarManager.Instance.SetOverlayIcon(null, "");
                         }
-
+#endif
                         lastBrush = null;
                     }
                 };
@@ -401,6 +404,7 @@ namespace GitUI.CommandsDialogs
 
                     void UpdateStatusInTaskbar()
                     {
+#if WINDOWS && WINDOWSAPICODEPACK
                         if (!EnvUtils.RunningOnWindowsWithMainWindow())
                         {
                             return;
@@ -432,6 +436,7 @@ namespace GitUI.CommandsDialogs
                         TaskbarManager.Instance.SetOverlayIcon(overlay, "");
 
                         _windowsJumpListManager.UpdateCommitIcon(toolStripButtonCommit.Image);
+#endif
                     }
                 };
             }
@@ -551,6 +556,7 @@ namespace GitUI.CommandsDialogs
         protected override void OnActivated(EventArgs e)
         {
             // wait for windows to really be displayed, which isn't necessarily the case in OnLoad()
+#if WINDOWS && WINDOWSAPICODEPACK
             if (_windowsJumpListManager.NeedsJumpListCreation)
             {
                 _windowsJumpListManager.CreateJumpList(
@@ -563,6 +569,7 @@ namespace GitUI.CommandsDialogs
             }
 
             _windowsJumpListManager.EnableThumbnailToolbar(_dashboard?.Visible is not true && Module.IsValidGitWorkingDir());
+#endif
 
             this.InvokeAndForget(OnActivate);
             base.OnActivated(e);
@@ -571,7 +578,9 @@ namespace GitUI.CommandsDialogs
         protected override void OnDeactivate(EventArgs e)
         {
             bool formDeactivatedByOwnModalDialog = ActiveForm is not null;
+#if WINDOWS && WINDOWSAPICODEPACK
             _windowsJumpListManager.EnableThumbnailToolbar(!formDeactivatedByOwnModalDialog && _dashboard?.Visible is not true && Module.IsValidGitWorkingDir());
+#endif
 
             base.OnDeactivate(e);
         }
@@ -776,7 +785,9 @@ namespace GitUI.CommandsDialogs
 
         private void ShowDashboard()
         {
+#if WINDOWS && WINDOWSAPICODEPACK
             _windowsJumpListManager.EnableThumbnailToolbar(false);
+#endif
 
             toolPanel.SuspendLayout();
             toolPanel.TopToolStripPanelVisible = false;
