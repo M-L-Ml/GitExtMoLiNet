@@ -1,3 +1,10 @@
+Those are some files from 
+https://github.com/mono/moon.git
+\class folder
+without Microsoft.SilverlightControls folder
+
+which are not present in https://github.com/DanielVanNoord/System.Windows.Forms
+
 ======
 This is Moonlight, an open source implementation of Silverlight 1.0, 2.0, 
 3.0 and 4.0 for Unix systems.   
