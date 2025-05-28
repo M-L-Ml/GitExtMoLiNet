@@ -1,4 +1,4 @@
-//
+﻿//
 // Contact:
 //   Moonlight List (moonlight-list@lists.ximian.com)
 //
@@ -114,7 +114,6 @@ namespace System.Windows.Messaging {
 			get { return allowedSenderDomains; }
 		}
 
-		[MonoTODO ("IE7 Protected Mode only (not applicable to Moonlight)")]
 		public bool DisableSenderTrustCheck {
 			get { return disableSenderTrustCheck; }
 			set {

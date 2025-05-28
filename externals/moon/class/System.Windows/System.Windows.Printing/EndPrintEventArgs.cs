@@ -1,4 +1,4 @@
-//
+﻿//
 // EndPrintEventArgs.cs
 //
 // Contact:
@@ -28,7 +28,6 @@
 
 namespace System.Windows.Printing {
 
-	[MonoTODO]
 	public sealed class EndPrintEventArgs : EventArgs {
 		public EndPrintEventArgs ()
 		{
