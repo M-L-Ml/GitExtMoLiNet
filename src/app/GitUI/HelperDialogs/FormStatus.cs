@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using GitCommands;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
@@ -6,7 +6,9 @@ using GitExtUtils;
 using GitUI.Models;
 using GitUI.Properties;
 using GitUI.UserControls;
+#if WINDOWS && WINDOWSAPICODEPACK
 using Microsoft.WindowsAPICodePack.Taskbar;
+#endif
 
 // This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
 
@@ -141,7 +143,9 @@ namespace GitUI.HelperDialogs
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
+#if WINDOWS && WINDOWSAPICODEPACK
             TaskbarProgress.Clear();
+#endif
             base.OnFormClosed(e);
         }
 
@@ -201,7 +205,9 @@ namespace GitUI.HelperDialogs
                 Ok.Focus();
                 AcceptButton = Ok;
                 Abort.Enabled = false;
+#if WINDOWS && WINDOWSAPICODEPACK
                 TaskbarProgress.SetProgress(isSuccess ? TaskbarProgressBarState.Normal : TaskbarProgressBarState.Error, 100, 100);
+#endif
 
                 Bitmap image = isSuccess ? Images.StatusBadgeSuccess : Images.StatusBadgeError;
                 SetIcon(image);
@@ -247,7 +253,9 @@ namespace GitUI.HelperDialogs
             {
                 ProgressBar.Style = ProgressBarStyle.Blocks;
                 ProgressBar.Value = Math.Min(100, progressValue);
+#if WINDOWS && WINDOWSAPICODEPACK
                 TaskbarProgress.SetProgress(TaskbarProgressBarState.Normal, progressValue, 100);
+#endif
             }
 
             // Show last progress message in the title, unless it's showing in the control body already
@@ -270,7 +278,9 @@ namespace GitUI.HelperDialogs
             }
 
             StartPosition = FormStartPosition.CenterParent;
+#if WINDOWS && WINDOWSAPICODEPACK
             TaskbarProgress.SetState(TaskbarProgressBarState.Indeterminate);
+#endif
 
             Reset();
             ProcessCallback(this);

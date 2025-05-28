@@ -59,7 +59,9 @@ namespace GitUI.CommandsDialogs.SettingsDialog.Pages
             [PropertyOrder(6)]
             [DisplayName("Icon or associated file path")]
             [Description("This can either be a path to an .ico file or to any other file in which case its \"associated icon\" is used.")]
+#if WINDOWS && FORMSDESIGN
             [Editor(typeof(System.Windows.Forms.Design.FileNameEditor), typeof(UITypeEditor))]
+#endif
             public string? IconFilePath { get; set; }
 
             [Category(ScriptBehaviourCategory)]

@@ -1,4 +1,5 @@
-// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
+﻿// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
+#if WINDOWS && WINDOWSAPICODEPACK
 using GitCommands.Utils;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
@@ -40,3 +41,24 @@ namespace GitUI
         }
     }
 }
+#else
+namespace GitUI
+{
+    public static class TaskbarProgress
+    {
+        public static void Clear() { }
+        public static void SetProgress(object state, int progressValue, int maximumValue) { }
+        public static void SetState(object state) { }
+    }
+
+    // Stub for TaskbarProgressBarState for cross-platform build
+    public enum TaskbarProgressBarState
+    {
+        NoProgress,
+        Indeterminate,
+        Normal,
+        Error,
+        Paused
+    }
+}
+#endif
