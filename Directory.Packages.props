@@ -25,25 +25,24 @@
     <PackageVersion Include="SmartFormat" Version="3.0.0" />
     <PackageVersion Include="StrongOf" Version="1.2.4" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
-    <PackageVersion Include="System.ComponentModel.Composition" Version="6.0.0" />    <!-- Required by GitExtensions.PluginManager -->
+    <PackageVersion Include="System.ComponentModel.Composition" Version="6.0.0" />
+    <!-- Required by GitExtensions.PluginManager -->
     <PackageVersion Include="System.IO.Abstractions" Version="22.0.12" />
     <PackageVersion Include="System.Reactive.Interfaces" Version="5.0.0" />
     <PackageVersion Include="System.Reactive.Linq" Version="5.0.0" />
     <PackageVersion Include="System.Reactive" Version="5.0.0" />
-
     <!-- Analyzers -->
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" PrivateAssets="all" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" />
-
     <!-- Setup infra -->
     <PackageVersion Include="vswhere" Version="3.1.7" />
     <PackageVersion Include="WiX" Version="3.14.1" />
-
     <!-- Test infra -->
     <PackageVersion Include="Appveyor.TestLogger" Version="2.0.0" />
     <PackageVersion Include="FluentAssertions" Version="8.2.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.13.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />    <!-- Required? -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <!-- Required? -->
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="NUnit.ConsoleRunner" Version="3.19.2" />
     <PackageVersion Include="NUnit" Version="4.3.2" />
