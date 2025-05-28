@@ -1,4 +1,4 @@
-
+﻿
 using System;
 using System.Text;
 using System.Windows;
@@ -7,6 +7,7 @@ using System.Windows.Media.Animation;
 namespace Mono {
 
 	internal delegate double EasingFunctionCallback (IntPtr easingFunctionBase, double normalizedTime);
+        #if MOONFULL
 
 	internal sealed class EasingFunctionWrapper : EasingFunctionBase {
 
@@ -23,4 +24,5 @@ namespace Mono {
 			return function.Ease (normalizedTime);
 		}
 	}
+#endif
 }

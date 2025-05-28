@@ -1,4 +1,4 @@
-//
+﻿//
 // System.Windows.UIElement.cs
 //
 // Contact:
@@ -38,6 +38,7 @@ using Mono;
 
 namespace System.Windows {
 	public abstract partial class UIElement : DependencyObject {
+#if MOONFULL
 
 		static UIElement ()
 		{
@@ -289,10 +290,10 @@ namespace System.Windows {
 		}
 		[EditorBrowsable (EditorBrowsableState.Never)]
 		public static readonly RoutedEvent ManipulationStartedEvent = new RoutedEvent (EventIds.UIElement_ManipulationStartedEvent);
-		
-		#region UIA Events
+#endif
+        #region UIA Events
 
-		internal event DependencyPropertyChangedEventHandler UIAVisibilityChanged;
+        internal event DependencyPropertyChangedEventHandler UIAVisibilityChanged;
 
 		internal void RaiseUIAVisibilityChanged (DependencyPropertyChangedEventArgs args)
 		{
