@@ -250,7 +250,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindLargeFiles.Tests", "tests\plugins\UnitTests\FindLargeFiles.Tests\FindLargeFiles.Tests.csproj", "{85006436-9332-4ADA-89BF-A9541F90F761}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonClassExtract", "externals\moon\class\MoonClassExtract\MoonClassExtract.csproj", "{B2B44050-F3BA-426D-A50B-FDF66FC9DA7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonClassExtract", "externals\moon\class\MoonClassExtract.csproj", "{B2B44050-F3BA-426D-A50B-FDF66FC9DA7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
