@@ -26,6 +26,7 @@
     <PackageReference Include="EnvDTE" />
     <PackageReference Include="ExCSS" />
     <PackageReference Include="JetBrains.Annotations" />
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" />
   </ItemGroup>
 
   <ItemGroup>
