@@ -7,3 +7,7 @@
 [submodule "Externals/ICSharpCode.TextEditor"]
 	path = externals/ICSharpCode.TextEditor
 	url = ../../gitextensions/ICSharpCode.TextEditor.git
+[submodule "externals/Windows-API-Code-Pack"]
+	path = externals/Windows-API-Code-Pack
+	url = https://github.com/M-L-Ml/Windows-API-Code-Pack-1.1
+	branch = port
