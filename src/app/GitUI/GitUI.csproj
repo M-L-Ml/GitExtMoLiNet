@@ -35,6 +35,8 @@
     <ProjectReference Include="..\..\..\externals\ICSharpCode.TextEditor\Project\ICSharpCode.TextEditor.csproj" />
     <ProjectReference Include="..\..\..\externals\moon\class\MoonClassExtract.csproj" />
     <ProjectReference Include="..\..\..\externals\NetSpell.SpellChecker\SpellChecker.csproj" />
+    <ProjectReference Include="..\..\..\externals\Windows-API-Code-Pack\source\WindowsAPICodePack\Core\Core.csproj" />
+    <ProjectReference Include="..\..\..\externals\Windows-API-Code-Pack\source\WindowsAPICodePack\Shell\Shell.csproj" />
     <ProjectReference Include="..\BugReporter\BugReporter.csproj" />
     <ProjectReference Include="..\GitCommands\GitCommands.csproj" />
     <ProjectReference Include="..\GitExtUtils\GitExtUtils.csproj" />

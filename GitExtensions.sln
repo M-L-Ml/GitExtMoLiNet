@@ -252,6 +252,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindLargeFiles.Tests", "tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonClassExtract", "externals\moon\class\MoonClassExtract.csproj", "{B2B44050-F3BA-426D-A50B-FDF66FC9DA7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "externals\Windows-API-Code-Pack\source\WindowsAPICodePack\Core\Core.csproj", "{8EF58F5A-58CE-FC01-FEED-83E63C7A65A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shell", "externals\Windows-API-Code-Pack\source\WindowsAPICodePack\Shell\Shell.csproj", "{09D43FEE-EF7B-EDC4-3DFB-1CB598081C2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -460,6 +464,14 @@ Global
 		{B2B44050-F3BA-426D-A50B-FDF66FC9DA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2B44050-F3BA-426D-A50B-FDF66FC9DA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2B44050-F3BA-426D-A50B-FDF66FC9DA7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EF58F5A-58CE-FC01-FEED-83E63C7A65A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EF58F5A-58CE-FC01-FEED-83E63C7A65A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EF58F5A-58CE-FC01-FEED-83E63C7A65A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EF58F5A-58CE-FC01-FEED-83E63C7A65A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09D43FEE-EF7B-EDC4-3DFB-1CB598081C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09D43FEE-EF7B-EDC4-3DFB-1CB598081C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09D43FEE-EF7B-EDC4-3DFB-1CB598081C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09D43FEE-EF7B-EDC4-3DFB-1CB598081C2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -531,6 +543,8 @@ Global
 		{0C71ED08-A7BC-42CC-B690-81F53C62A731} = {1110DC9C-5A1E-43E8-A91C-819B3B5207A1}
 		{85006436-9332-4ADA-89BF-A9541F90F761} = {0C71ED08-A7BC-42CC-B690-81F53C62A731}
 		{B2B44050-F3BA-426D-A50B-FDF66FC9DA7D} = {0E859634-B3DF-46AC-A73C-D49734F19D6A}
+		{8EF58F5A-58CE-FC01-FEED-83E63C7A65A6} = {0E859634-B3DF-46AC-A73C-D49734F19D6A}
+		{09D43FEE-EF7B-EDC4-3DFB-1CB598081C2A} = {0E859634-B3DF-46AC-A73C-D49734F19D6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ECECB7EA-BCCF-44AD-B63E-C2FA45589FB0}
