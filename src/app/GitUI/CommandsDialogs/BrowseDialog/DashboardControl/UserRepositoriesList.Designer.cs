@@ -328,7 +328,7 @@
             listView1.TileSize = new Size(350, 50);
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Tile;
-            listView1.GroupTaskLinkClick += new System.EventHandler<ListViewGroupEventArgs>(ListView1_GroupTaskLinkClick);
+          //  listView1.GroupTaskLinkClick += new System.EventHandler<ListViewGroupEventArgs>(ListView1_GroupTaskLinkClick);
             listView1.DrawItem += listView1_DrawItem;
             listView1.MouseClick += listView1_MouseClick;
             listView1.MouseLeave += listView1_MouseLeave;

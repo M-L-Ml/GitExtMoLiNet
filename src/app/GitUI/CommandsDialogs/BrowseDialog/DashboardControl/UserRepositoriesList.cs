@@ -74,9 +74,9 @@ namespace GitUI.CommandsDialogs.BrowseDialog.DashboardControl
             _lvgRecentRepositories = new ListViewGroup(_groupRecentRepositories.Text, HorizontalAlignment.Left)
             {
                 Name = string.Empty,
-                CollapsedState = ListViewGroupCollapsedState.Expanded,
-                TaskLink = _groupActions.Text
             };
+            _lvgRecentRepositories.CollapsedState(ListViewGroupCollapsedState.Expanded);
+            _lvgRecentRepositories.TaskLink(_groupActions.Text);
 
             _foreColorBrush = new SolidBrush(base.ForeColor);
 
@@ -84,7 +84,7 @@ namespace GitUI.CommandsDialogs.BrowseDialog.DashboardControl
             lblRecentRepositories.Font = new Font(AppSettings.Font.FontFamily, AppSettings.Font.SizeInPoints + 5.5f);
             lblRecentRepositories.ForeColor.AdaptTextColor();
 
-            textBoxSearch.PlaceholderText = _repositorySearchPlaceholder.Text;
+           // textBoxSearch.PlaceholderText = _repositorySearchPlaceholder.Text;
 
             listView1.Items.Clear();
             listView1.Groups.Clear();
@@ -317,8 +317,8 @@ namespace GitUI.CommandsDialogs.BrowseDialog.DashboardControl
                         .OrderBy(c => c)
                         .Select(c => new ListViewGroup(c, c)
                         {
-                            CollapsedState = ListViewGroupCollapsedState.Expanded,
-                            TaskLink = _groupActions.Text
+                            //CollapsedState = ListViewGroupCollapsedState.Expanded,
+                           // TaskLink = _groupActions.Text
                         }))
                     .ToArray();
 
