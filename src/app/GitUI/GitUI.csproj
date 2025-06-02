@@ -27,6 +27,7 @@
     <PackageReference Include="ExCSS" />
     <PackageReference Include="JetBrains.Annotations" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" />
+    <PackageReference Include="System.DirectoryServices" />
   </ItemGroup>
 
   <ItemGroup>

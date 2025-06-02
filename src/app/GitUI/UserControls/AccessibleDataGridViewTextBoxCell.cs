@@ -7,7 +7,11 @@
     /// </summary>
     public class AccessibleDataGridViewTextBoxCell : DataGridViewTextBoxCell
     {
-        protected class DataGridViewTextBoxCellUnnamedAccessibleObject : DataGridViewTextBoxCell.DataGridViewTextBoxCellAccessibleObject
+        protected class DataGridViewTextBoxCellUnnamedAccessibleObject :
+            //TODO: check absance of DataGridViewTextBoxCellAccessibleObject
+
+           // global::System.Windows.Forms.DataGridViewTextBoxCell.
+            DataGridViewCellAccessibleObject
         {
             public DataGridViewTextBoxCellUnnamedAccessibleObject(DataGridViewCell? owner) : base(owner)
             {
