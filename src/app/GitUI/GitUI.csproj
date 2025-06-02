@@ -33,8 +33,8 @@
     <ProjectReference Include="..\..\..\externals\conemu-inside\ConEmuWinForms\ConEmuWinForms.csproj" />
     <ProjectReference Include="..\..\..\externals\Git.hub\Git.hub\Git.hub.csproj" />
     <ProjectReference Include="..\..\..\externals\ICSharpCode.TextEditor\Project\ICSharpCode.TextEditor.csproj" />
-    <ProjectReference Include="..\..\..\externals\moon\class\MoonClassExtract.csproj" />
     <ProjectReference Include="..\..\..\externals\NetSpell.SpellChecker\SpellChecker.csproj" />
+    <ProjectReference Include="..\..\..\externals\Windows-API-Code-Pack\source\MonoFormsAdds\class\MonoFormsAdds.csproj" />
     <ProjectReference Include="..\..\..\externals\Windows-API-Code-Pack\source\WindowsAPICodePack\Core\Core.csproj" />
     <ProjectReference Include="..\..\..\externals\Windows-API-Code-Pack\source\WindowsAPICodePack\Shell\Shell.csproj" />
     <ProjectReference Include="..\BugReporter\BugReporter.csproj" />
