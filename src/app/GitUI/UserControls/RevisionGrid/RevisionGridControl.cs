@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Concurrency;
@@ -27,10 +27,13 @@ using GitUI.UserControls.RevisionGrid.Columns;
 using GitUIPluginInterfaces;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using ResourceManager;
 using ResourceManager.Hotkey;
+#if WINDOWS_OWN
 using TaskDialog = System.Windows.Forms.TaskDialog;
 using TaskDialogButton = System.Windows.Forms.TaskDialogButton;
+#endif
 
 namespace GitUI
 {
@@ -158,7 +161,7 @@ namespace GitUI
         /// </summary>
         internal Dictionary<ObjectId, string>? FilePathByObjectId { get; set; } = null;
 
-        internal Action<string>? SelectInLeftPanel { get;  set; } = null;
+        internal Action<string>? SelectInLeftPanel { get; set; } = null;
 
         public RevisionGridControl()
         {
@@ -3323,3 +3326,18 @@ namespace GitUI
         }
     }
 }
+
+#if !WINDOWS_OWN
+namespace System.Windows.Forms
+{
+    public class TaskDialogPage
+    {
+        public string Text { get; set; }
+        public string Caption { get; set; }
+        public string Heading { get; set; }
+        public object Icon { get; set; }
+        public object Verification { get; set; }
+        public bool SizeToContent { get; set; }
+    }
+}
+#endif
