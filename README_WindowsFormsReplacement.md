@@ -6,7 +6,7 @@ I need to fix compilation errors , caused by some Windows Forms library replacem
 Please use this method whatever better to make simplier and preserve the much of the original text of the code:
 
 1. Wrap the broken code with conditional compilation blocks
-1.1 Use `#if !WINDOWS_OWN` if it's related to missed Windows WPF or WinForms code
+1.1 Use `#if WINDOWS_OWN` if it's related to missed Windows WPF or WinForms code
 1.2 Use `#if FULLAPI ... #endif` if it missed WindowsAPICodePack code or you are not sure.
 2. Create stub classes or methods for the non-FULLAPI path that:
    - Replace WPF-specific types (UIElement, Window, BitmapSource, Vector) with generic types (object)
