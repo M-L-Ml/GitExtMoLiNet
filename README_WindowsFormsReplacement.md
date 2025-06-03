@@ -6,30 +6,18 @@ I need to fix compilation errors , caused by some Windows Forms library replacem
 Please use this method whatever better to make simplier and preserve the much of the original text of the code:
 
 1. Wrap the broken code with conditional compilation blocks
-1.1 Use `#if WINDOWS_OWN` if it's related to missed Windows WPF or WinForms code
+1.1 Use `#if WINDOWS_OWN  ... #endif` if it's related to missed Windows WPF or WinForms code
 1.2 Use `#if FULLAPI ... #endif` if it missed WindowsAPICodePack code or you are not sure.
 2. Create stub classes or methods for the non-FULLAPI path that:
    - Replace WPF-specific types (UIElement, Window, BitmapSource, Vector) with generic types (object)
    - Maintain the same method signatures and property names
    - Provide empty implementations 
-    -  throw  NotImplemented exceptions with an explanation.
+   - throw  NotImplemented exceptions with an explanation.
   
 
 The goal is to ensure the project compiles successfully while maintaining the API structure and leave   what is disabled as is , while it should be obvious it disable. No matter if some functionality is limited or broken when FULLAPI is not defined. No matter if it causes Null reference or NotImplemented exceptions.
 
 
-# One proposed commit message
-
-Fix compilation errors in TabbedThumbnail.cs with conditional compilation
-
-- Wrapped WPF-dependent code with #if FULLAPI ... #endif blocks
-- Added empty stubs for WPF-specific types when FULLAPI is not defined
-- Fixed XML documentation to match conditional compilation structure
-- Ensured GitUI project compiles successfully without WPF dependencies
-
-This change allows the project to be built in environments where
-WPF dependencies are not available by conditionally excluding
-WPF-specific functionality.
 
 # Conditional Compilation in GitExt
 
@@ -37,11 +25,17 @@ WPF-specific functionality.
 
 This document explains the conditional compilation approach used in the GitExt project to handle missing dependencies and ensure successful compilation across different environments. By using conditional compilation and stub implementations, we can build the project even when certain dependencies (like WPF) are not available.
 
-## The FULLAPI Compilation Symbol
+## The FULLAPI and WINDOWS_OWN Compilation Symbols
 
 ### Purpose
 
-The `FULLAPI` compilation symbol is used to conditionally include or exclude code that depends on specific libraries or frameworks that may not be available in all build environments. This approach allows the codebase to compile successfully even when certain dependencies are missing.
+Two main compilation symbols are used in this project:
+
+1. `FULLAPI` - Used to conditionally include or exclude code that depends on Windows API Code Pack functionality that may not be available in all build environments.
+
+2. `WINDOWS_OWN` - Used specifically for Windows WPF or WinForms dependent code.
+
+These symbols allow the codebase to compile successfully even when certain dependencies are missing, while preserving the original code structure.
 
 ### Usage
 
@@ -97,6 +91,36 @@ public class TabbedThumbnailEventArgs : EventArgs
 #endif
 ```
 
+### Example: Method Implementation with Conditional Compilation
+
+```csharp
+private static void thumbnailPreview_TitleChanged(object sender, EventArgs e)
+{
+    var preview = sender as TabbedThumbnail;
+
+    TaskbarWindow taskbarWindow = null;
+
+    if (preview.WindowHandle == IntPtr.Zero)
+    {
+#if FULLAPI
+        taskbarWindow = GetTaskbarWindow(preview.WindowsControl, TaskbarProxyWindowType.TabbedThumbnail);
+#endif
+    }
+    else
+    {
+        taskbarWindow = GetTaskbarWindow(preview.WindowHandle, TaskbarProxyWindowType.TabbedThumbnail);
+    }
+
+    // Update the proxy window for the tabbed thumbnail
+    if (taskbarWindow != null)
+    {
+#if FULLAPI
+        taskbarWindow.SetTitle(preview.Title);
+#endif
+    }
+}
+```
+
 ### Example: Property Stubs
 
 ```csharp
@@ -111,46 +135,40 @@ public object PeekOffset { get; set; }
 
 ### When to Use
 
-Use the `FULLAPI` conditional compilation directive and stub implementations when:
+Use the conditional compilation directives and stub implementations when:
 
-1. Implementing code that depends on libraries that might not be available in all build environments
-2. Providing alternative implementations for different target frameworks
-3. Creating empty method stubs to ensure successful compilation when certain dependencies are missing
-4. Replacing specific types (like WPF's `UIElement` or `Vector`) with generic types (like `object`) in non-FULLAPI builds
+1. Fixing code that depends on unavailable code
+2. Creating empty method stubs to ensure successful compilation when certain dependencies are missing
+3. Replacing specific types (like WPF's `UIElement` or `Vector`) with generic types (like `object`) in non-FULLAPI builds
 
-## Building Options
+Use `#if FULLAPI` for Windows API Code Pack dependencies and `#if WINDOWS_OWN` for Windows WPF or WinForms code.
 
-### Building with FULLAPI
+### Recomendations 
 
-To build the project with all features enabled, define the `FULLAPI` symbol in your build configuration:
-- In Visual Studio: Project Properties > Build > Conditional compilation symbols > Add "FULLAPI"
-- With MSBuild: `/p:DefineConstants=FULLAPI`
-- With dotnet CLI: `dotnet build -p:DefineConstants=FULLAPI`
+1. **Preserve Original Code**: Wrap existing code in conditional compilation blocks rather than deleting or significantly modifying it
+2. **Selective Enabling**: When possible, enable parts of disabled code by using nested conditional compilation directives
+3. **Minimal Stubs**: For non-FULLAPI builds, provide minimal stub implementations that throw `NotImplementedException` with explanatory messages
+4. **Type Replacement**: Replace WPF-specific types with generic types (object) in non-FULLAPI builds
+5. **Maintain API Structure**: Keep method signatures and property names consistent between FULLAPI and non-FULLAPI implementations
 
-### Building without FULLAPI
 
-When building without the `FULLAPI` symbol defined, the code will compile with reduced functionality, excluding features that depend on potentially missing libraries. This is useful for:
-- Environments where WPF dependencies are not available
-- Simplified builds that don't require full UI functionality
-- Testing core functionality without UI dependencies
 
-## Maintenance Notes
 
-When modifying code that uses conditional compilation:
+## Other Recomendations
 
-1. Ensure that both code paths (with and without `FULLAPI`) compile successfully
-2. Provide appropriate empty stubs or alternative implementations for the non-FULLAPI path
-3. Document any significant functionality differences between the two paths
-4. Consider the impact on runtime behavior when the full implementation is not available
-5. When adding new WPF-dependent code, always wrap it with `#if FULLAPI` blocks
-6. For public APIs, provide stub implementations that maintain the same signature but with generic types
+1. Provide appropriate empty stubs or alternative implementations for the non-FULLAPI path
+
+
+2. Do not delete or significantly change the original code - just wrap it in conditional compilation blocks
+3. Don't use nested  `#if ` directives
+4. reEnable and fix parts of disabled code by using  `#if FULLAPI` or `#if WINDOWS_OWN` directives rather then create new stubs. 
 
 ## Runtime Considerations
 
-This approach prioritizes successful compilation over runtime functionality. When running code built without the `FULLAPI` symbol:
+This approach prioritizes successful compilation over runtime functionality. When running code built without the compilation symbols FULLAPI or WINDOWS_OWN:
 
-- Features that depend on excluded code may throw exceptions if invoked
+- Features that depend on excluded code may throw exceptions if invoked (typically `NotImplementedException`)
 - UI elements that depend on WPF will not function
-- Applications should check for feature availability before using conditionally compiled features
+- It's acceptable if the application throws exceptions at runtime when attempting to use disabled functionality
 
-Consider adding runtime checks to prevent exceptions when attempting to use features that require the full API implementation.
+The primary goal is to ensure the project compiles successfully, even if some functionality is limited or broken when the compilation symbols are not defined.
