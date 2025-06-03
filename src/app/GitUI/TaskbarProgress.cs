@@ -1,12 +1,12 @@
 ﻿// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
-#if WINDOWS && WINDOWSAPICODEPACK
-using GitCommands.Utils;
+// Wrap code with conditional compilation for FULLAPI
 using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace GitUI
 {
     public static class TaskbarProgress
     {
+#if FULLAPI
         private static void Try(Action<TaskbarManager> action)
         {
             if (EnvUtils.RunningOnWindowsWithMainWindow() && TaskbarManager.IsPlatformSupported)
@@ -39,17 +39,15 @@ namespace GitUI
         {
             Try(taskbar => taskbar.SetProgressState(state));
         }
-    }
-}
 #else
-namespace GitUI
-{
-    public static class TaskbarProgress
-    {
         public static void Clear() { }
         public static void SetProgress(object state, int progressValue, int maximumValue) { }
         public static void SetState(object state) { }
+#endif
     }
+
+#if FULLAPI
+
 
     // Stub for TaskbarProgressBarState for cross-platform build
     public enum TaskbarProgressBarState
@@ -60,5 +58,5 @@ namespace GitUI
         Error,
         Paused
     }
-}
 #endif
+}
