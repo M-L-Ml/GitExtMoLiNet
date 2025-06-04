@@ -1,6 +1,6 @@
 [submodule "Externals/Git.hub"]
 	path = externals/Git.hub
-	url = ../../gitextensions/Git.hub.git
+	url=https://github.com/M-L-Ml/Git.hub.PostMonoPort-
 [submodule "Externals/conemu-inside"]
 	path = externals/conemu-inside
 	url = ../../gitextensions/conemu-inside.git
