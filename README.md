@@ -1,3 +1,12 @@
+This is a fork of the Git Extensions project, aiming to make it compatible with Linux, using the package
+https://github.com/DanielVanNoord/System.Windows.Forms.git
+https://www.nuget.org/packages/Core.System.Windows.Forms/
+This allows it to be run on Linux theoretially.
+
+Status : The code compiles on Windows, but there are still issues to be resolved before it can be run successfully.
+Making it usable on Linux is hard. 
+So the goal is to make the whole project a library to a cross-platform ready project, while preserving the ability to merge changes from the upstream project.
+
 ![Git Extensions logo](https://cdn.rawgit.com/gitextensions/gitextensions/master/setup/assets/Logo/git-extensions-logo.svg)
 
 # Git Extensions
