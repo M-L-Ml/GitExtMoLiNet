@@ -1,4 +1,5 @@
-﻿using BugReporter;
+﻿using System.Drawing;
+using BugReporter;
 using GitCommands;
 using GitExtensions.Extensibility.Translations;
 using GitExtensions.Extensibility.Translations.Xliff;

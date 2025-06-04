@@ -1,4 +1,4 @@
-using System.ComponentModel.Design;
+﻿using System.ComponentModel.Design;
 using System.Configuration;
 using System.Diagnostics;
 using GitCommands;
@@ -42,8 +42,9 @@ namespace GitExtensions
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+#if WINDOWS_OWN
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
-
+#endif
             bool checkForIllegalCrossThreadCalls = false;
 #if !DEBUG
             if (ThisAssembly.Git.IsDirty)
@@ -330,7 +331,7 @@ namespace GitExtensions
             page.Buttons.Add(btnFindGitExecutable);
             page.Buttons.Add(btnInstallGitInstructions);
 
-            TaskDialogButton result = TaskDialog.ShowDialog(page);
+            var result = TaskDialog.ShowDialog(page);
             if (result == btnFindGitExecutable)
             {
                 using OpenFileDialog dialog = new() { Filter = @"git.exe|git.exe|git.cmd|git.cmd" };
