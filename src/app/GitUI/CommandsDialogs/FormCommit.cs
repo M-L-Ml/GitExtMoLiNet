@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
@@ -25,6 +25,9 @@ using GitUIPluginInterfaces;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
 using ResourceManager;
+#if !WINDOWS_OWN
+//using Application = System.Windows.Forms.Application2;
+#endif
 
 namespace GitUI.CommandsDialogs
 {
@@ -176,7 +179,7 @@ namespace GitUI.CommandsDialogs
                 _commitKind = value;
 
                 modifyCommitMessageButton.Visible = _useFormCommitMessage && CommitKind is not (CommitKind.Normal or CommitKind.Amend);
-                modifyCommitMessageButton.ForeColor = Application.IsDarkModeEnabled ? SystemColors.ControlText : SystemColors.HotTrack;
+                modifyCommitMessageButton.ForeColor = Application2.IsDarkModeEnabled ? SystemColors.ControlText : SystemColors.HotTrack;
 
                 bool messageCanBeChanged = _useFormCommitMessage && CommitKind is (CommitKind.Normal or CommitKind.Amend);
                 Message.Enabled = messageCanBeChanged;
@@ -301,8 +304,8 @@ namespace GitUI.CommandsDialogs
             toolStripStatusBranchIcon.AdaptImageLightness();
 
             // Change the link color
-            commitAuthorStatus.LinkColor = Application.IsDarkModeEnabled ? Color.CornflowerBlue : Color.FromArgb(0, 0, 0xff);
-            remoteNameLabel.LinkColor = Application.IsDarkModeEnabled ? Color.CornflowerBlue : Color.Blue;
+            commitAuthorStatus.LinkColor = Application2.IsDarkModeEnabled ? Color.CornflowerBlue : Color.FromArgb(0, 0, 0xff);
+            remoteNameLabel.LinkColor = Application2.IsDarkModeEnabled ? Color.CornflowerBlue : Color.Blue;
 
             splitLeft.Panel1.BackColor = OtherColors.PanelBorderColor;
             splitLeft.Panel2.BackColor = OtherColors.PanelBorderColor;
@@ -1149,7 +1152,7 @@ namespace GitUI.CommandsDialogs
                     TaskDialogCommandLinkButton lnkEmptyCommit = new(_noFilesStagedMakeEmptyCommitOption.Text);
                     page.Buttons.Add(lnkEmptyCommit);
 
-                    TaskDialogButton result = TaskDialog.ShowDialog(Handle, page);
+                    var result = TaskDialog.ShowDialog(Handle, page);
                     if (result == TaskDialogButton.Cancel)
                     {
                         return false;
@@ -1208,7 +1211,7 @@ namespace GitUI.CommandsDialogs
                     page.Buttons.Add(btnCreate);
                     page.Buttons.Add(btnContinue);
 
-                    TaskDialogButton result = TaskDialog.ShowDialog(Handle, page);
+                    var result = TaskDialog.ShowDialog(Handle, page);
                     if (result == TaskDialogButton.Cancel)
                     {
                         return;

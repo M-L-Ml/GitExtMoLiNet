@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\externals\Windows-API-Code-Pack\source\MonoFormsAdds\class\MonoFormsAdds.csproj" />
     <ProjectReference Include="..\GitExtensions.Extensibility\GitExtensions.Extensibility.csproj" />
   </ItemGroup>
 

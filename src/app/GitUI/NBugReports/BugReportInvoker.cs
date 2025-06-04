@@ -10,6 +10,10 @@ using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Settings;
 using GitUI.CommandsDialogs;
 
+#if WINDOWS
+using Microsoft.WindowsAPICodePack.Dialogs;
+#endif
+
 namespace GitUI.NBugReports
 {
     public static class BugReportInvoker
@@ -171,6 +175,7 @@ namespace GitUI.NBugReports
             StringBuilder text = GetExceptionInfo(exception);
             string rootError = GetRootError(exception);
 
+#if WINDOWS
             TaskDialogPage page = new()
             {
                 Icon = isExternalOperation || isUserExternalOperation ? TaskDialogIcon.Warning : TaskDialogIcon.Error,
@@ -218,6 +223,9 @@ namespace GitUI.NBugReports
                 TaskDialogCommandLinkButton taskDialogCommandLink = new(buttonText, descriptionText);
                 page.Buttons.Add(taskDialogCommandLink);
             }
+#else
+            // Provide stub implementation for non-Windows builds.
+#endif
         }
 
         private static void ReportFailedToLoadAnAssembly(FileNotFoundException exception, bool isTerminating)
@@ -229,6 +237,7 @@ namespace GitUI.NBugReports
                 fileName = fileName[..uninterestingIndex];
             }
 
+#if WINDOWS
             TaskDialogPage page = new()
             {
                 Icon = TaskDialogIcon.Warning,
@@ -256,7 +265,6 @@ namespace GitUI.NBugReports
             };
 
             TaskDialog.ShowDialog(OwnerFormHandle, page);
-
             return;
 
             static void RestartGE()
@@ -268,6 +276,7 @@ namespace GitUI.NBugReports
                 Process.Start(pi);
                 Environment.Exit(0);
             }
+#endif
         }
 
         private static void ReportDubiousOwnership(ExternalOperationException exception)
@@ -292,6 +301,7 @@ namespace GitUI.NBugReports
         {
             ArgumentNullException.ThrowIfNull(exception.InnerException);
             string error = exception.InnerException.Message;
+#if WINDOWS_OWN
             TaskDialogPage pageSecurity = new()
             {
                 Icon = TaskDialogIcon.Error,
@@ -380,6 +390,7 @@ namespace GitUI.NBugReports
                 int quoteIndex = command.IndexOf('\'');
                 return quoteIndex < 0 ? command : @$"{command[..quoteIndex]}""{command[(quoteIndex + 1)..^1]}""";
             }
+#endif
         }
 
         private static void ShowNBug(IWin32Window? owner, Exception exception, bool isExternalOperation, bool isTerminating)

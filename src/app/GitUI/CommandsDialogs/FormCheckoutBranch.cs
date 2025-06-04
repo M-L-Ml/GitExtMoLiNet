@@ -364,14 +364,19 @@ namespace GitUI.CommandsDialogs
                         {
                             Text = _applyStashedItemsAgain.Text,
                             Caption = _applyStashedItemsAgainCaption.Text,
+
+#if WINDOWS_OWN
+
                             Icon = TaskDialogIcon.Information,
                             Buttons = { TaskDialogButton.Yes, TaskDialogButton.No },
                             Verification = new TaskDialogVerificationCheckBox
                             {
                                 Text = TranslatedStrings.DontShowAgain
                             },
+#endif
                             SizeToContent = true
                         };
+#if WINDOWS_OWN
 
                         messageBoxResult = TaskDialog.ShowDialog(Handle, page) == TaskDialogButton.Yes;
 
@@ -379,6 +384,7 @@ namespace GitUI.CommandsDialogs
                         {
                             AppSettings.AutoPopStashAfterCheckoutBranch = messageBoxResult;
                         }
+#endif
                     }
 
                     if (messageBoxResult ?? false)

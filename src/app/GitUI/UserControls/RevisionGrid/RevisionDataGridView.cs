@@ -105,7 +105,7 @@ namespace GitUI.UserControls.RevisionGrid
             DoubleBuffered = true;
 
             _rowBackgroundBrush = new SolidBrush(AppColor.PanelBackground.GetThemeColor());
-            _alternatingRowBackgroundBrush = new SolidBrush(_rowBackgroundBrush.Color.MakeBackgroundDarkerBy(Application.IsDarkModeEnabled ? -0.018 : 0.025));
+            _alternatingRowBackgroundBrush = new SolidBrush(_rowBackgroundBrush.Color.MakeBackgroundDarkerBy(Application2.IsDarkModeEnabled ? -0.018 : 0.025));
             _authoredHighlightBrush = new SolidBrush(AppColor.AuthoredHighlight.GetThemeColor());
             _inactiveSelectionHighlightBrush = new SolidBrush(AppColor.InactiveSelectionHighlight.GetThemeColor());
 
@@ -425,14 +425,14 @@ namespace GitUI.UserControls.RevisionGrid
             _revisionGraphDrawNonRelativesTextGray = AppSettings.RevisionGraphDrawNonRelativesTextGray;
 
             // relativeNonSelectedSubject: SystemColors.ControlText
-            _relativeNonSelectedSubjectColor = Application.IsDarkModeEnabled ? SystemColors.ControlText : SystemColors.HighlightText;
-            _nonRelativeNonSelectedSubjectColor = Application.IsDarkModeEnabled ? Color.FromArgb(192, 192, 192) : SystemColors.GrayText;
-            _nonRelativeSelectedSubjectColor = Application.IsDarkModeEnabled ? Color.FromArgb(235, 235, 215) : GetHighlightedGrayTextColor(degreeOfGrayness: 1f);
+            _relativeNonSelectedSubjectColor = Application2.IsDarkModeEnabled ? SystemColors.ControlText : SystemColors.HighlightText;
+            _nonRelativeNonSelectedSubjectColor = Application2.IsDarkModeEnabled ? Color.FromArgb(192, 192, 192) : SystemColors.GrayText;
+            _nonRelativeSelectedSubjectColor = Application2.IsDarkModeEnabled ? Color.FromArgb(235, 235, 215) : GetHighlightedGrayTextColor(degreeOfGrayness: 1f);
 
             // relativeNonSelectedBody: SystemColors.GrayText
-            _relativeSelectedBodyColor = Application.IsDarkModeEnabled ? Color.FromArgb(170, 170, 150) : _nonRelativeSelectedSubjectColor;
-            _nonRelativeNonSelectedBodyColor = Application.IsDarkModeEnabled ? Color.FromArgb(130, 130, 130) : GetGrayControlTextColor(degreeOfGrayness: 1.4f);
-            _nonRelativeSelectedBodyColor = Application.IsDarkModeEnabled ? Color.FromArgb(170, 170, 150) : GetHighlightedGrayTextColor(degreeOfGrayness: 1.4f);
+            _relativeSelectedBodyColor = Application2.IsDarkModeEnabled ? Color.FromArgb(170, 170, 150) : _nonRelativeSelectedSubjectColor;
+            _nonRelativeNonSelectedBodyColor = Application2.IsDarkModeEnabled ? Color.FromArgb(130, 130, 130) : GetGrayControlTextColor(degreeOfGrayness: 1.4f);
+            _nonRelativeSelectedBodyColor = Application2.IsDarkModeEnabled ? Color.FromArgb(170, 170, 150) : GetHighlightedGrayTextColor(degreeOfGrayness: 1.4f);
 
             _highlightAuthoredRevisions = AppSettings.HighlightAuthoredRevisions;
             _revisionGraphDrawAlternateBackColor = AppSettings.RevisionGraphDrawAlternateBackColor;

@@ -131,12 +131,4 @@ namespace GitExtUtils.GitUI.Theming
         }
     }
 
-    public static class Application2
-    {
-        /// <summary>
-        /// TODO: Core.System.Windows.Forms Application not supports it yet
-        /// Placeholder for actual implementation
-        /// </summary>
-        public static bool IsDarkModeEnabled => false;
-    }
 }

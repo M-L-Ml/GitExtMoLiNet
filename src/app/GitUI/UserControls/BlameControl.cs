@@ -81,7 +81,7 @@ namespace GitUI.Blame
 
             CommitInfo.CommandClicked += commitInfo_CommandClicked;
 
-            _commitHighlightColor = Application.IsDarkModeEnabled ? AppColor.EditorBackground.GetThemeColor().MakeBackgroundDarkerBy(-0.06) : SystemColors.ControlLight;
+            _commitHighlightColor = Application2.IsDarkModeEnabled ? AppColor.EditorBackground.GetThemeColor().MakeBackgroundDarkerBy(-0.06) : SystemColors.ControlLight;
             _gitRevisionSummaryBuilder = new GitRevisionSummaryBuilder();
             _gitBlameParser = new GitBlameParser(() => UICommands.Module);
         }

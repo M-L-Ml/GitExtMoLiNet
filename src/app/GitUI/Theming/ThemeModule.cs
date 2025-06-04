@@ -1,4 +1,4 @@
-using GitCommands;
+﻿using GitCommands;
 using GitExtUtils.GitUI.Theming;
 using ICSharpCode.TextEditor.Document;
 
@@ -15,8 +15,12 @@ namespace GitUI.Theming
             new ThemeMigration(Repository).Migrate();
             Settings = LoadThemeSettings(Repository);
             bool isDarkMode = IsDarkColor(Settings.Theme.GetColor(AppColor.PanelBackground));
+#if WINDOWS_OWN
+
             SystemColorMode mode = isDarkMode ? SystemColorMode.Dark : SystemColorMode.Classic;
             Application.SetColorMode(mode);
+
+#endif
             UpdateEditorSettings();
             ColorHelper.ThemeSettings = Settings;
             ThemeFix.ThemeSettings = Settings;
@@ -33,7 +37,7 @@ namespace GitUI.Theming
                 new HighlightColor(SystemColors.GrayText, AppColor.LineNumberBackground.GetThemeColor(), bold: false, italic: false, adaptable: false));
             strategy.SetColorFor("LineNumberSelected",
                 new HighlightColor(SystemColors.WindowText, AppColor.LineNumberBackground.GetThemeColor(), bold: true, italic: false, adaptable: false));
-            if (Application.IsDarkModeEnabled)
+            if (Application2.IsDarkModeEnabled)
             {
                 strategy.SetColorFor("EOLMarkers",
                     new HighlightColor(nameof(SystemColors.ControlDarkDark), bold: false, italic: false));

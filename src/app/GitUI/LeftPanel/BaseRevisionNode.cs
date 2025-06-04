@@ -8,7 +8,7 @@ namespace GitUI.LeftPanel
     internal abstract class BaseRevisionNode : Node
     {
         protected const char PathSeparator = '/';
-        private static readonly Color _invisibleForeColor = Application.IsDarkModeEnabled ? SystemColors.GrayText : Color.Silver;
+        private static readonly Color _invisibleForeColor = Application2.IsDarkModeEnabled ? SystemColors.GrayText : Color.Silver;
 
         protected BaseRevisionNode(Tree tree, string fullPath, bool visible)
             : base(tree)

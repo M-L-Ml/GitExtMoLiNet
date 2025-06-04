@@ -2,6 +2,9 @@
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 
+#if !WINDOWS_OWN
+using Application = System.Windows.Forms.Application2;
+#endif
 namespace GitUI.Editor
 {
     internal sealed class RebaseTodoHighlightingStrategy : GitHighlightingStrategyBase

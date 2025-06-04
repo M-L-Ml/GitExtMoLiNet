@@ -22,8 +22,9 @@ namespace GitUI.CommandsDialogs.SettingsDialog
             InitializeComponent();
 
             Font = AppSettings.Font;
-
+#if WINDOWS_OWN
             textBoxFind.PlaceholderText = TranslatedStrings.SettingsTypeToFind;
+#endif
 
             treeView1.ImageList = new ImageList
             {

@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 
 using System.ComponentModel;
 using System.Net;
@@ -202,7 +202,7 @@ namespace GitUI.CommitInfo
         {
             try
             {
-                string? linkUri = ((RichTextBox)sender).GetLink(e.LinkStart);
+                string? linkUri = ((RichTextBox)sender).GetLink(e.LinkStart());
                 Validates.NotNull(_linkFactory);
                 _linkFactory?.ExecuteLink(linkUri, commandEventArgs => CommandClickedEvent?.Invoke(sender, commandEventArgs), ShowAll);
             }

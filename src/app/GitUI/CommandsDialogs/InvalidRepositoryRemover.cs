@@ -1,4 +1,4 @@
-using GitCommands;
+﻿using GitCommands;
 using GitCommands.UserRepositoryHistory;
 
 namespace GitUI.CommandsDialogs;
@@ -42,7 +42,7 @@ internal class InvalidRepositoryRemover : IInvalidRepositoryRemover
             page.Buttons.Add(btnRemoveAllInvalidRepositories);
         }
 
-        TaskDialogButton result = TaskDialog.ShowDialog(page);
+        var result = TaskDialog.ShowDialog(page);
 
         if (result == btnRemoveSelectedInvalidRepository)
         {

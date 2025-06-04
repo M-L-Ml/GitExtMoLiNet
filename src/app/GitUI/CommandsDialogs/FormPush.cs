@@ -654,7 +654,7 @@ namespace GitUI.CommandsDialogs
                 page.Buttons.Add(btnPushForce);
 
                 DebugHelpers.Assert(owner is not null, "The dialog must be owned by another window! This is a bug, please correct and send a pull request with a fix.");
-                TaskDialogButton result = TaskDialog.ShowDialog(owner, page);
+                var result = TaskDialog.ShowDialog(owner, page);
                 if (result == TaskDialogButton.Cancel)
                 {
                     onRejectedPullAction = GitPullAction.None;
@@ -676,13 +676,16 @@ namespace GitUI.CommandsDialogs
                     forcePush = true;
                 }
 
+#if WINDOWS_OWN
                 if (page.Verification.Checked)
                 {
                     AppSettings.AutoPullOnPushRejectedAction = onRejectedPullAction;
                 }
+
+#endif
             }
 
-            return (onRejectedPullAction ?? GitPullAction.None, forcePush);
+                return (onRejectedPullAction ?? GitPullAction.None, forcePush);
         }
 
         private void _NO_TRANSLATE_Branch_Enter(object sender, EventArgs e)

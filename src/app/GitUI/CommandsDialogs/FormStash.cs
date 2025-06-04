@@ -1,4 +1,4 @@
-using GitCommands;
+﻿using GitCommands;
 using GitExtensions.Extensibility.Git;
 using GitExtUtils.GitUI;
 using GitUIPluginInterfaces;
@@ -343,7 +343,7 @@ namespace GitUI.CommandsDialogs
                         SizeToContent = true
                     };
 
-                    TaskDialogButton result = TaskDialog.ShowDialog(Handle, page);
+                    var result = TaskDialog.ShowDialog(Handle, page);
 
                     if (result == TaskDialogButton.Yes)
                     {

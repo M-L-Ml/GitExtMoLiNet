@@ -118,7 +118,7 @@ namespace GitUI.CommitInfo
         {
             try
             {
-                string? linkUri = rtbRevisionHeader.GetLink(e.LinkStart);
+                string? linkUri = rtbRevisionHeader.GetLink(e.LinkStart());
                 _linkFactory.ExecuteLink(linkUri, commandEventArgs => CommandClicked?.Invoke(sender, commandEventArgs));
             }
             catch (Exception ex)

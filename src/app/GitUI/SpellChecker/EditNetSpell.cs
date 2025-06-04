@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using GitCommands;
 using GitCommands.Settings;
@@ -10,6 +10,9 @@ using Microsoft.VisualStudio.Threading;
 using NetSpell.SpellChecker;
 using NetSpell.SpellChecker.Dictionary;
 using ResourceManager;
+#if !WINDOWS_OWN
+using Application = System.Windows.Forms.Application2;
+#endif
 
 namespace GitUI.SpellChecker
 {

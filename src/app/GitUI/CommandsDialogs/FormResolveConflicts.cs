@@ -976,10 +976,13 @@ namespace GitUI.CommandsDialogs
                     keepLocalButtonText, keepRemoteButtonText, keepBaseButtonText);
 
                 TaskDialog.ShowDialog(Handle, page);
+#if WINDOWS_OWN
                 _solveMergeConflictApplyToAll = page.Verification?.Checked ?? false;
+
+#endif
             }
 
-            selectedMergeAction(_solveMergeConflictDialogResult);
+                selectedMergeAction(_solveMergeConflictDialogResult);
         }
 
         private void BinaryFilesChooseLocalBaseRemote(ConflictData item)

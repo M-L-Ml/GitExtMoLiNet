@@ -10,7 +10,7 @@
         protected override void CreateHandle()
         {
             base.CreateHandle();
-            if (!Application.IsDarkModeEnabled)
+            if (!Application2.IsDarkModeEnabled)
             {
                 // explorer style selection painting in left panel
                 // Not needed in dark mode, this is the same for "DarkMode_Explorer"

@@ -5,6 +5,9 @@ using GitExtUtils.GitUI;
 using GitExtUtils.GitUI.Theming;
 using GitUI.Properties;
 using ResourceManager;
+#if !WINDOWS_OWN
+using Application = System.Windows.Forms.Application2;
+#endif
 
 namespace GitUI.CommandsDialogs.BrowseDialog.DashboardControl
 {

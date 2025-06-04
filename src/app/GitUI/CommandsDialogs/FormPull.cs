@@ -396,7 +396,7 @@ namespace GitUI.CommandsDialogs
                 page.Buttons.Add(btnCheckout);
                 page.Buttons.Add(btnContinue);
 
-                TaskDialogButton result = TaskDialog.ShowDialog(owner?.Handle ?? default, page);
+                var result = TaskDialog.ShowDialog(owner?.Handle ?? default, page);
                 if (result == TaskDialogButton.Cancel)
                 {
                     return DialogResult.Cancel;
@@ -572,6 +572,7 @@ namespace GitUI.CommandsDialogs
                 bool? messageBoxResult = AppSettings.AutoPopStashAfterPull;
                 if (messageBoxResult is null)
                 {
+#if WINDOWS_OWN
                     TaskDialogPage page = new()
                     {
                         Text = _applyStashedItemsAgain.Text,
@@ -590,7 +591,8 @@ namespace GitUI.CommandsDialogs
                     if (page.Verification.Checked)
                     {
                         AppSettings.AutoPopStashAfterPull = messageBoxResult;
-                    }
+                    } 
+#endif
                 }
 
                 if ((bool)messageBoxResult)
@@ -713,7 +715,7 @@ namespace GitUI.CommandsDialogs
                         DefaultButton = TaskDialogButton.No,
                         SizeToContent = true
                     };
-                    TaskDialogButton result = TaskDialog.ShowDialog(form.Handle, page);
+                    var result = TaskDialog.ShowDialog(form.Handle, page);
 
                     if (result == TaskDialogButton.Yes)
                     {
@@ -788,7 +790,7 @@ namespace GitUI.CommandsDialogs
                 TaskDialogCommandLinkButton btnPullFrom = new(string.Format(_noRemoteBranchButton.Text, remote + "/" + curLocalBranch));
                 page.Buttons.Add(btnPullFrom);
 
-                TaskDialogButton result = TaskDialog.ShowDialog(Handle, page);
+                var result = TaskDialog.ShowDialog(Handle, page);
 
                 if (result == btnPullFrom)
                 {
@@ -823,7 +825,7 @@ namespace GitUI.CommandsDialogs
                 TaskDialogCommandLinkButton btnPullFrom = new(string.Format(_noRemoteBranchForFetchButton.Text, remote + "/" + curLocalBranch));
                 page.Buttons.Add(btnPullFrom);
 
-                TaskDialogButton result = TaskDialog.ShowDialog(Handle, page);
+                var result = TaskDialog.ShowDialog(Handle, page);
                 if (result == TaskDialogButton.Cancel)
                 {
                     return false;

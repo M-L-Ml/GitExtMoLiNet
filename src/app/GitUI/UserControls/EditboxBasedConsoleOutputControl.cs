@@ -33,7 +33,7 @@ namespace GitUI.UserControls
         {
             _editbox = new RichTextBox
             {
-                BackColor = Application.IsDarkModeEnabled ? AppColor.EditorBackground.GetThemeColor() : SystemColors.Info,
+                BackColor = Application2.IsDarkModeEnabled ? AppColor.EditorBackground.GetThemeColor() : SystemColors.Info,
                 BorderStyle = BorderStyle.FixedSingle,
                 Dock = DockStyle.Fill,
                 Font = AppSettings.MonospaceFont,

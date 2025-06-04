@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -1705,7 +1705,7 @@ namespace GitUI
 
             Rectangle textRect = new(item.Bounds.X - 1, item.Bounds.Top - 1, item.Bounds.Width, item.Bounds.Height);
 
-            Color grayTextColor = selected && Focused && !Application.IsDarkModeEnabled
+            Color grayTextColor = selected && Focused && !Application2.IsDarkModeEnabled
                 ? ColorHelper.GetHighlightGrayTextColor(
                     backgroundColorName: KnownColor.Window,
                     textColorName: KnownColor.WindowText,
@@ -1713,7 +1713,7 @@ namespace GitUI
                 : SystemColors.GrayText;
 
             Color textColor = selected && Focused
-                ? (Application.IsDarkModeEnabled
+                ? (Application2.IsDarkModeEnabled
                     ? SystemColors.ControlText
                     : SystemColors.HighlightText)
                 : SystemColors.WindowText;
