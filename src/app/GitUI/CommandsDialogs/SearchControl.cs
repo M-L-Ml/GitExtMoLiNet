@@ -13,7 +13,7 @@ namespace GitUI.CommandsDialogs
 
         public override string Text
         {
-            get => txtSearchBox.Text;
+            get => txtSearchBox?.Text ?? "";
             set => txtSearchBox.Text = value;
         }
 

@@ -13,9 +13,11 @@ namespace GitUI
         public ToolStripEx()
         {
             Renderer = new ToolStripExSystemRenderer();
+#if WINDOWS_OWN
 
             PropertyInfo propGrip = GetType().GetProperty("Grip", BindingFlags.Instance | BindingFlags.NonPublic);
             _gripButton = propGrip.GetValue(this) as ToolStripButton;
+#endif
         }
 
         protected override void OnItemAdded(ToolStripItemEventArgs e)
