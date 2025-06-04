@@ -4,6 +4,29 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+      {
+        "name": "C#: GitExtensions Debug",
+        "type": "dotnet",
+        "request": "launch",
+        "projectPath": "${workspaceFolder}/src/app/GitExtensions/GitExtensions.csproj"
+      },
+      {
+        "name": "C#: GitExtensions WSL Debug",
+        "type": "dotnet",
+        "request": "launch",
+        "projectPath": "${workspaceFolder}/src/app/GitExtensions/GitExtensions.csproj",
+        "pipeTransport": {
+          "pipeCwd": "${workspaceFolder}",
+          "pipeProgram": "wsl",
+          "pipeArgs": [],
+          "debuggerPath": "/usr/bin/dotnet"
+        },
+        "sourceFileMap": {
+          "/mnt/c": "c:\\"
+        }
+      },
+
+
         {
             "name": "Debug",
             "type": "coreclr",
@@ -16,7 +39,7 @@
             "console": "internalConsole"
         },
         {
-            "name": "Debug - Dashboard",
+            "name": "Debug - d w",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",

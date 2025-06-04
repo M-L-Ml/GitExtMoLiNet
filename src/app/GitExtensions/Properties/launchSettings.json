@@ -26,6 +26,10 @@
     "Commit dialog": {
       "commandName": "Project",
       "commandLineArgs": "commit ."
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
     }
   }
 }
