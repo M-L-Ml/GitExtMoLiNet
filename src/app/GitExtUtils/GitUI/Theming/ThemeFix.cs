@@ -80,14 +80,14 @@ namespace GitExtUtils.GitUI.Theming
 
         private static void SetupLinkLabel(this LinkLabel label)
         {
-            label.LinkColor = Application.IsDarkModeEnabled ? Color.CornflowerBlue : label.LinkColor.AdaptTextColor();
+            label.LinkColor = Application2.IsDarkModeEnabled ? Color.CornflowerBlue : label.LinkColor.AdaptTextColor();
             label.VisitedLinkColor = label.VisitedLinkColor.AdaptTextColor();
             label.ActiveLinkColor = label.ActiveLinkColor.AdaptTextColor();
         }
 
         private static void SetupToolStripStatusLabel(this ToolStripLabel label)
         {
-            label.LinkColor = Application.IsDarkModeEnabled ? Color.CornflowerBlue : label.LinkColor.AdaptTextColor();
+            label.LinkColor = Application2.IsDarkModeEnabled ? Color.CornflowerBlue : label.LinkColor.AdaptTextColor();
             label.VisitedLinkColor = label.VisitedLinkColor.AdaptTextColor();
             label.ActiveLinkColor = label.ActiveLinkColor.AdaptTextColor();
         }
