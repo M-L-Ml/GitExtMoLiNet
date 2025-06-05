@@ -1,7 +1,6 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using GitExtensions.Extensibility.Git;
 using JetBrains.Annotations;
 using Microsoft.Win32.SafeHandles;
 
@@ -9,16 +8,18 @@ namespace GitExtUtils.GitUI
 {
     /// <summary>
     /// Utility class related to DPI settings, primarily used for scaling dimensions on high-DPI displays.
+    /// Non-static implementation of DPI utilities.
     /// </summary>
-    public static class DpiUtil
+    public class DpiUtilImpl
     {
-        public static int DpiX { get; }
-        public static int DpiY { get; }
+        public int DpiX { get; private set; }
+        public int DpiY { get; private set; }
 
-        public static float ScaleX { get; }
-        public static float ScaleY { get; }
+        public float ScaleX { get; private set; }
+        public float ScaleY { get; private set; }
+
         [SupportedOSPlatform("windows")]
-        static DpiUtil()
+        public DpiUtilImpl()
         {
             if (EnvUtils2.IsMonoRuntime())
             {
@@ -28,6 +29,7 @@ namespace GitExtUtils.GitUI
                 ScaleY = 1.0f;
                 return;
             }
+
             using DeviceContextSafeHandle hdc = GetDC(IntPtr.Zero);
             try
             {
@@ -53,13 +55,13 @@ namespace GitExtUtils.GitUI
         /// <summary>
         /// Gets whether the current pixel density is not 96 DPI.
         /// </summary>
-        public static bool IsNonStandard => DpiX != 96 || DpiY != 96;
+        public bool IsNonStandard => DpiX != 96 || DpiY != 96;
 
         /// <summary>
         /// Returns a scaled copy of <paramref name="size"/> which takes equivalent
         /// screen space at the current DPI as the original would at 96 DPI.
         /// </summary>
-        public static Size Scale(Size size)
+        public Size Scale(Size size)
         {
             Scale(ref size);
             return size;
@@ -69,7 +71,7 @@ namespace GitExtUtils.GitUI
         /// Returns a scaled copy of <paramref name="size"/> which takes equivalent
         /// screen space at the current DPI as the original would at <paramref name="originalDpi"/>.
         /// </summary>
-        public static Size Scale(Size size, int originalDpi)
+        public Size Scale(Size size, int originalDpi)
         {
             float scale = (float)DpiX / originalDpi;
 
@@ -93,7 +95,7 @@ namespace GitExtUtils.GitUI
         /// equivalent length on screen at the current DPI at the original would
         /// at 96 DPI.
         /// </summary>
-        public static int Scale(int i)
+        public int Scale(int i)
         {
             return (int)Math.Round(i * ScaleX);
         }
