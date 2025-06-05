@@ -29,7 +29,11 @@
     },
     "WSL": {
       "commandName": "WSL2",
-      "distributionName": ""
+      "distributionName": "",
+      "environmentVariables": {
+        //"LD_DEBUG": "all",
+        "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu"
+      }
     }
   }
 }
