@@ -68,9 +68,9 @@ namespace GitExtensions
             AppSettings.SetDocumentationBaseUrl(AppSettings.ProductVersion);
 
             ThemeModule.Load();
-
+#if WINDOWS
             HighDpiMouseCursors.Enable();
-
+#endif
             try
             {
                 DiagnosticsClient.Initialize(ThisAssembly.Git.IsDirty);

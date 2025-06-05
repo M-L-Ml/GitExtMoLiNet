@@ -141,5 +141,4 @@ namespace GitExtUtils.GitUI.Theming
             return true;
         }
     }
-
 }

@@ -1,8 +1,10 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace GitExtUtils.GitUI
 {
+    [SupportedOSPlatform("windows")]
     internal static class HighDpiMouseCursors
     {
         /// <summary>
