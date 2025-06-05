@@ -22,6 +22,10 @@ namespace GitExtUtils.GitUI
         {
             if (EnvUtils2.IsMonoRuntime())
             {
+                DpiX = 96;
+                DpiY = 96;
+                ScaleX = 1.0f;
+                ScaleY = 1.0f;
                 return;
             }
             using DeviceContextSafeHandle hdc = GetDC(IntPtr.Zero);
