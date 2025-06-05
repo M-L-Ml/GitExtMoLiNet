@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using GitCommands.Git;
 using GitCommands.Settings;
+using GitCommands.Utils;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Configurations;
 using GitExtensions.Extensibility.Git;
@@ -92,12 +93,17 @@ namespace GitCommands
 
             if (newFile || !File.Exists(SettingsFilePath))
             {
-                ImportFromRegistry();
+                if (!EnvUtils.IsMonoRuntime())
+                {
+                    ImportFromRegistry();
+                }
             }
 
             MigrateAvatarSettings();
-            MigrateSshSettings();
-
+            if (!EnvUtils.IsMonoRuntime())
+            {
+                MigrateSshSettings();
+            }
             return;
 
             static bool CreateEmptySettingsFileIfMissing()
@@ -283,6 +289,10 @@ namespace GitCommands
         [return: NotNullIfNotNull("defaultValue")]
         private static string? ReadStringRegValue(string key, string? defaultValue)
         {
+            if (EnvUtils.IsMonoRuntime())
+            {
+                return null;
+            }
             return (string?)VersionIndependentRegKey.GetValue(key, defaultValue);
         }
 
@@ -1946,8 +1956,11 @@ namespace GitCommands
             {
                 if (_versionIndependentRegKey is null)
                 {
-                    _versionIndependentRegKey = Registry.CurrentUser.CreateSubKey("Software\\GitExtensions", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                    Validates.NotNull(_versionIndependentRegKey);
+                    if (!EnvUtils.IsMonoRuntime())
+                    {
+                        _versionIndependentRegKey = Registry.CurrentUser.CreateSubKey("Software\\GitExtensions", RegistryKeyPermissionCheck.ReadWriteSubTree);
+                        Validates.NotNull(_versionIndependentRegKey);
+                    }
                 }
 
                 return _versionIndependentRegKey;

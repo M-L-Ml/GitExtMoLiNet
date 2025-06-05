@@ -33,7 +33,7 @@ namespace GitCommandsTests
             _manager = new CommitTemplateManager(_module, _fullPathResolver, _fileSystem);
 
             // TODO : fix  to Linux check
-            if (Type.GetType("Mono.Runtime") != null)
+            if (Type.GetType("Mono.Posix.Signals") != null)
             {
                 _workingDir = "/home/user/repo";
             }

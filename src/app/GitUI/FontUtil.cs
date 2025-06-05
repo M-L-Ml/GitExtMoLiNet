@@ -8,6 +8,10 @@
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
         static FontUtil()
         {
+            if (GitCommands.Utils.EnvUtils.IsMonoRuntime())
+            {
+                return;
+            }
             IntPtr hTheme = NativeMethods.OpenThemeData(IntPtr.Zero, "TEXTSTYLE");
             if (hTheme != IntPtr.Zero)
             {

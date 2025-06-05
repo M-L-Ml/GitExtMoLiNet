@@ -72,7 +72,8 @@ namespace GitCommands.Utils
         public static bool IsMonoRuntime()
         {
             return RunningOnUnix();
-            //or return Type.GetType( "Mono.Posix.NETStandard.dll" != null;
+            //or return Type.GetType( "Mono.Posix.Signals") != null;
+            //or return GetAssembly( "Mono.Posix.NETStandard.dll" )!= null;
             //return Type.GetType("Mono.Runtime") != null;
         }
 
