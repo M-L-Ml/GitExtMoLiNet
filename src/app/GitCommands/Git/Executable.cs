@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using GitCommands.Logging;
 using GitExtensions.Extensibility;
@@ -16,6 +16,7 @@ namespace GitCommands
         public Executable(string fileName, string workingDir = "")
             : this(() => fileName, workingDir)
         {
+            Debug.Assert(!string.IsNullOrEmpty(fileName));
         }
 
         public Executable(Func<string> fileNameProvider, string workingDir = "", string prefixArguments = "")

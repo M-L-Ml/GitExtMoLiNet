@@ -283,6 +283,10 @@ namespace GitCommands
 
         private static void WriteBoolRegKey(string key, bool value)
         {
+            if (EnvUtils.IsMonoRuntime())
+            {
+                return;
+            }
             VersionIndependentRegKey.SetValue(key, value ? "true" : "false");
         }
 
@@ -298,6 +302,10 @@ namespace GitCommands
 
         private static void WriteStringRegValue(string key, string value)
         {
+            if (EnvUtils.IsMonoRuntime())
+            {
+                return;
+            }
             VersionIndependentRegKey.SetValue(key, value);
         }
 
@@ -1956,11 +1964,12 @@ namespace GitCommands
             {
                 if (_versionIndependentRegKey is null)
                 {
-                    if (!EnvUtils.IsMonoRuntime())
+                    if (EnvUtils.IsMonoRuntime())
                     {
-                        _versionIndependentRegKey = Registry.CurrentUser.CreateSubKey("Software\\GitExtensions", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                        Validates.NotNull(_versionIndependentRegKey);
+                        return _versionIndependentRegKey;
                     }
+                    _versionIndependentRegKey = Registry.CurrentUser.CreateSubKey("Software\\GitExtensions", RegistryKeyPermissionCheck.ReadWriteSubTree);
+                    Validates.NotNull(_versionIndependentRegKey);
                 }
 
                 return _versionIndependentRegKey;

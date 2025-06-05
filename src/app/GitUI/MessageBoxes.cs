@@ -4,10 +4,6 @@ using GitExtensions.Extensibility.Git;
 using GitExtensions.Extensibility.Translations;
 using ResourceManager;
 
-#if WINDOWS
-using Microsoft.WindowsAPICodePack.Dialogs;
-#endif
-
 namespace GitUI
 {
     public class MessageBoxes : Translate
