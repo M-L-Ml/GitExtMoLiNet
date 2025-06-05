@@ -18,7 +18,7 @@ namespace GitUI.UserControls
             BeginCreateHandle?.Invoke(this, EventArgs.Empty);
             base.CreateHandle();
 
-            if (!Application2.IsDarkModeEnabled)
+            if (!Application2.IsDarkModeEnabled && !GitCommands.Utils.EnvUtils.IsMonoRuntime())
             {
                 // explorer style selection painting in left panel
                 // Not needed in dark mode, this is the same for "DarkMode_Explorer"

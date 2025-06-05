@@ -1,5 +1,7 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using GitExtensions.Extensibility.Git;
 using JetBrains.Annotations;
 using Microsoft.Win32.SafeHandles;
 
@@ -15,9 +17,13 @@ namespace GitExtUtils.GitUI
 
         public static float ScaleX { get; }
         public static float ScaleY { get; }
-
+        [SupportedOSPlatform("windows")]
         static DpiUtil()
         {
+            if (EnvUtils2.IsMonoRuntime())
+            {
+                return;
+            }
             using DeviceContextSafeHandle hdc = GetDC(IntPtr.Zero);
             try
             {
@@ -186,16 +192,19 @@ namespace GitExtUtils.GitUI
 
             return bitmap;
         }
-
+        [SupportedOSPlatform("windows")]
         [DllImport("gdi32.dll")]
         private static extern int GetDeviceCaps(DeviceContextSafeHandle hdc, int index);
 
+        [SupportedOSPlatform("windows")]
         [DllImport("user32.dll")]
         private static extern DeviceContextSafeHandle GetDC(IntPtr hwnd);
 
+        [SupportedOSPlatform("windows")]
         [DllImport("user32.dll")]
         private static extern int ReleaseDC(IntPtr hwnd, IntPtr deviceContextHandle);
 
+        [SupportedOSPlatform("windows")]
         [UsedImplicitly]
         private sealed class DeviceContextSafeHandle : SafeHandleZeroOrMinusOneIsInvalid
         {
@@ -213,5 +222,27 @@ namespace GitExtUtils.GitUI
                 return true;
             }
         }
+    }
+
+    internal class EnvUtils2
+    {
+        public static bool RunningOnUnix()
+        {
+            return Environment.OSVersion.Platform == PlatformID.Unix;
+        }
+
+        public static bool RunningOnMacOSX()
+        {
+            return Environment.OSVersion.Platform == PlatformID.MacOSX;
+        }
+
+        public static bool IsMonoRuntime()
+        {
+            return RunningOnUnix();
+            //or return Type.GetType( "Mono.Posix.Signals") != null;
+            //or return GetAssembly( "Mono.Posix.NETStandard.dll" )!= null;
+            //return Type.GetType("Mono.Runtime") != null;
+        }
+
     }
 }

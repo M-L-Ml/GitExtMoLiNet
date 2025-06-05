@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Drawing;
+using FluentAssertions;
 using GitExtensions.Extensibility;
 
 namespace GitUIPluginInterfacesTests
