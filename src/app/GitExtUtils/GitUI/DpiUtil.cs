@@ -6,51 +6,19 @@ using Microsoft.Win32.SafeHandles;
 
 namespace GitExtUtils.GitUI
 {
+    using static DpiUtilImpl;
+
     /// <summary>
     /// Utility class related to DPI settings, primarily used for scaling dimensions on high-DPI displays.
     /// Non-static implementation of DPI utilities.
     /// </summary>
     public class DpiUtilImpl
     {
-        public int DpiX { get; private set; }
-        public int DpiY { get; private set; }
+        public int DpiX { get; init; }
+        public int DpiY { get; init; }
 
-        public float ScaleX { get; private set; }
-        public float ScaleY { get; private set; }
-
-        [SupportedOSPlatform("windows")]
-        public DpiUtilImpl()
-        {
-            if (EnvUtils2.IsMonoRuntime())
-            {
-                DpiX = 96;
-                DpiY = 96;
-                ScaleX = 1.0f;
-                ScaleY = 1.0f;
-                return;
-            }
-
-            using DeviceContextSafeHandle hdc = GetDC(IntPtr.Zero);
-            try
-            {
-                const int LOGPIXELSX = 88;
-                const int LOGPIXELSY = 90;
-
-                DpiX = GetDeviceCaps(hdc, LOGPIXELSX);
-                DpiY = GetDeviceCaps(hdc, LOGPIXELSY);
-
-                ScaleX = DpiX / 96.0f;
-                ScaleY = DpiY / 96.0f;
-            }
-            catch
-            {
-                DpiX = 96;
-                DpiY = 96;
-
-                ScaleX = 1.0f;
-                ScaleY = 1.0f;
-            }
-        }
+        public float ScaleX { get; init; }
+        public float ScaleY { get; init; }
 
         /// <summary>
         /// Gets whether the current pixel density is not 96 DPI.
@@ -200,19 +168,19 @@ namespace GitExtUtils.GitUI
         }
         [SupportedOSPlatform("windows")]
         [DllImport("gdi32.dll")]
-        private static extern int GetDeviceCaps(DeviceContextSafeHandle hdc, int index);
+        public static extern int GetDeviceCaps(DeviceContextSafeHandle hdc, int index);
 
         [SupportedOSPlatform("windows")]
         [DllImport("user32.dll")]
-        private static extern DeviceContextSafeHandle GetDC(IntPtr hwnd);
+        public static extern DeviceContextSafeHandle GetDC(IntPtr hwnd);
 
         [SupportedOSPlatform("windows")]
         [DllImport("user32.dll")]
-        private static extern int ReleaseDC(IntPtr hwnd, IntPtr deviceContextHandle);
+        public static extern int ReleaseDC(IntPtr hwnd, IntPtr deviceContextHandle);
 
         [SupportedOSPlatform("windows")]
         [UsedImplicitly]
-        private sealed class DeviceContextSafeHandle : SafeHandleZeroOrMinusOneIsInvalid
+        public sealed class DeviceContextSafeHandle : SafeHandleZeroOrMinusOneIsInvalid
         {
             /// <summary>
             /// Called by P/Invoke.
@@ -232,16 +200,51 @@ namespace GitExtUtils.GitUI
 
     public static class DpiUtil
     {
-        // private static DpiUtilImpl s_dpiUtilImpl;
 
+
+        private static readonly DpiUtilImpl Instance;
+
+        [SupportedOSPlatform("windows")]
         static DpiUtil()
         {
-            //  s_dpiUtilImpl = new DpiUtilImpl();
+            //using static Instance;
+            if (EnvUtils2.IsMonoRuntime())
+            {
+                Instance = new()
+                {
+                    DpiX = 96,
+                    DpiY = 96,
+                    ScaleX = 1.0f,
+                    ScaleY = 1.0f
+                };
+                return;
+            }
+
+            using DeviceContextSafeHandle hdc = GetDC(IntPtr.Zero);
+            try
+            {
+                const int LOGPIXELSX = 88;
+                const int LOGPIXELSY = 90;
+                Instance = new()
+                {
+                    DpiX = GetDeviceCaps(hdc, LOGPIXELSX),
+                    DpiY = GetDeviceCaps(hdc, LOGPIXELSY),
+
+                    ScaleX = DpiX / 96.0f,
+                    ScaleY = DpiY / 96.0f
+                };
+            }
+            catch
+            {
+                Instance = new()
+                {
+                    DpiX = 96,
+                    DpiY = 96,
+                    ScaleX = 1.0f,
+                    ScaleY = 1.0f
+                };
+            }
         }
-
-        private static Lazy<DpiUtilImpl> s_dpiUtilImpl = new(isThreadSafe: true);
-        private static DpiUtilImpl Instance => s_dpiUtilImpl.Value;
-
         public static int DpiX => Instance.DpiX;
 
 
@@ -252,6 +255,9 @@ namespace GitExtUtils.GitUI
 
         public static bool IsNonStandard => Instance.IsNonStandard;
 
+        /// <summary>
+        /// <inheritdoc cref="DpiUtilImpl.Scale(Size)"/>
+        /// </summary>
         public static Size Scale(Size size) => Instance.Scale(size);
         public static Size Scale(Size size, int originalDpi) => Instance.Scale(size, originalDpi);
         public static void Scale(ref Size size) => Instance.Scale(ref size);
