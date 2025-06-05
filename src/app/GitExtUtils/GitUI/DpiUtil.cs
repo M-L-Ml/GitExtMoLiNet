@@ -232,15 +232,39 @@ namespace GitExtUtils.GitUI
 
     public static class DpiUtil
     {
-        private static DpiUtilImpl s_dpiUtilImpl;
+        // private static DpiUtilImpl s_dpiUtilImpl;
 
         static DpiUtil()
         {
-            s_dpiUtilImpl = new DpiUtilImpl();
+            //  s_dpiUtilImpl = new DpiUtilImpl();
         }
 
+        private static Lazy<DpiUtilImpl> s_dpiUtilImpl = new(isThreadSafe: true);
+        private static DpiUtilImpl Instance => s_dpiUtilImpl.Value;
 
+        public static int DpiX => Instance.DpiX;
+
+
+        public static int DpiY => Instance.DpiY;
+
+        public static float ScaleX => Instance.ScaleX;
+        public static float ScaleY => Instance.ScaleY;
+
+        public static bool IsNonStandard => Instance.IsNonStandard;
+
+        public static Size Scale(Size size) => Instance.Scale(size);
+        public static Size Scale(Size size, int originalDpi) => Instance.Scale(size, originalDpi);
+        public static void Scale(ref Size size) => Instance.Scale(ref size);
+        public static int Scale(int i) => Instance.Scale(i);
+        public static int Scale(int i, int originalDpi) => Instance.Scale(i, originalDpi);
+        public static float Scale(float i) => Instance.Scale(i);
+        public static float Scale(float f, int originalDpi) => Instance.Scale(f, originalDpi);
+        public static Point Scale(Point point) => Instance.Scale(point);
+        public static Point Scale(Point point, int originalDpi) => Instance.Scale(point, originalDpi);
+        public static Padding Scale(Padding padding) => Instance.Scale(padding);
+        public static Image Scale(Image image) => Instance.Scale(image);
     }
+
     internal class EnvUtils2
     {
         public static bool RunningOnUnix()
