@@ -3,7 +3,8 @@
   <Import Project="eng\Tests.props" />
 
   <PropertyGroup>
-    <!-- Enable C#13 keyword "field" -->
+		<DefineConstants>__MonoCS__</DefineConstants>
+		<!-- Enable C#13 keyword "field" -->
     <LangVersion>preview</LangVersion>
     <NoWarn>$(NoWarn);1573;1591;1712</NoWarn>
     <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>

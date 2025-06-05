@@ -9,7 +9,8 @@
 
     <!-- To be removed when NRT annotations are complete -->
     <Nullable>annotations</Nullable>
-  </PropertyGroup>
+		<DefineConstants>__MonoCS__</DefineConstants>
+	</PropertyGroup>
 
   <ItemGroup>
     <Using Include="NUnit.Framework.Legacy" />
