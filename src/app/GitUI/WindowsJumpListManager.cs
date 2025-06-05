@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using GitCommands;
@@ -127,7 +127,7 @@ namespace GitUI
                 Validates.NotNull(_pushButton);
                 Validates.NotNull(_pullButton);
 
-                _closeAllButton.Enabled = true;
+                _closeAllButton.Enabled = !EnvUtils.IsMonoRuntime();
                 _commitButton.Enabled = true;
                 _pushButton.Enabled = true;
                 _pullButton.Enabled = true;

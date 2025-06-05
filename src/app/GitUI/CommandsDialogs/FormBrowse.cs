@@ -208,7 +208,11 @@ namespace GitUI.CommandsDialogs
 
         #endregion
 
+#if __MonoCS__
+        private readonly uint _closeAllMessage = 0;
+#else
         private readonly uint _closeAllMessage = NativeMethods.RegisterWindowMessageW("Global.GitExtensions.CloseAllInstances");
+#endif
         private readonly SplitterManager _splitterManager;
         private readonly GitStatusMonitor _gitStatusMonitor;
         private readonly FormBrowseMenus _formBrowseMenus;
