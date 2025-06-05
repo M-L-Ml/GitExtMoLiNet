@@ -84,7 +84,7 @@ namespace GitExtUtils.GitUI
         /// Modifies <paramref name="size"/> in place so that it takes equivalent screen
         /// space at the current DPI as the original value would at 96 DPI.
         /// </summary>
-        public static void Scale(ref Size size)
+        public void Scale(ref Size size)
         {
             size.Width = (int)(size.Width * ScaleX);
             size.Height = (int)(size.Height * ScaleY);
@@ -105,7 +105,7 @@ namespace GitExtUtils.GitUI
         /// length on screen at the current DPI as the original would at
         /// <paramref name="originalDpi"/>.
         /// </summary>
-        public static int Scale(int i, int originalDpi)
+        public int Scale(int i, int originalDpi)
         {
             float scale = (float)DpiX / originalDpi;
 
@@ -117,7 +117,7 @@ namespace GitExtUtils.GitUI
         /// equivalent length on screen at the current DPI at the original would
         /// at 96 DPI.
         /// </summary>
-        public static float Scale(float i)
+        public float Scale(float i)
         {
             return (float)Math.Round(i * ScaleX);
         }
@@ -127,7 +127,7 @@ namespace GitExtUtils.GitUI
         /// length on screen at the current DPI as the original would at
         /// <paramref name="originalDpi"/>.
         /// </summary>
-        public static float Scale(float f, int originalDpi)
+        public float Scale(float f, int originalDpi)
         {
             float scale = (float)DpiX / originalDpi;
 
@@ -138,7 +138,7 @@ namespace GitExtUtils.GitUI
         /// Modifies <paramref name="point"/> in place so that it has equivalent physical
         /// screen position at the current DPI as the original value would at 96 DPI.
         /// </summary>
-        public static Point Scale(Point point)
+        public Point Scale(Point point)
         {
             return new Point(
                 (int)(point.X * ScaleX),
@@ -149,7 +149,7 @@ namespace GitExtUtils.GitUI
         /// Modifies <paramref name="point"/> in place so that it has equivalent physical
         /// screen position at the current DPI as the original value would at <paramref name="originalDpi"/>.
         /// </summary>
-        public static Point Scale(Point point, int originalDpi)
+        public Point Scale(Point point, int originalDpi)
         {
             float scale = (float)DpiX / originalDpi;
 
@@ -162,7 +162,7 @@ namespace GitExtUtils.GitUI
         /// Returns a scaled copy of <paramref name="padding"/> which takes equivalent
         /// screen space at the current DPI as the original would at 96 DPI.
         /// </summary>
-        public static Padding Scale(Padding padding)
+        public Padding Scale(Padding padding)
         {
             return new Padding((int)(padding.Left * ScaleX),
                                (int)(padding.Top * ScaleX),
@@ -171,7 +171,7 @@ namespace GitExtUtils.GitUI
         }
 
         [NotNull]
-        public static Image Scale([NotNull] Image image)
+        public Image Scale([NotNull] Image image)
         {
             const string dpiScaled = "__DPI_SCALED__";
 
@@ -230,6 +230,17 @@ namespace GitExtUtils.GitUI
         }
     }
 
+    public static class DpiUtil
+    {
+        private static DpiUtilImpl s_dpiUtilImpl;
+
+        static DpiUtil()
+        {
+            s_dpiUtilImpl = new DpiUtilImpl();
+        }
+
+
+    }
     internal class EnvUtils2
     {
         public static bool RunningOnUnix()
