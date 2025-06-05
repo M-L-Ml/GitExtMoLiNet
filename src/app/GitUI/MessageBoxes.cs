@@ -112,7 +112,6 @@ namespace GitUI
         public static bool ConfirmResolveMergeConflicts(IWin32Window? owner)
             => Confirm(owner, Instance._unresolvedMergeConflicts.Text, Instance._unresolvedMergeConflictsCaption.Text);
 
-#if WINDOWS
         public static bool ConfirmUpdateSubmodules(IWin32Window? owner)
         {
             TaskDialogPage page = new()
@@ -138,13 +137,6 @@ namespace GitUI
 
             return result;
         }
-#else
-        public static bool ConfirmUpdateSubmodules(IWin32Window? owner)
-        {
-            // Provide stub implementation for non-Windows builds.
-            return false;
-        }
-#endif
 
         public static bool ConfirmBranchCheckout(IWin32Window? owner, string branchName)
             => AppSettings.ConfirmBranchCheckout.Value

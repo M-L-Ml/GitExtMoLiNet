@@ -1,6 +1,4 @@
-﻿// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
-
-namespace GitUI
+﻿namespace GitUI
 {
     public sealed class WindowsThumbnailToolbarButtons
     {
