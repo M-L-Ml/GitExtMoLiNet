@@ -381,6 +381,7 @@ namespace TeamCityIntegration
                 throw new InvalidOperationException($"Task in state '{task.Status}' was expected to be completed.");
             }
 
+#if !__MonoCS__
             bool retry = task.IsCanceled && !cancellationToken.IsCancellationRequested;
             bool unauthorized = task.Status == TaskStatus.RanToCompletion &&
                                 (task.CompletedResult().StatusCode == HttpStatusCode.Unauthorized || task.CompletedResult().StatusCode == HttpStatusCode.Forbidden);
@@ -439,6 +440,9 @@ namespace TeamCityIntegration
             }
 
             throw new HttpRequestException(task.CompletedResult().ReasonPhrase);
+#else
+            return null;
+#endif
         }
 
         public void UpdateHttpClientOptionsNtlmAuth(IBuildServerCredentials? buildServerCredentials)

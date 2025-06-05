@@ -42,8 +42,8 @@ namespace GitExtensions
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-#if WINDOWS_OWN
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+#if !__MonoCS__ && WINDOWS_OWN
+                Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
             bool checkForIllegalCrossThreadCalls = false;
 #if !DEBUG
@@ -68,9 +68,11 @@ namespace GitExtensions
             AppSettings.SetDocumentationBaseUrl(AppSettings.ProductVersion);
 
             ThemeModule.Load();
-#if WINDOWS
-            HighDpiMouseCursors.Enable();
-#endif
+            // todo: Maybe if !__MonoCS__    WINDOWS_OWN
+            if (!EnvUtils.IsMonoRuntime())
+            {
+                HighDpiMouseCursors.Enable();
+            }
             try
             {
                 DiagnosticsClient.Initialize(ThisAssembly.Git.IsDirty);

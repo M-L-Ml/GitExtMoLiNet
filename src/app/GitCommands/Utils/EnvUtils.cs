@@ -69,6 +69,11 @@ namespace GitCommands.Utils
             return Environment.OSVersion.Platform == PlatformID.MacOSX;
         }
 
+        public static bool IsMonoRuntime()
+        {
+            return Type.GetType("Mono.Runtime") != null;
+        }
+
         public static bool IsNet4FullOrHigher()
         {
             if (Environment.Version.Major > 4)

@@ -72,6 +72,7 @@ namespace GitUI.CommandsDialogs.SettingsDialog.Pages
 
         protected override void SettingsToPage()
         {
+            // TODO: check for             chkShowRevisionInfoNextToRevisionGrid.Visible = !EnvUtils.IsMonoRuntime();
             chkShowConsoleTab.Checked = AppSettings.ShowConEmuTab.Value;
             chkUseBrowseForFileHistory.Checked = AppSettings.UseBrowseForFileHistory.Value;
             chkUseDiffViewerForBlame.Checked = AppSettings.UseDiffViewerForBlame.Value;

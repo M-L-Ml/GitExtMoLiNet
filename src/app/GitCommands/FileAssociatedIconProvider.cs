@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.IO.Abstractions;
 
 namespace GitCommands
@@ -48,7 +48,14 @@ namespace GitCommands
         /// </remarks>
         public Icon? Get(string workingDirectory, string relativeFilePath)
         {
-            string extension = Path.GetExtension(relativeFilePath);
+            if (Utils.EnvUtils.IsMonoRuntime())
+            {
+                // Mono does not support icon extraction
+                // https://github.com/mono/mono/blob/master/mcs/class/System.Drawing/System.Drawing/Icon.cs#L314
+                return null;
+            }
+
+            var extension = Path.GetExtension(relativeFilePath);
             if (string.IsNullOrWhiteSpace(extension))
             {
                 return null;

@@ -79,5 +79,15 @@ namespace GitExtensions.Plugins.DeleteUnusedBranches.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap loadingpanel_static {
+            get {
+                object obj = ResourceManager.GetObject("loadingpanel_static", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

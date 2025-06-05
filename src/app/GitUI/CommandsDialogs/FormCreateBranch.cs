@@ -30,7 +30,8 @@ namespace GitUI.CommandsDialogs
 
             InitializeComplete();
 
-            groupBox1.AutoSize = true;
+            // Mono is having troubles dynamically sizing the groupbox
+            groupBox1.AutoSize = !GitCommands.Utils.EnvUtils.IsMonoRuntime();
 
             if (objectId?.IsArtificial is true)
             {

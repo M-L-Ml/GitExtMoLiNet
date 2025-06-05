@@ -42,6 +42,8 @@ namespace GitUI.CommandsDialogs
 
         public void FillBuildReport(GitRevision? revision)
         {
+            if (GitCommands.Utils.EnvUtils.IsMonoRuntime())
+                return;
             SetSelectedRevision(revision);
 
             _tabControl.SuspendLayout();

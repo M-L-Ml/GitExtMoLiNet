@@ -33,6 +33,7 @@ namespace GitUI.CommandsDialogs
             currentBranchLabel.Font = new Font(currentBranchLabel.Font, FontStyle.Bold);
             noCommit.Checked = AppSettings.DontCommitMerge;
 
+            helpImageDisplayUserControl1.SizeChanged += (s, e) => ApplyMonoLayout();
             helpImageDisplayUserControl1.IsOnHoverShowImage2NoticeText = _formMergeBranchHoverShowImageLabelText.Text;
             helpImageDisplayUserControl1.Visible = !AppSettings.DontShowHelpImages;
             _defaultBranch = defaultBranch;
@@ -54,8 +55,32 @@ namespace GitUI.CommandsDialogs
             Branches.Select();
         }
 
+
+        private void ApplyMonoLayout()
+        {
+            if (!GitCommands.Utils.EnvUtils.IsMonoRuntime())
+            {
+                return;
+            }
+
+            tableLayoutPanel2.RowStyles[0].SizeType = SizeType.Absolute;
+            tableLayoutPanel2.RowStyles[0].Height = Branches.Height + 4;
+
+            // Mono doesn't like referencing dimensions from controls, use temp variables
+            var col1Width = helpImageDisplayUserControl1.Width + 6;
+            var col2Width = groupBox1.Width + 26;
+
+            tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Absolute;
+            tableLayoutPanel1.ColumnStyles[0].Width = col1Width;
+            tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Absolute;
+            tableLayoutPanel1.ColumnStyles[1].Width = col2Width;
+        }
+
+
         private void FormMergeBranchLoad(object sender, EventArgs e)
         {
+            ApplyMonoLayout();
+
             string selectedHead = Module.GetSelectedBranch();
             currentBranchLabel.Text = selectedHead;
 

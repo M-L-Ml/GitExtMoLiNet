@@ -1,4 +1,4 @@
-using GitExtensions.Extensibility.Git;
+﻿using GitExtensions.Extensibility.Git;
 using GitExtUtils;
 using GitExtUtils.GitUI.Theming;
 using GitUI.Editor;
@@ -16,6 +16,8 @@ namespace GitUI.CommandsDialogs
         private readonly string? _fileName;
 
         private bool _hasChanges;
+        // for Mono bug Fixing , see FormEditor_FormClosing
+        private bool _formClosing = false;
 
         public FormEditor(IGitUICommands commands, string? fileName, bool showWarning, bool readOnly = false, int? lineNumber = null)
             : base(commands)
@@ -69,6 +71,13 @@ namespace GitUI.CommandsDialogs
 
         private void FormEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // prevent recursive calls to this method when setting DialogResult
+            // due to Mono bug https://bugzilla.xamarin.com/show_bug.cgi?id=5040
+            if (_formClosing)
+            {
+                return;
+            }
+
             // only offer to save if there's something to save.
             if (HasChanges)
             {
@@ -89,19 +98,21 @@ namespace GitUI.CommandsDialogs
                                 return;
                             }
                         }
-
+                        _formClosing = true;
                         DialogResult = DialogResult.OK;
                         break;
                     case DialogResult.Cancel:
                         e.Cancel = true;
                         return;
                     default:
+                        _formClosing = true;
                         DialogResult = DialogResult.Cancel;
                         break;
                 }
             }
             else
             {
+                _formClosing = true;
                 DialogResult = DialogResult.OK;
             }
         }

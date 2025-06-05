@@ -52,7 +52,7 @@ namespace GitExtensions.Plugins.DeleteUnusedBranches
             dateDataGridViewTextBoxColumn.Width = DpiUtil.Scale(175);
             Author.Width = DpiUtil.Scale(91);
 
-            imgLoading.Image = Resources.loadingpanel;
+            imgLoading.Image = IsMonoRuntime() ? Resources.loadingpanel_static : Resources.loadingpanel;
 
             _NO_TRANSLATE_deleteDataGridViewCheckBoxColumn.DataPropertyName = nameof(Branch.Delete);
             nameDataGridViewTextBoxColumn.DataPropertyName = nameof(Branch.Name);
@@ -368,7 +368,10 @@ namespace GitExtensions.Plugins.DeleteUnusedBranches
         {
             return string.Format(_branchesSelected.Text, _branches.Count(b => b.Delete), _branches.Count);
         }
-
+        private static bool IsMonoRuntime()
+        {
+            return TODO Type.GetType("Mono.Runtime") != null;
+        }
         private readonly struct RefreshContext
         {
             public RefreshContext(IGitModule commands, bool includeRemotes, bool includeUnmerged, string referenceBranch,

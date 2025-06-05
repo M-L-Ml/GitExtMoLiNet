@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Drawing2D;
@@ -36,10 +36,10 @@ using GitUIPluginInterfaces;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
 using Microsoft.Win32;
-#if WINDOWS && WINDOWSAPICODEPACK
+using ResourceManager;
+#if !__MonoCS__ || (WINDOWS && WINDOWSAPICODEPACK)
 using Microsoft.WindowsAPICodePack.Taskbar;
 #endif
-using ResourceManager;
 
 // This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
 
@@ -404,7 +404,7 @@ namespace GitUI.CommandsDialogs
 
                     void UpdateStatusInTaskbar()
                     {
-#if WINDOWS && WINDOWSAPICODEPACK
+#if !__MonoCS__ || (WINDOWS && WINDOWSAPICODEPACK)
                         if (!EnvUtils.RunningOnWindowsWithMainWindow())
                         {
                             return;
@@ -556,7 +556,9 @@ namespace GitUI.CommandsDialogs
         protected override void OnActivated(EventArgs e)
         {
             // wait for windows to really be displayed, which isn't necessarily the case in OnLoad()
-#if WINDOWS && WINDOWSAPICODEPACK
+
+            //TODO: check for use original conditions: if !__MonoCS__            if (!EnvUtils.RunningOnWindows() || !TaskbarManager.IsPlatformSupported)
+#if !__MonoCS__  ||( WINDOWS && WINDOWSAPICODEPACK)
             if (_windowsJumpListManager.NeedsJumpListCreation)
             {
                 _windowsJumpListManager.CreateJumpList(
@@ -761,6 +763,7 @@ namespace GitUI.CommandsDialogs
             }
 
             revisionGpgInfo1.InvokeAndForget(() => FillGpgInfoAsync(selectedRevision));
+            // TODO:     use      if (EnvUtils.IsMonoRuntime()) inside FillBuildReport
             FillBuildReport(selectedRevision);
             repoObjectsTree.SelectionChanged(selectedRevisions);
         }

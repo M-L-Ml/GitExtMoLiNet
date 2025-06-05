@@ -30,6 +30,13 @@ namespace GitCommandsTests
             _fileSystem = Substitute.For<IFileSystem>();
             _fileSystem.File.Returns(_file);
             _manager = new CommitTemplateManager(() => _module, _fullPathResolver, _fileSystem);
+            _manager = new CommitTemplateManager(_module, _fullPathResolver, _fileSystem);
+
+            // TODO : fix  to Linux check
+            if (Type.GetType("Mono.Runtime") != null)
+            {
+                _workingDir = "/home/user/repo";
+            }
         }
 
         [TestCase(null)]

@@ -2463,9 +2463,8 @@ namespace GitUI
 
             using (new WaitCursorScope())
             {
-                TaskDialogButton result;
- #if WINDOWS_OWN
-               if (AppSettings.DontConfirmStashDrop)
+                object result;
+                if (AppSettings.DontConfirmStashDrop)
                 {
                     result = TaskDialogButton.Yes;
                 }
@@ -2498,7 +2497,6 @@ namespace GitUI
                     UICommands.StashDrop(this, stashName);
                     PerformRefreshRevisions();
                 }
-#endif
             }
         }
 

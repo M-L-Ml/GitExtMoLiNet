@@ -488,6 +488,8 @@ namespace JenkinsIntegration
 
             async Task<Stream?> GetStreamFromHttpResponseAsync(HttpResponseMessage resp)
             {
+#if !__MonoCS__
+
                 bool unauthorized = resp.StatusCode == HttpStatusCode.Unauthorized;
 
                 if (resp.IsSuccessStatusCode)
@@ -531,6 +533,9 @@ namespace JenkinsIntegration
                 UpdateHttpClientOptions(buildServerCredentials);
 
                 return await GetStreamAsync(restServicePath, cancellationToken);
+#else
+            return null;
+#endif
             }
         }
 

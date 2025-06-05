@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text;
 using GitCommands;
 using GitExtensions.Extensibility;
@@ -372,9 +372,12 @@ namespace GitUI.CommandsDialogs
                 CommitDiff.SetRevision(revision.ObjectId, fileName);
             }
 
-            _buildReportTabPageExtension ??= new BuildReportTabPageExtension(() => Module, tabControl1, _buildReportTabCaption.Text);
+            if (!GitCommands.Utils.EnvUtils.IsMonoRuntime())
+            {
+                _buildReportTabPageExtension ??= new BuildReportTabPageExtension(() => Module, tabControl1, _buildReportTabCaption.Text);
 
-            _buildReportTabPageExtension.FillBuildReport(selectedRevisions.Count == 1 ? revision : null);
+                _buildReportTabPageExtension.FillBuildReport(selectedRevisions.Count == 1 ? revision : null);
+            }
         }
 
         private void TabControl1SelectedIndexChanged(object sender, EventArgs e)

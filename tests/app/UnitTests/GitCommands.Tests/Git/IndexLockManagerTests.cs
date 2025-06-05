@@ -26,6 +26,10 @@ namespace GitCommandsTests.Git
         [SetUp]
         public void Setup()
         {
+            if (Type.GetType("Mono.Runtime") != null)
+            {
+                _workingDir = "/home/user/repo";
+            }
             _gitFile = Path.Combine(_workingDir, ".git");
             _gitWorkingDir = _gitFile.EnsureTrailingPathSeparator();
             _indexLockFile = Path.Combine(_gitWorkingDir, IndexLock);
@@ -124,6 +128,33 @@ namespace GitCommandsTests.Git
 
             _file.Received().Delete(submoduleGitHubIndexLock);
             _file.DidNotReceive().Delete(submoduleNBugIndexLock);
+        }
+
+        [Platform(Exclude = "Win")]
+        [Test]
+        public void UnlockIndex_should_delete_submodule_locks_if_requested_Mono()
+        {
+            _file.Exists(_indexLockFile).Returns(true);
+
+            var submoduleGithubWorkingDir = $@"{_workingDir}/Externals/Git.hub/";
+            var submoduleNbugWorkingDir = $@"{_workingDir}/Externals/NBug/";
+            var submoduleGithubWorkingDirGitDir = $@"{_gitWorkingDir}/modules/Externals/Git.hub/";
+            var submoduleNbugWorkingDirGitDir = $@"{_gitWorkingDir}/modules/Externals/NBug/";
+            var submoduleGithubIndexLock = $@"{_gitWorkingDir}/modules/Externals/Git.hub/{IndexLock}";
+            var submoduleNbugIndexLock = $@"{_gitWorkingDir}/modules/Externals/NBug/{IndexLock}";
+
+            _module.GetSubmodulesLocalPaths().Returns(new[] { "Externals/Git.hub", "Externals/NBug" });
+            _module.GetSubmoduleFullPath(Arg.Any<string>())
+                .Returns(submoduleGithubWorkingDir, submoduleNbugWorkingDir);
+            _gitDirectoryResolver.Resolve(submoduleGithubWorkingDir).Returns(submoduleGithubWorkingDirGitDir);
+            _gitDirectoryResolver.Resolve(submoduleNbugWorkingDir).Returns(submoduleNbugWorkingDirGitDir);
+            _file.Exists(submoduleGithubIndexLock).Returns(true);
+            _file.Exists(submoduleNbugIndexLock).Returns(false);
+
+            _manager.UnlockIndex(true);
+
+            _file.Received().Delete(submoduleGithubIndexLock);
+            _file.DidNotReceive().Delete(submoduleNbugIndexLock);
         }
 
         [Test]

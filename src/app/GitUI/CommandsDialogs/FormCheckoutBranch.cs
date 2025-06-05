@@ -1,5 +1,6 @@
 ﻿using GitCommands;
 using GitCommands.Git;
+using GitCommands.Utils;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
 using GitExtUtils.GitUI;
@@ -525,7 +526,10 @@ namespace GitUI.CommandsDialogs
         private void RecalculateSizeConstraints()
         {
             SuspendLayout();
-            MinimumSize = MaximumSize = Size.Empty;
+            if (!EnvUtils.IsMonoRuntime())
+            {
+                MinimumSize = MaximumSize = Size.Empty;
+            }
 
             tlpnlRemoteOptions.Visible = Remotebranch.Checked;
             tlpnlMain.RowStyles[2].Height = Remotebranch.Checked ? _controls[tlpnlRemoteOptions] : 0;
@@ -533,8 +537,20 @@ namespace GitUI.CommandsDialogs
             int height = ControlsPanel.Height + MainPanel.Padding.Top + MainPanel.Padding.Bottom
                        + tlpnlMain.Height + tlpnlMain.Margin.Top + tlpnlMain.Margin.Bottom + DpiUtil.Scale(30);
 
-            MinimumSize = new Size(tlpnlMain.PreferredSize.Width + DpiUtil.Scale(70), height);
-            MaximumSize = new Size(Screen.PrimaryScreen.Bounds.Width, height);
+            if (EnvUtils.IsMonoRuntime())
+            {
+                var minWidth = tlpnlMain.PreferredSize.Width;
+                if (Width < minWidth)
+                {
+                    Width = minWidth;
+                }
+            }
+            else
+            {
+
+                MinimumSize = new Size(tlpnlMain.PreferredSize.Width + DpiUtil.Scale(70), height);
+                MaximumSize = new Size(Screen.PrimaryScreen.Bounds.Width, height);
+            }
             Size = new Size(Width, height);
             ResumeLayout();
         }

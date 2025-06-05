@@ -1,4 +1,4 @@
-using GitExtUtils.GitUI;
+﻿using GitExtUtils.GitUI;
 using ResourceManager;
 
 namespace GitUI
