@@ -33,5 +33,21 @@
   <ItemGroup>
     <ProjectReference Include="$(RepoRoot)\src\app\GitExtensions.Extensibility\GitExtensions.Extensibility.csproj" />
   </ItemGroup>
-
+	<!--
+    ============================================================
+                      GenerateImplicitNamespaceImports
+    Generates implicit namespace imports source to intermediate directory for Windows Forms projects
+    ============================================================
+    -->
+	<ItemGroup Condition="'$(UseWindowsForms)' == 'true' and ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
+		<!--
+      SDK defines the following global usings:
+      * System
+      * System.Collections.Generic
+      * System.Linq
+      * System.Threading.Tasks
+    -->
+		<Using Include="System.Drawing" />
+		<!--<Using Include="System.Windows.Forms" />-->
+	</ItemGroup>
 </Project>
