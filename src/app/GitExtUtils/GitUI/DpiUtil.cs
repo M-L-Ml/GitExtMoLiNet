@@ -12,7 +12,7 @@ namespace GitExtUtils.GitUI
     /// Utility class related to DPI settings, primarily used for scaling dimensions on high-DPI displays.
     /// Non-static implementation of DPI utilities.
     /// </summary>
-    public class DpiUtilImpl
+    public partial class DpiUtilImpl
     {
         public int DpiX { get; init; }
         public int DpiY { get; init; }
@@ -166,17 +166,18 @@ namespace GitExtUtils.GitUI
 
             return bitmap;
         }
-        [SupportedOSPlatform("windows")]
-        [DllImport("gdi32.dll")]
-        public static extern int GetDeviceCaps(DeviceContextSafeHandle hdc, int index);
 
         [SupportedOSPlatform("windows")]
-        [DllImport("user32.dll")]
-        public static extern DeviceContextSafeHandle GetDC(IntPtr hwnd);
+        [LibraryImport("gdi32.dll")]
+        public static partial int GetDeviceCaps(DeviceContextSafeHandle hdc, int index);
 
         [SupportedOSPlatform("windows")]
-        [DllImport("user32.dll")]
-        public static extern int ReleaseDC(IntPtr hwnd, IntPtr deviceContextHandle);
+        [LibraryImport("user32.dll")]
+        public static partial DeviceContextSafeHandle GetDC(IntPtr hwnd);
+
+        [SupportedOSPlatform("windows")]
+        [LibraryImport("user32.dll")]
+        public static partial int ReleaseDC(IntPtr hwnd, IntPtr deviceContextHandle);
 
         [SupportedOSPlatform("windows")]
         [UsedImplicitly]
