@@ -1010,7 +1010,7 @@ namespace GitUI.CommitInfo
 
             public IDictionary<string, int> GetSortedTags() => _commitInfo.GetSortedTags();
 
-            public void LinkClicked(object sender, LinkClickedEventArgs e) => _commitInfo.LinkClicked(sender, e);
+            public void LinkClicked(object sender, LinkClicked2EventArgs e) => _commitInfo.LinkClicked(sender, e);
         }
     }
 }
