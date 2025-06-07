@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
+using System.IO.Packaging; // Add this namespace for FileFormatException
 using CommonTestUtils;
 using FluentAssertions;
 using GitCommands.UserRepositoryHistory.Legacy;

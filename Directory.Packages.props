@@ -34,6 +34,7 @@
     <PackageVersion Include="System.DirectoryServices" Version="9.0.5" />
     <!-- Required by GitExtensions.PluginManager -->
     <PackageVersion Include="System.IO.Abstractions" Version="22.0.12" />
+    <PackageVersion Include="System.IO.Packaging" Version="9.0.5" />
     <PackageVersion Include="System.Reactive.Interfaces" Version="5.0.0" />
     <PackageVersion Include="System.Reactive.Linq" Version="5.0.0" />
     <PackageVersion Include="System.Reactive" Version="5.0.0" />

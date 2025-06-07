@@ -59,7 +59,21 @@
     <!-- Coverlet assumes PDB files exist on disk https://github.com/tonerdo/coverlet/issues/362 -->
     <DebugType Condition="'$(DebugType)' == 'embedded'">portable</DebugType>
   </PropertyGroup>
-	<ItemGroup>
+	<!--
+    ============================================================
+                      GenerateImplicitNamespaceImports
+    Generates implicit namespace imports source to intermediate directory for Windows Forms projects
+    ============================================================
+    -->
+	<ItemGroup Condition="('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
+		<!--'$(UseWindowsForms)' == 'true' and 
+      SDK defines the following global usings:
+      * System
+      * System.Collections.Generic
+      * System.Linq
+      * System.Threading.Tasks
+    -->
+		<Using Include="System.Drawing" />
 		<Using Include="System.Windows.Forms" />
 	</ItemGroup>
   <ItemGroup>
