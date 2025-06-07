@@ -27,7 +27,7 @@ namespace GitCommandsTests
         [TestCase("//my-pc/Work/GitExtensions/", "//my-pc/Work/GitExtensions/", true)]
         public void Equals_Mono(string input, string expected, bool isEqual)
         {
-            Assert.AreEqual(_comparer.Equals(input, expected), isEqual);
+            ClassicAssert.AreEqual(_comparer.Equals(input, expected), isEqual);
         }
     }
 }

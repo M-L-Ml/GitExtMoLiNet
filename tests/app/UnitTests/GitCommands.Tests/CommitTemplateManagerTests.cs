@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.IO.Abstractions;
 using CommonTestUtils;
 using FluentAssertions;
@@ -12,7 +12,7 @@ namespace GitCommandsTests
     [TestFixture]
     public class CommitTemplateManagerTests
     {
-        private readonly string _workingDir = @"c:\dev\repo";
+        private string _workingDir = @"c:\dev\repo";
         private IGitModule _module;
         private FileBase _file;
         private IFileSystem _fileSystem;
@@ -30,7 +30,6 @@ namespace GitCommandsTests
             _fileSystem = Substitute.For<IFileSystem>();
             _fileSystem.File.Returns(_file);
             _manager = new CommitTemplateManager(() => _module, _fullPathResolver, _fileSystem);
-            _manager = new CommitTemplateManager(_module, _fullPathResolver, _fileSystem);
 
             // TODO : fix  to Linux check
             if (Type.GetType("Mono.Posix.Signals") != null)

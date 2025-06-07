@@ -39,8 +39,8 @@
     Generates implicit namespace imports source to intermediate directory for Windows Forms projects
     ============================================================
     -->
-	<ItemGroup Condition="'$(UseWindowsForms)' == 'true' and ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
-		<!--
+	<ItemGroup Condition="('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable')">
+		<!--'$(UseWindowsForms)' == 'true' and 
       SDK defines the following global usings:
       * System
       * System.Collections.Generic

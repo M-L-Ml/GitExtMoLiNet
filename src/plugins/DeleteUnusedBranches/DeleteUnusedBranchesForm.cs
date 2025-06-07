@@ -370,7 +370,7 @@ namespace GitExtensions.Plugins.DeleteUnusedBranches
         }
         private static bool IsMonoRuntime()
         {
-            return TODO Type.GetType("Mono.Runtime") != null;
+            return Type.GetType("Mono.Posix.Signals") != null;
         }
         private readonly struct RefreshContext
         {
