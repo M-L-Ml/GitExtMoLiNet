@@ -6,19 +6,15 @@ using GitExtensions.Extensibility.Configurations;
 
 namespace GitExtensions.Extensibility.Settings;
 
-public abstract class SettingsSource : IConfigValueStore
+public abstract class SettingsSourceBase : IConfigValueStore
 {
-    public virtual SettingLevel SettingLevel { get; init; } = SettingLevel.Unknown;
-
     public abstract string? GetValue(string name);
 
     public abstract void SetValue(string name, string? value);
-
     [return: NotNullIfNotNull(nameof(defaultValue))]
     public string? GetString(string name, string? defaultValue) => GetValue(name) ?? defaultValue;
 
     public void SetString(string name, string? value) => SetValue(name, value);
-
     public bool? GetBool(string name)
     {
         string? stringValue = GetValue(name);
@@ -44,6 +40,10 @@ public abstract class SettingsSource : IConfigValueStore
 
         SetValue(name, stringValue);
     }
+}
+public abstract class SettingsSource : SettingsSourceBase
+{
+    public virtual SettingLevel SettingLevel { get; init; } = SettingLevel.Unknown;
 
     public int? GetInt(string name)
     {

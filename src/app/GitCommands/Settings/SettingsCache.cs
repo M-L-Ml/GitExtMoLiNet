@@ -4,6 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GitCommands
 {
+    /// <summary>
+    /// you can easily implement  <see cref="GitExtensions.Extensibility.Settings.ISettingsValueGetter"/> and <see cref="IConfigValueStore"/> to this class
+    /// </summary>
     [DebuggerDisplay("{" + nameof(_byNameMap) + ".Count}")]
     public abstract class SettingsCache : IDisposable
     {
