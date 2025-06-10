@@ -226,13 +226,15 @@ namespace GitExtUtils.GitUI
             {
                 const int LOGPIXELSX = 88;
                 const int LOGPIXELSY = 90;
+                int dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
+                int dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
                 Instance = new()
                 {
-                    DpiX = GetDeviceCaps(hdc, LOGPIXELSX),
-                    DpiY = GetDeviceCaps(hdc, LOGPIXELSY),
+                    DpiX = dpiX,
+                    DpiY = dpiY,
 
-                    ScaleX = DpiX / 96.0f,
-                    ScaleY = DpiY / 96.0f
+                    ScaleX = dpiX / 96.0f,
+                    ScaleY = dpiY / 96.0f
                 };
             }
             catch

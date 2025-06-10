@@ -32,7 +32,7 @@ namespace GitExtUtils.GitUI
 
         private static partial class NativeMethods
         {
-            [LibraryImport("user32.dll")]
+            [LibraryImport("user32.dll" ,  SetLastError = true, EntryPoint = "LoadCursorW")]
             public static partial IntPtr LoadCursor(IntPtr hInstance, IDC lpCursorName);
         }
 

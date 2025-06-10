@@ -243,10 +243,11 @@ namespace GitUI
             _gridView.CellMouseEnter += _gridView_CellMouseEnter;
 
             // Allow to drop patch file on revision grid
+#if !__MonoCS__ && WINDOWS
             _gridView.AllowDrop = true;
             _gridView.DragEnter += OnGridViewDragEnter;
             _gridView.DragDrop += OnGridViewDragDrop;
-
+#endif
             _buildServerWatcher = new BuildServerWatcher(revisionGrid: this, _gridView, revisionGridInfo: this, () => Module);
 
             GitRevisionSummaryBuilder gitRevisionSummaryBuilder = new();
