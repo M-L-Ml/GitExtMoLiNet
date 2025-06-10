@@ -51,16 +51,52 @@ The primary goal is to encapsulate direct Windows Registry operations for the `H
         `public static string ReadStringRegValue(string key, string defaultValue) => LegacyRegistrySettings.GetString(key, defaultValue);`
     *   The `AppSettings.ImportFromRegistry()` method would similarly use the `LegacyRegistrySettings` instance to call the method responsible for `GetAllSettings`.
 
-### 2. Update Callers in `AppSettings`
+### 2. Update `AppSettings` to Use the `LegacyRegistrySettings` Provider
 
-*   Modify `AppSettings` to call the moved methods via the new class via new Property for it. For example:
-    *   `ImportFromRegistry()` in `AppSettings` will call `GitExtensionsRegistry.GetSettingsFromRegistry()`.
-    *   Any internal calls within `AppSettings` that previously used `ReadStringRegValue` directly will now call `GitExtensionsRegistry.ReadStringRegValue`.
-*   This change isolates the direct registry dependency to the `GitExtensionsRegistry` class.
+The static methods within `AppSettings` that previously performed direct registry operations will be refactored to delegate these operations to an instance of `SettingsSourceBase`, accessed via a new static property.
 
-### 3. Handling Platform Specifics (`EnvUtils.IsMonoRuntime()`)
+*   **Introduce `LegacyRegistrySettings` Property in `AppSettings`:**
+    *   Define a static property, for example: `private static SettingsSourceBase LegacyRegistrySettings { get; }`.
+    *   The getter for this property will be responsible for:
+        *   Checking `EnvUtils.IsMonoRuntime()`.
+        *   If on Windows, returning an instance of `GitExtensionsRegistry`.
+        *   If on a non-Windows platform (Mono), returning an instance of `NullSettingsSource` (a no-op implementation of `SettingsSourceBase`).
+    *   This property centralizes the platform-specific decision of which `SettingsSourceBase` implementation to use.
 
-*   The logics of existing `EnvUtils.IsMonoRuntime()` checks within the moved methods (e.g., in `WriteStringRegValue`, and the `VersionIndependentRegKey` getter) should be preserved but outside  the new `GitExtensionsRegistry` class to ensure registry operations are only attempted on Windows. For this it to create another derived class of SettingsSourceBase. 
+*   **Refactor `AppSettings` Static Methods as Proxies:**
+    *   Modify existing static methods in `AppSettings` (e.g., `ReadStringRegValue`, `WriteStringRegValue`, `ReadBoolRegKey`, `WriteBoolRegKey`) to use the `LegacyRegistrySettings` property.
+    *   These methods will call the corresponding methods on the `SettingsSourceBase` interface (e.g., `GetString`, `SetString`).
+    *   Example: `public static string ReadStringRegValue(string key, string defaultValue) => LegacyRegistrySettings.GetString(key, defaultValue);`
+    *   This ensures that `AppSettings` itself no longer contains direct registry access logic for these common operations.
+
+*   **Refactor `ImportFromRegistry()` Method in `AppSettings`:**
+    *   The `ImportFromRegistry()` method in `AppSettings` needs to retrieve all legacy settings. The actual logic for reading all settings from the registry will reside in `GitExtensionsRegistry` (e.g., as a method like `GetAllSettings(string subKeyName)`).
+    *   `ImportFromRegistry()` will use the `LegacyRegistrySettings` property.
+    *   It will check if `LegacyRegistrySettings` is an instance of `GitExtensionsRegistry`.
+    *   If it is, it will cast the instance to `GitExtensionsRegistry` and then call the `GetAllSettings()` method (e.g., `windowsRegistry.GetAllSettings("GitExtensions")`). The returned settings are then imported into `SettingsContainer.SettingsCache`.
+    *   If `LegacyRegistrySettings` is not `GitExtensionsRegistry` (i.e., it's `NullSettingsSource` on non-Windows), `ImportFromRegistry()` will effectively do nothing, preserving the existing platform-specific behavior.
+    *   Example sketch for the refactored `ImportFromRegistry()` in `AppSettings.cs`:
+        ```csharp
+        private static void ImportFromRegistry()
+        {
+            if (LegacyRegistrySettings is GitExtensionsRegistry windowsRegistryProvider)
+            {
+                var settingsToImport = windowsRegistryProvider.GetAllSettings("GitExtensions");
+                SettingsContainer.SettingsCache.Import(settingsToImport);
+            }
+            // On non-Windows, LegacyRegistrySettings would be NullSettingsSource,
+            // so the 'if' condition fails, and no import is attempted.
+        }
+        ```
+
+*   **Outcome:** These changes will effectively isolate the direct dependency on `Microsoft.Win32.Registry` to within the `GitExtensionsRegistry` class. `AppSettings` will interact with registry operations primarily through the `SettingsSourceBase` abstraction, with a type check and cast for the specific `ImportFromRegistry` scenario.
+
+### 3. Platform-Specific Instantiation Handled by `AppSettings`
+
+*   As detailed in the "Update `AppSettings` to Use the `LegacyRegistrySettings` Provider" section, the `LegacyRegistrySettings` static property within `AppSettings` will be responsible for platform detection.
+*   It will instantiate `GitExtensionsRegistry` for Windows environments and `NullSettingsSource` (a no-op `SettingsSourceBase` implementation) for non-Windows (Mono) environments.
+*   This design ensures that `GitExtensionsRegistry` itself does not need to contain platform-specific checks (e.g., `EnvUtils.IsMonoRuntime()`). Its methods will operate with the understanding that they are only invoked on Windows.
+*   The `NullSettingsSource` will provide default/no-op behavior for all `SettingsSourceBase` methods, ensuring that calls on non-Windows platforms do not result in errors.
 
 ### Benefits of this Approach:
 
