@@ -32,7 +32,47 @@ split SettingsSource, extract part wich ressambles the methods to a new base
 ### 2. Implementation Class
 
  create derived class for that base , by moving implemetions to it
+## Proposed Solution
 
+The core idea is to encapsulate all direct Windows Registry interactions currently within `AppSettings.cs` into a new, dedicated nonstatic class. This will improve separation of concerns and make the `AppSettings` class less coupled to direct registry APIs.
+
+### 1. Create a Dedicated Registry Access Class
+
+*   **Define a new  class:** For example, `GitExtensionsRegistry`. This class will be responsible for all direct interactions with `HKEY_CURRENT_USER\Software\GitExtensions`. Derived from existing "SettingsSourceBase"
+*   **Move `VersionIndependentRegKey`:**
+    *   The `private  RegistryKey _versionIndependentRegKey;` field from `AppSettings`.
+    *   The `private  RegistryKey VersionIndependentRegKey` property, including its initialization logic (`Registry.CurrentUser.CreateSubKey("Software\\GitExtensions", ...)`) from `AppSettings`.
+    *   These will become private  members of the new `GitExtensionsRegistry` class.
+*   **Move Registry-Interacting Methods:**
+    *   The following static methods (and any other similar ones directly using `VersionIndependentRegKey`) should be moved from `AppSettings` to `GitExtensionsRegistry`:
+        *   `GetSettingsFromRegistry()`
+        *   `ReadStringRegValue(string key, string? defaultValue)`
+        *   `WriteStringRegValue(string key, string value)`
+        *   `ReadBoolRegKey(string key, bool defaultValue)`
+        *   `WriteBoolRegKey(string key, bool value)`
+    *   These methods will become private methods of `GitExtensionsRegistry`.
+    *   rewrite it caller code with calls to SettingsSourceBase methods, which should be implemented accordingly.
+
+### 2. Update Callers in `AppSettings`
+
+*   Modify `AppSettings` to call the moved methods via the new class via new Property for it. For example:
+    *   `ImportFromRegistry()` in `AppSettings` will call `GitExtensionsRegistry.GetSettingsFromRegistry()`.
+    *   Any internal calls within `AppSettings` that previously used `ReadStringRegValue` directly will now call `GitExtensionsRegistry.ReadStringRegValue`.
+*   This change isolates the direct registry dependency to the `GitExtensionsRegistry` class.
+
+### 3. Handling Platform Specifics (`EnvUtils.IsMonoRuntime()`)
+
+*   The logics of existing `EnvUtils.IsMonoRuntime()` checks within the moved methods (e.g., in `WriteStringRegValue`, and the `VersionIndependentRegKey` getter) should be preserved but outside  the new `GitExtensionsRegistry` class to ensure registry operations are only attempted on Windows. For this it to create another derived class of SettingsSourceBase. 
+
+### Benefits of this Approach:
+
+*   **Improved Cohesion:** Registry-specific logic is grouped in one place (`GitExtensionsRegistry`).
+*   **Reduced Coupling:** `AppSettings` no longer directly depends on `Microsoft.Win32.Registry` APIs for these operations.
+*   **Clearer Responsibilities:** `AppSettings` focuses more on managing application settings (primarily via its XML file), while `GitExtensionsRegistry` handles the specific legacy/direct registry interactions.
+*   **Testability (Partial Improvement):** While the new `GitExtensionsRegistry` class itself would still be static and directly call `Registry.CurrentUser`, isolating it makes it easier to potentially introduce seams for testing later if desired. For now, the main benefit is organizational.
+
+**(Note on "Abstraction" and "SettingsSource" from previous plan version):**
+The idea of "split SettingsSource, extract part which resembles the methods to a new base" is a broader refactoring concerning the settings infrastructure. The steps above focus specifically on isolating the direct `Registry.CurrentUser` access. Further refactoring of `SettingsSource` or `AppSettings` to use more abstract patterns for settings *storage* (beyond just isolating the raw registry calls) could be a subsequent step if desired.
 ## Success Criteria
 
 1. No direct usage of Registry.CurrentUser in application code
