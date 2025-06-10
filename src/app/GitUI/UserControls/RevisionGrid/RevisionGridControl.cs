@@ -243,7 +243,7 @@ namespace GitUI
             _gridView.CellMouseEnter += _gridView_CellMouseEnter;
 
             // Allow to drop patch file on revision grid
-#if !__MonoCS__ && WINDOWS
+#if !__MonoCS__ && WINDOWS && WINDOWS_OWN
             _gridView.AllowDrop = true;
             _gridView.DragEnter += OnGridViewDragEnter;
             _gridView.DragDrop += OnGridViewDragDrop;
