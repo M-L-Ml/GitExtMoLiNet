@@ -321,9 +321,11 @@ namespace GitUI.CommandsDialogs
 
             foreach (Control control in this.FindDescendants())
             {
+#if !__MonoCS__ && WINDOWS && WINDOWS_OWN
                 control.AllowDrop = true;
                 control.DragEnter += FormBrowse_DragEnter;
                 control.DragDrop += FormBrowse_DragDrop;
+#endif
             }
 
             _aheadBehindDataProvider = new AheadBehindDataProvider(() => Module.GitExecutable);

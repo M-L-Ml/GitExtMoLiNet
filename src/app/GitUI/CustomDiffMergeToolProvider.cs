@@ -111,7 +111,9 @@ namespace GitUI
             {
                 foreach (CustomDiffMergeTool menu in menus)
                 {
+#if !__MonoCS__ && WINDOWS && WINDOWS_OWN
                     menu.MenuItem.DropDown = null;
+#endif
                 }
             }
         }

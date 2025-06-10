@@ -78,7 +78,9 @@
             // 
             // Password
             // 
+#if !__MonoCS__ && WINDOWS && WINDOWS_OWN
             Password.AllowDrop = true;
+#endif
             Password.Dock = DockStyle.Fill;
             Password.Location = new Point(4, 4);
             Password.Margin = new Padding(4);
@@ -107,7 +109,7 @@
             PerformLayout();
         }
 
-        #endregion
+#endregion
 
         private TableLayoutPanel TableLayoutPanel;
         private Button SendInput;

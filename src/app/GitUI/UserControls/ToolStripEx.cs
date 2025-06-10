@@ -82,8 +82,13 @@ namespace GitUI
         [DefaultValue(true)]
         public bool GripEnabled
         {
+#if WINDOWS_OWN
+
             get => _gripButton.Enabled;
             set => _gripButton.Enabled = value;
+#else
+            get => false; set { }
+#endif
         }
 
         protected override void WndProc(ref Message m)
