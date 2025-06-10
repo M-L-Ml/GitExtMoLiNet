@@ -2,13 +2,14 @@
 {
     using System;
     using System.Drawing;
+    using GitExtUtils;
 
     public static class FontUtil
     {
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
         static FontUtil()
         {
-            if (GitCommands.Utils.EnvUtils.IsMonoRuntime())
+            if (EnvUtils.IsMonoRuntime())
             {
                 return;
             }

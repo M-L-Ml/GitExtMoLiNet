@@ -5,6 +5,7 @@ using GitExtensions.Extensibility.Git;
 using GitUI;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
+using GitExtUtils;
 
 namespace GitCommands.Submodules
 {

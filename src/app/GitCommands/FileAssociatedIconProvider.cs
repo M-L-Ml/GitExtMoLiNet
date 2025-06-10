@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.IO.Abstractions;
+using GitExtUtils;
 
 namespace GitCommands
 {

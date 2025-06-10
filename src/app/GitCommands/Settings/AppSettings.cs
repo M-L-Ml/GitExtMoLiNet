@@ -16,6 +16,7 @@ using GitUIPluginInterfaces;
 using Microsoft;
 using Microsoft.Win32;
 using System; // For Lazy<T>
+using GitExtUtils;
 
 namespace GitCommands
 {

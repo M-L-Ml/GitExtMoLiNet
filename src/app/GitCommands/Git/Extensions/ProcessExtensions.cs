@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using GitCommands.Utils;
+using GitExtUtils;
 
 namespace GitCommands.Git.Extensions
 {

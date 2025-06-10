@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using GitCommands.Utils;
+using GitExtUtils;
 
 namespace GitCommands
 {
