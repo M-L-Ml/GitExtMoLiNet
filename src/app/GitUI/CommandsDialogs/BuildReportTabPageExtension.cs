@@ -3,6 +3,7 @@ using System.Net;
 using GitCommands;
 using GitCommands.Settings;
 using GitExtensions.Extensibility.Git;
+using GitExtUtils;
 using GitUI.UserControls;
 using GitUIPluginInterfaces;
 using GitUIPluginInterfaces.BuildServerIntegration;
@@ -42,7 +43,7 @@ namespace GitUI.CommandsDialogs
 
         public void FillBuildReport(GitRevision? revision)
         {
-            if (GitCommands.Utils.EnvUtils.IsMonoRuntime())
+            if (EnvUtils.IsMonoRuntime())
                 return;
             SetSelectedRevision(revision);
 

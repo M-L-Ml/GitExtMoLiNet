@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using GitCommands;
 using GitCommands.Utils;
+using GitExtUtils;
 using NSubstitute;
 
 namespace GitCommandsTests

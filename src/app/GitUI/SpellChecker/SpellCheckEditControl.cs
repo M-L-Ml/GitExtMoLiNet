@@ -1,6 +1,7 @@
 ﻿using System.Drawing.Imaging;
 using GitCommands;
 using GitCommands.Utils;
+using GitExtUtils;
 using GitExtUtils.GitUI;
 using GitExtUtils.GitUI.Theming;
 

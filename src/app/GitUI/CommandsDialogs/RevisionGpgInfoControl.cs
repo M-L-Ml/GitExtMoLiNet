@@ -1,5 +1,6 @@
 ﻿using GitCommands.Git.Gpg;
 using GitCommands.Utils;
+using GitExtUtils;
 using GitExtUtils.GitUI;
 using GitUI.Properties;
 using ResourceManager;

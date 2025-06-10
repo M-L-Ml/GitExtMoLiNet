@@ -1,4 +1,5 @@
 using GitCommands.Utils;
+using GitExtUtils;
 using GitExtUtils.GitUI;
 
 namespace GitUI.SpellChecker

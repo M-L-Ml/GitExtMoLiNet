@@ -4,6 +4,7 @@ using GitCommands.Settings;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
 using GitExtensions.Extensibility.Settings;
+using GitExtUtils;
 using GitExtUtils.GitUI.Theming;
 using GitUI.HelperDialogs;
 using GitUI.ScriptsEngine;
@@ -58,7 +59,7 @@ namespace GitUI.CommandsDialogs
 
         private void ApplyMonoLayout()
         {
-            if (!GitCommands.Utils.EnvUtils.IsMonoRuntime())
+            if (!EnvUtils.IsMonoRuntime())
             {
                 return;
             }

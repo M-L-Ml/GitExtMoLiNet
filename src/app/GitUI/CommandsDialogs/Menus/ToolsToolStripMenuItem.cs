@@ -1,5 +1,6 @@
 ﻿using GitCommands;
 using GitCommands.Utils;
+using GitExtUtils;
 using GitUI.CommandsDialogs.BrowseDialog;
 using GitUI.Infrastructure;
 using GitUI.Shells;

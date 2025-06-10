@@ -2,6 +2,7 @@
 using GitCommands.Git;
 using GitCommands.Utils;
 using GitExtensions.Extensibility.Git;
+using GitExtUtils;
 using Microsoft.Win32;
 
 namespace GitUI.CommandsDialogs.SettingsDialog

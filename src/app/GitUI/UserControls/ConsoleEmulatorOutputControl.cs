@@ -5,6 +5,7 @@ using GitCommands;
 using GitCommands.Logging;
 using GitCommands.Utils;
 using GitExtensions.Extensibility;
+using GitExtUtils;
 using Microsoft;
 
 namespace GitUI.UserControls

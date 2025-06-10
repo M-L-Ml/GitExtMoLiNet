@@ -3,6 +3,7 @@ using GitCommands.Git;
 using GitCommands.Utils;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
+using GitExtUtils;
 using GitUI.HelperDialogs;
 using ResourceManager;
 

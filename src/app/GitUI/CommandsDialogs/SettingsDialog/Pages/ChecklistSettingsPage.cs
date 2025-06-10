@@ -7,6 +7,7 @@ using GitCommands.Git;
 using GitCommands.Utils;
 using GitExtensions.Extensibility.Git;
 using GitExtensions.Extensibility.Translations;
+using GitExtUtils;
 using GitExtUtils.GitUI.Theming;
 using GitUI.CommandsDialogs.SettingsDialog.ShellExtension;
 using Microsoft;

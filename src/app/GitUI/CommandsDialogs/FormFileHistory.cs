@@ -4,6 +4,7 @@ using GitCommands;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
 using GitExtensions.Extensibility.Translations;
+using GitExtUtils;
 using GitExtUtils.GitUI;
 using GitExtUtils.GitUI.Theming;
 using GitUI.CommandsDialogs.BrowseDialog;
@@ -372,7 +373,7 @@ namespace GitUI.CommandsDialogs
                 CommitDiff.SetRevision(revision.ObjectId, fileName);
             }
 
-            if (!GitCommands.Utils.EnvUtils.IsMonoRuntime())
+            if (!EnvUtils.IsMonoRuntime())
             {
                 _buildReportTabPageExtension ??= new BuildReportTabPageExtension(() => Module, tabControl1, _buildReportTabCaption.Text);
 

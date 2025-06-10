@@ -1,6 +1,7 @@
 ﻿using GitCommands;
 using GitCommands.Utils;
 using GitExtensions.Extensibility.Settings;
+using GitExtUtils;
 using GitExtUtils.GitUI.Theming;
 using Microsoft.Win32;
 

@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using GitCommands.Utils;
+using GitExtUtils;
 using Microsoft;
 
 namespace GitUI.CommandsDialogs

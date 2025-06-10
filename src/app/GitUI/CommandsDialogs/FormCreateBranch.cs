@@ -3,6 +3,7 @@ using GitCommands;
 using GitCommands.Git;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
+using GitExtUtils;
 using GitUI.HelperDialogs;
 using GitUIPluginInterfaces;
 using ResourceManager;
@@ -31,7 +32,7 @@ namespace GitUI.CommandsDialogs
             InitializeComplete();
 
             // Mono is having troubles dynamically sizing the groupbox
-            groupBox1.AutoSize = !GitCommands.Utils.EnvUtils.IsMonoRuntime();
+            groupBox1.AutoSize = !EnvUtils.IsMonoRuntime();
 
             if (objectId?.IsArtificial is true)
             {

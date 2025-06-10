@@ -1,6 +1,7 @@
 ﻿// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
 //#if WINDOWS && WINDOWSAPICODEPACK
 using GitCommands.Utils;
+using GitExtUtils;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace GitUI
