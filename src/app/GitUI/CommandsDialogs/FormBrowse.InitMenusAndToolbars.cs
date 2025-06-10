@@ -1,4 +1,5 @@
 ﻿using GitCommands;
+using GitCommands.Utils;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
 using GitExtUtils;
@@ -47,7 +48,15 @@ namespace GitUI.CommandsDialogs
             BackColor = SystemColors.Window;
             ForeColor = toolForeColor;
             mainMenuStrip.ForeColor = toolForeColor;
-            InitToolStripStyles(toolForeColor, Color.Transparent);
+            InitToolStripStyles(toolForeColor,
+                EnvUtils.IsMonoRuntime() ?
+                Color.LightGray :
+#if __MonoCS__
+                Color.LightGray
+#else
+                Color.Transparent
+#endif
+                );
 
             UpdateCommitButtonAndGetBrush(status: null, AppSettings.ShowGitStatusInBrowseToolbar);
 
