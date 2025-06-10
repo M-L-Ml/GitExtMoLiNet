@@ -139,9 +139,10 @@ dotnet_code_quality_unused_parameters = all:suggestion
 #### C# Coding Conventions ####
 
 # Avoid var
-csharp_style_var_for_built_in_types = false:warning
-csharp_style_var_when_type_is_apparent = false:warning
-csharp_style_var_elsewhere = false:warning
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_when_type_is_apparent = false:suggestion
+csharp_style_var_elsewhere = false:suggestion
+dotnet_diagnostic.IDE0008.severity = none
 
 # Expression-bodied members
 csharp_style_expression_bodied_accessors = true:silent
@@ -360,5 +361,3 @@ csharp_style_prefer_switch_expression = true:suggestion
 # S6602: "Array.Find" static method should be used instead of the "FirstOrDefault" extension method.
 dotnet_diagnostic.S6602.severity = none
 
-# Change IDE0008 severity to message
-dotnet_diagnostic.IDE0008.severity = message
