@@ -15,7 +15,7 @@ public abstract class SettingsSourceBase : IConfigValueStore
     public string? GetString(string name, string? defaultValue) => GetValue(name) ?? defaultValue;
 
     public void SetString(string name, string? value) => SetValue(name, value);
-    public bool? GetBool(string name)
+    public virtual bool? GetBool(string name)
     {
         string? stringValue = GetValue(name);
 

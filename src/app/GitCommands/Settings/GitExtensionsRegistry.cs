@@ -1,9 +1,11 @@
-#nullable enable
+﻿#nullable enable
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GitCommands.Utils;
 using GitExtensions.Extensibility.Settings;
+using Microsoft;
 using Microsoft.Win32;
 
 namespace GitCommands.Settings;
@@ -15,7 +17,6 @@ namespace GitCommands.Settings;
 public class GitExtensionsRegistry : SettingsSourceBase, IDisposable
 {
     private const string BaseRegistryPath = "Software\\GitExtensions";
-    private RegistryKey? _baseRegistryKey;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GitExtensionsRegistry"/> class.
@@ -23,36 +24,69 @@ public class GitExtensionsRegistry : SettingsSourceBase, IDisposable
     /// </summary>
     public GitExtensionsRegistry()
     {
-        // This class should only be instantiated on Windows. Platform checks are done by the caller.
-        _baseRegistryKey = Registry.CurrentUser.CreateSubKey(BaseRegistryPath, RegistryKeyPermissionCheck.ReadWriteSubTree);
     }
 
+
+    private RegistryKey? _versionIndependentRegKey;
+        // This class should only be instantiated on Windows. Platform checks are done by the caller.
+
+    private RegistryKey VersionIndependentRegKey
+    {
+        get
+        {
+            if (_versionIndependentRegKey is null)
+            {
+                //if (EnvUtils.IsMonoRuntime())
+                 //   return _versionIndependentRegKey;
+                _versionIndependentRegKey = Registry.CurrentUser.CreateSubKey(BaseRegistryPath, RegistryKeyPermissionCheck.ReadWriteSubTree);
+                Validates.NotNull(_versionIndependentRegKey);
+            }
+
+            return _versionIndependentRegKey;
+        }
+    }
+    public override bool? GetBool(string name)
+    // private bool ReadBoolRegKey(string key, bool defaultValue)
+    {
+        object? obj = VersionIndependentRegKey.GetValue(name);
+        if (obj is not string)
+        {
+            obj = null;
+        }
+
+        if (obj is null)
+        {
+            return null;
+        }
+
+        return ((string)obj).Equals("true", StringComparison.CurrentCultureIgnoreCase);
+    }
     /// <inheritdoc />
     public override string? GetValue(string name)
     {
-        if (_baseRegistryKey is null)
+        if (VersionIndependentRegKey is null)
         {
             // Should not happen if constructor succeeded and not disposed
             return null;
         }
-        return _baseRegistryKey.GetValue(name)?.ToString();
+        return VersionIndependentRegKey.GetValue(name)?.ToString();
     }
 
     /// <inheritdoc />
     public override void SetValue(string name, string? value)
     {
-        if (_baseRegistryKey is null)
+        if (VersionIndependentRegKey is null)
         {
             // Should not happen if constructor succeeded and not disposed
             return;
         }
         if (value is null)
         {
-            _baseRegistryKey.DeleteValue(name, false); // Do not throw if not found
+            VersionIndependentRegKey.DeleteValue(name, false); // Do not throw if not found
         }
         else
         {
-            _baseRegistryKey.SetValue(name, value);
+            VersionIndependentRegKey.SetValue(name, value);
         }
     }
 
@@ -63,12 +97,15 @@ public class GitExtensionsRegistry : SettingsSourceBase, IDisposable
     /// <returns>An enumerable of name-value pairs.</returns>
     public IEnumerable<(string name, string value)> GetAllSettings(string subKeyName)
     {
-        if (_baseRegistryKey is null)
+        if (VersionIndependentRegKey is null)
         {
-            return Enumerable.Empty<(string name, string value)>();
+            throw new ArgumentNullException(nameof(VersionIndependentRegKey));
+            //return Enumerable.Empty<(string name, string value)>();
+            yield break;
+
         }
 
-        using (RegistryKey? subKey = _baseRegistryKey.OpenSubKey(subKeyName))
+        using (RegistryKey? subKey = VersionIndependentRegKey.OpenSubKey(subKeyName))
         {
             if (subKey is null)
             {
@@ -97,8 +134,8 @@ public class GitExtensionsRegistry : SettingsSourceBase, IDisposable
     {
         if (disposing)
         {
-            _baseRegistryKey?.Dispose();
-            _baseRegistryKey = null;
+            _versionIndependentRegKey?.Dispose();
+            _versionIndependentRegKey = null;
         }
     }
 

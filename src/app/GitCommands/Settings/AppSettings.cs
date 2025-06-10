@@ -29,12 +29,12 @@ namespace GitCommands
         public static readonly string SettingsFileName = ApplicationId + ".settings";
         public static readonly string UserPluginsDirectoryName = "UserPlugins";
 
-        private static readonly Lazy<SettingsSourceBase> _legacyRegistrySettings =
-            new Lazy<SettingsSourceBase>(() => EnvUtils.RunningOnWindows()
-                ? (SettingsSourceBase)new GitExtensionsRegistry()
+        private static readonly Lazy<SettingsSourceBase> _registrySettings =
+            new Lazy<SettingsSourceBase>(() =>( EnvUtils.RunningOnWindows() || !EnvUtils.IsMonoRuntime() )
+                ? new GitExtensionsRegistry()
                 : new NullSettingsSource());
 
-        private static SettingsSourceBase LegacyRegistrySettings => _legacyRegistrySettings.Value;
+        private static SettingsSourceBase GitExRegistrySettings => _registrySettings.Value;
         private static string _applicationExecutablePath = Application.ExecutablePath;
         private static string? _documentationBaseUrl;
 
@@ -275,23 +275,23 @@ namespace GitCommands
 
         private static bool ReadBoolRegKey(string key, bool defaultValue)
         {
-            return LegacyRegistrySettings.GetBool(key, defaultValue);
+            return GitExRegistrySettings.GetBool(key, defaultValue);
         }
 
         private static void WriteBoolRegKey(string key, bool value)
         {
-            LegacyRegistrySettings.SetBool(key, value);
+            GitExRegistrySettings.SetBool(key, value);
         }
 
         [return: NotNullIfNotNull("defaultValue")]
         private static string? ReadStringRegValue(string key, string? defaultValue)
         {
-            return LegacyRegistrySettings.GetString(key, defaultValue);
+            return GitExRegistrySettings.GetString(key, defaultValue);
         }
 
         private static void WriteStringRegValue(string key, string value)
         {
-            LegacyRegistrySettings.SetString(key, value);
+            GitExRegistrySettings.SetString(key, value);
         }
 
         #endregion
@@ -392,6 +392,7 @@ namespace GitCommands
             get => GetString("WslGitCommand", "wsl");
         }
 
+         // Currently not configurable in UI (Set manually in settings file)
         public static string WslGitPath
         {
             get => GetString("WslGitPath", "git");
@@ -2106,7 +2107,7 @@ namespace GitCommands
 
         private static IEnumerable<(string name, string value)> GetSettingsFromRegistry()
         {
-            if (LegacyRegistrySettings is GitExtensionsRegistry gitExtensionsRegistry)
+            if (GitExRegistrySettings is GitExtensionsRegistry gitExtensionsRegistry)
             {
                 // The original code opened HKEY_CURRENT_USER\Software\GitExtensions\GitExtensions
                 // GitExtensionsRegistry.GetAllSettings("GitExtensions") is designed for this.
@@ -2115,7 +2116,7 @@ namespace GitCommands
                     yield return setting;
                 }
             }
-            // If LegacyRegistrySettings is NullSettingsSource, this block is skipped, and an empty enumerable is returned.
+            // If GitExRegistrySettings is NullSettingsSource, this block is skipped, and an empty enumerable is returned.
         }
 
         private static void ImportFromRegistry()
