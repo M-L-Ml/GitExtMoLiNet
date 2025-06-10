@@ -974,6 +974,186 @@ namespace GitCommands
             set => SetBool("revisiongraphdrawnonrelativestextgray", value);
         }
 
+        public static readonly Dictionary<string, Encoding> AvailableEncodings = [];
+
+        /// <summary>
+        /// Gets or sets the default pull action that is performed by the toolbar icon when it is clicked on.
+        /// </summary>
+        public static GitPullAction DefaultPullAction
+        {
+            get => GetEnum("DefaultPullAction", GitPullAction.Merge);
+            set => SetEnum("DefaultPullAction", value);
+        }
+
+        /// <summary>
+        /// Gets or sets the default pull action as configured in the FormPull dialog.
+        /// </summary>
+        public static GitPullAction FormPullAction
+        {
+            get => GetEnum("FormPullAction", GitPullAction.Merge);
+            set => SetEnum("FormPullAction", value);
+        }
+
+        public static string SmtpServer
+        {
+            get => SettingsContainer.Detailed().SmtpServer;
+            set => SettingsContainer.Detailed().SmtpServer = value;
+        }
+
+        public static int SmtpPort
+        {
+            get => SettingsContainer.Detailed().SmtpPort;
+            set => SettingsContainer.Detailed().SmtpPort = value;
+        }
+
+        public static bool SmtpUseSsl
+        {
+            get => SettingsContainer.Detailed().SmtpUseSsl;
+            set => SettingsContainer.Detailed().SmtpUseSsl = value;
+        }
+
+        public static bool AutoStash
+        {
+            get => GetBool("autostash", false);
+            set => SetBool("autostash", value);
+        }
+
+        public static bool RebaseAutoStash
+        {
+            get => GetBool("RebaseAutostash", false);
+            set => SetBool("RebaseAutostash", value);
+        }
+
+        public static LocalChangesAction CheckoutBranchAction
+        {
+            get => GetEnum("checkoutbranchaction", LocalChangesAction.DontChange);
+            set => SetEnum("checkoutbranchaction", value);
+        }
+
+        public static ISetting<bool> CheckoutOtherBranchAfterReset { get; } = Setting.Create(DialogSettingsPath, nameof(CheckoutOtherBranchAfterReset), defaultValue: true);
+
+        public static bool UseDefaultCheckoutBranchAction
+        {
+            get => GetBool("UseDefaultCheckoutBranchAction", false);
+            set => SetBool("UseDefaultCheckoutBranchAction", value);
+        }
+
+        public static bool DontShowHelpImages
+        {
+            get => GetBool("DontShowHelpImages", false);
+            set => SetBool("DontShowHelpImages", value);
+        }
+
+        public static bool AlwaysShowAdvOpt
+        {
+            get => GetBool("AlwaysShowAdvOpt", false);
+            set => SetBool("AlwaysShowAdvOpt", value);
+        }
+
+        public static bool DontConfirmAmend
+        {
+            get => GetBool("DontConfirmAmend", false);
+            set => SetBool("DontConfirmAmend", value);
+        }
+
+        public static bool DontConfirmDeleteUnmergedBranch
+        {
+            get => GetBool("DontConfirmDeleteUnmergedBranch", false);
+            set => SetBool("DontConfirmDeleteUnmergedBranch", value);
+        }
+
+        public static bool DontConfirmCommitIfNoBranch
+        {
+            get => GetBool("DontConfirmCommitIfNoBranch", false);
+            set => SetBool("DontConfirmCommitIfNoBranch", value);
+        }
+
+        public static ISetting<bool> ConfirmBranchCheckout { get; } = Setting.Create(ConfirmationsSettingsPath, nameof(ConfirmBranchCheckout), false);
+
+        public static bool? AutoPopStashAfterPull
+        {
+            get => GetBool("AutoPopStashAfterPull");
+            set => SetBool("AutoPopStashAfterPull", value);
+        }
+
+        public static bool? AutoPopStashAfterCheckoutBranch
+        {
+            get => GetBool("AutoPopStashAfterCheckoutBranch");
+            set => SetBool("AutoPopStashAfterCheckoutBranch", value);
+        }
+
+        public static GitPullAction? AutoPullOnPushRejectedAction
+        {
+            get => GetNullableEnum<GitPullAction>("AutoPullOnPushRejectedAction");
+            set => SetNullableEnum("AutoPullOnPushRejectedAction", value);
+        }
+
+        public static bool DontConfirmPushNewBranch
+        {
+            get => GetBool("DontConfirmPushNewBranch", false);
+            set => SetBool("DontConfirmPushNewBranch", value);
+        }
+
+        public static bool DontConfirmAddTrackingRef
+        {
+            get => GetBool("DontConfirmAddTrackingRef", false);
+            set => SetBool("DontConfirmAddTrackingRef", value);
+        }
+
+        public static bool DontConfirmCommitAfterConflictsResolved
+        {
+            get => GetBool("DontConfirmCommitAfterConflictsResolved", false);
+            set => SetBool("DontConfirmCommitAfterConflictsResolved", value);
+        }
+
+        public static bool DontConfirmSecondAbortConfirmation
+        {
+            get => GetBool("DontConfirmSecondAbortConfirmation", false);
+            set => SetBool("DontConfirmSecondAbortConfirmation", value);
+        }
+
+        public static bool DontConfirmRebase
+        {
+            get => GetBool("DontConfirmRebase", false);
+            set => SetBool("DontConfirmRebase", value);
+        }
+
+        public static bool DontConfirmResolveConflicts
+        {
+            get => GetBool("DontConfirmResolveConflicts", false);
+            set => SetBool("DontConfirmResolveConflicts", value);
+        }
+
+        public static bool DontConfirmUndoLastCommit
+        {
+            get => GetBool("DontConfirmUndoLastCommit", false);
+            set => SetBool("DontConfirmUndoLastCommit", value);
+        }
+
+        public static bool DontConfirmFetchAndPruneAll
+        {
+            get => GetBool("DontConfirmFetchAndPruneAll", false);
+            set => SetBool("DontConfirmFetchAndPruneAll", value);
+        }
+
+        public static bool DontConfirmSwitchWorktree
+        {
+            get => GetBool("DontConfirmSwitchWorktree", false);
+            set => SetBool("DontConfirmSwitchWorktree", value);
+        }
+
+        public static bool IncludeUntrackedFilesInAutoStash
+        {
+            get => GetBool("includeUntrackedFilesInAutoStash", false);
+            set => SetBool("includeUntrackedFilesInAutoStash", value);
+        }
+
+        public static bool IncludeUntrackedFilesInManualStash
+        {
+            get => GetBool("includeUntrackedFilesInManualStash", false);
+            set => SetBool("includeUntrackedFilesInManualStash", value);
+        }
+
         public static bool ShowRemoteBranches
         {
             get => GetBool("showRemoteBranches", true);
@@ -1026,8 +1206,8 @@ namespace GitCommands
 
         public static string Dictionary
         {
-            get => SettingsContainer.Detailed().Dictionary;
-            set => SettingsContainer.Detailed().Dictionary = value;
+            get => SettingsContainer.Detached().Dictionary;
+            set => SettingsContainer.Detached().Dictionary = value;
         }
 
         public static bool ShowGitCommandLine
