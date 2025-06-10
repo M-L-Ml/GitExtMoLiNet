@@ -3,7 +3,7 @@ using System.Runtime.Versioning;
 using JetBrains.Annotations;
 using Microsoft.Win32;
 
-namespace GitCommands.Utils
+namespace GitExtUtils
 {
     public static class EnvUtils
     {

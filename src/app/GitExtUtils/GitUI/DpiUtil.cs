@@ -209,7 +209,7 @@ namespace GitExtUtils.GitUI
         static DpiUtil()
         {
             //using static Instance;
-            if (EnvUtils2.IsMonoRuntime())
+            if (EnvUtils.IsMonoRuntime())
             {
                 Instance = new()
                 {
@@ -272,27 +272,5 @@ namespace GitExtUtils.GitUI
         public static Point Scale(Point point, int originalDpi) => Instance.Scale(point, originalDpi);
         public static Padding Scale(Padding padding) => Instance.Scale(padding);
         public static Image Scale(Image image) => Instance.Scale(image);
-    }
-
-    internal class EnvUtils2
-    {
-        public static bool RunningOnUnix()
-        {
-            return Environment.OSVersion.Platform == PlatformID.Unix;
-        }
-
-        public static bool RunningOnMacOSX()
-        {
-            return Environment.OSVersion.Platform == PlatformID.MacOSX;
-        }
-
-        public static bool IsMonoRuntime()
-        {
-            return RunningOnUnix();
-            //or return Type.GetType( "Mono.Posix.Signals") != null;
-            //or return GetAssembly( "Mono.Posix.NETStandard.dll" )!= null;
-            //return Type.GetType("Mono.Runtime") != null;
-        }
-
     }
 }

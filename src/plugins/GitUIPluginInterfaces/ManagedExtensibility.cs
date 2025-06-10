@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using GitUI;
 using Microsoft.VisualStudio.Composition;
@@ -108,6 +108,9 @@ namespace GitUIPluginInterfaces
 
         public static void Initialise(IReadOnlyCollection<Assembly>? assemblies = null, string userPluginsPath = null)
         {
+            //if (EnvUtils2.
+#if !(!__MonoCS__ && WINDOWS && WINDOWS_OWN)
+#endif
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             SetUserPluginsPath(userPluginsPath);
 

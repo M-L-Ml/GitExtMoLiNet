@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using GitCommands.Utils;
 using GitExtensions.Extensibility;
+using GitExtUtils;
 
 // ReSharper disable once CheckNamespace
 

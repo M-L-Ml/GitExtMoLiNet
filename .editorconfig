@@ -355,3 +355,10 @@ csharp_style_prefer_implicitly_typed_lambda_expression = true:suggestion
 csharp_style_prefer_unbound_generic_type_in_nameof = true:suggestion
 csharp_prefer_static_anonymous_function = true:suggestion
 csharp_style_prefer_switch_expression = true:suggestion
+
+# Disable S6602 globally
+# S6602: "Array.Find" static method should be used instead of the "FirstOrDefault" extension method.
+dotnet_diagnostic.S6602.severity = none
+
+# Change IDE0008 severity to message
+dotnet_diagnostic.IDE0008.severity = message
