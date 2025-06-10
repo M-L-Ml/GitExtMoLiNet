@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using GitCommands.UserRepositoryHistory;
+using GitExtUtils;
 
 namespace GitUI.CommandsDialogs
 {
@@ -32,8 +33,11 @@ namespace GitUI.CommandsDialogs
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
-            directorySearcher2 = new System.DirectoryServices.DirectorySearcher();
+            if (!EnvUtils.IsMonoRuntime())
+            {
+                directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+                directorySearcher2 = new System.DirectoryServices.DirectorySearcher();
+            }
             label10 = new Label();
             pictureBox2 = new PictureBox();
             repositoryBindingSource = new BindingSource(components);
@@ -54,18 +58,20 @@ namespace GitUI.CommandsDialogs
             tableLayoutPanel3.SuspendLayout();
             flowLayoutPanel4.SuspendLayout();
             SuspendLayout();
-            //
-            // directorySearcher1
-            //
-            directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
-            directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
-            directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
-            //
-            // directorySearcher2
-            //
-            directorySearcher2.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
-            directorySearcher2.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
-            directorySearcher2.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
+            if (!EnvUtils.IsMonoRuntime())
+            { //
+              // directorySearcher1
+              //
+                directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
+                directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
+                directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
+                //
+                // directorySearcher2
+                //
+                directorySearcher2.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
+                directorySearcher2.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
+                directorySearcher2.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
+            }
             //
             // label10
             //

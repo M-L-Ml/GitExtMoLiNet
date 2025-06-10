@@ -1,4 +1,6 @@
-﻿namespace GitUI.UserControls
+﻿using GitExtUtils;
+
+namespace GitUI.UserControls
 {
     public class NativeTreeView : TreeView
     {
@@ -10,7 +12,7 @@
         protected override void CreateHandle()
         {
             base.CreateHandle();
-            if (!Application2.IsDarkModeEnabled)
+            if (!Application2.IsDarkModeEnabled && !EnvUtils.IsMonoRuntime())
             {
                 // explorer style selection painting in left panel
                 // Not needed in dark mode, this is the same for "DarkMode_Explorer"

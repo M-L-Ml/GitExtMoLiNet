@@ -33,7 +33,7 @@ namespace GitCommands
         private static readonly Lazy<SettingsSourceBase> _registrySettings =
             new Lazy<SettingsSourceBase>(() =>( EnvUtils.RunningOnWindows() || !EnvUtils.IsMonoRuntime() )
                 ? new GitExtensionsRegistry()
-                : new NullSettingsSource());
+                : AppSettings.SettingsContainer);
 
         private static SettingsSourceBase GitExRegistrySettings => _registrySettings.Value;
         private static string _applicationExecutablePath = Application.ExecutablePath;
