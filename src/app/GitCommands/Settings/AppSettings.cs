@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
@@ -15,6 +15,7 @@ using GitExtUtils.GitUI.Theming;
 using GitUIPluginInterfaces;
 using Microsoft;
 using Microsoft.Win32;
+using System; // For Lazy<T>
 
 namespace GitCommands
 {
@@ -27,6 +28,13 @@ namespace GitCommands
         public static readonly string ApplicationId = ApplicationName.Replace(" ", "");
         public static readonly string SettingsFileName = ApplicationId + ".settings";
         public static readonly string UserPluginsDirectoryName = "UserPlugins";
+
+        private static readonly Lazy<SettingsSourceBase> _legacyRegistrySettings =
+            new Lazy<SettingsSourceBase>(() => EnvUtils.RunningOnWindows()
+                ? (SettingsSourceBase)new GitExtensionsRegistry()
+                : new NullSettingsSource());
+
+        private static SettingsSourceBase LegacyRegistrySettings => _legacyRegistrySettings.Value;
         private static string _applicationExecutablePath = Application.ExecutablePath;
         private static string? _documentationBaseUrl;
 
@@ -267,46 +275,23 @@ namespace GitCommands
 
         private static bool ReadBoolRegKey(string key, bool defaultValue)
         {
-            object? obj = VersionIndependentRegKey.GetValue(key);
-            if (obj is not string)
-            {
-                obj = null;
-            }
-
-            if (obj is null)
-            {
-                return defaultValue;
-            }
-
-            return ((string)obj).Equals("true", StringComparison.CurrentCultureIgnoreCase);
+            return LegacyRegistrySettings.GetBool(key, defaultValue);
         }
 
         private static void WriteBoolRegKey(string key, bool value)
         {
-            if (EnvUtils.IsMonoRuntime())
-            {
-                return;
-            }
-            VersionIndependentRegKey.SetValue(key, value ? "true" : "false");
+            LegacyRegistrySettings.SetBool(key, value);
         }
 
         [return: NotNullIfNotNull("defaultValue")]
         private static string? ReadStringRegValue(string key, string? defaultValue)
         {
-            if (EnvUtils.IsMonoRuntime())
-            {
-                return null;
-            }
-            return (string?)VersionIndependentRegKey.GetValue(key, defaultValue);
+            return LegacyRegistrySettings.GetString(key, defaultValue);
         }
 
         private static void WriteStringRegValue(string key, string value)
         {
-            if (EnvUtils.IsMonoRuntime())
-            {
-                return;
-            }
-            VersionIndependentRegKey.SetValue(key, value);
+            LegacyRegistrySettings.SetString(key, value);
         }
 
         #endregion
@@ -407,7 +392,6 @@ namespace GitCommands
             get => GetString("WslGitCommand", "wsl");
         }
 
-        // Currently not configurable in UI (Set manually in settings file)
         public static string WslGitPath
         {
             get => GetString("WslGitPath", "git");
@@ -990,186 +974,6 @@ namespace GitCommands
             set => SetBool("revisiongraphdrawnonrelativestextgray", value);
         }
 
-        public static readonly Dictionary<string, Encoding> AvailableEncodings = [];
-
-        /// <summary>
-        /// Gets or sets the default pull action that is performed by the toolbar icon when it is clicked on.
-        /// </summary>
-        public static GitPullAction DefaultPullAction
-        {
-            get => GetEnum("DefaultPullAction", GitPullAction.Merge);
-            set => SetEnum("DefaultPullAction", value);
-        }
-
-        /// <summary>
-        /// Gets or sets the default pull action as configured in the FormPull dialog.
-        /// </summary>
-        public static GitPullAction FormPullAction
-        {
-            get => GetEnum("FormPullAction", GitPullAction.Merge);
-            set => SetEnum("FormPullAction", value);
-        }
-
-        public static string SmtpServer
-        {
-            get => SettingsContainer.Detailed().SmtpServer;
-            set => SettingsContainer.Detailed().SmtpServer = value;
-        }
-
-        public static int SmtpPort
-        {
-            get => SettingsContainer.Detailed().SmtpPort;
-            set => SettingsContainer.Detailed().SmtpPort = value;
-        }
-
-        public static bool SmtpUseSsl
-        {
-            get => SettingsContainer.Detailed().SmtpUseSsl;
-            set => SettingsContainer.Detailed().SmtpUseSsl = value;
-        }
-
-        public static bool AutoStash
-        {
-            get => GetBool("autostash", false);
-            set => SetBool("autostash", value);
-        }
-
-        public static bool RebaseAutoStash
-        {
-            get => GetBool("RebaseAutostash", false);
-            set => SetBool("RebaseAutostash", value);
-        }
-
-        public static LocalChangesAction CheckoutBranchAction
-        {
-            get => GetEnum("checkoutbranchaction", LocalChangesAction.DontChange);
-            set => SetEnum("checkoutbranchaction", value);
-        }
-
-        public static ISetting<bool> CheckoutOtherBranchAfterReset { get; } = Setting.Create(DialogSettingsPath, nameof(CheckoutOtherBranchAfterReset), defaultValue: true);
-
-        public static bool UseDefaultCheckoutBranchAction
-        {
-            get => GetBool("UseDefaultCheckoutBranchAction", false);
-            set => SetBool("UseDefaultCheckoutBranchAction", value);
-        }
-
-        public static bool DontShowHelpImages
-        {
-            get => GetBool("DontShowHelpImages", false);
-            set => SetBool("DontShowHelpImages", value);
-        }
-
-        public static bool AlwaysShowAdvOpt
-        {
-            get => GetBool("AlwaysShowAdvOpt", false);
-            set => SetBool("AlwaysShowAdvOpt", value);
-        }
-
-        public static bool DontConfirmAmend
-        {
-            get => GetBool("DontConfirmAmend", false);
-            set => SetBool("DontConfirmAmend", value);
-        }
-
-        public static bool DontConfirmDeleteUnmergedBranch
-        {
-            get => GetBool("DontConfirmDeleteUnmergedBranch", false);
-            set => SetBool("DontConfirmDeleteUnmergedBranch", value);
-        }
-
-        public static bool DontConfirmCommitIfNoBranch
-        {
-            get => GetBool("DontConfirmCommitIfNoBranch", false);
-            set => SetBool("DontConfirmCommitIfNoBranch", value);
-        }
-
-        public static ISetting<bool> ConfirmBranchCheckout { get; } = Setting.Create(ConfirmationsSettingsPath, nameof(ConfirmBranchCheckout), false);
-
-        public static bool? AutoPopStashAfterPull
-        {
-            get => GetBool("AutoPopStashAfterPull");
-            set => SetBool("AutoPopStashAfterPull", value);
-        }
-
-        public static bool? AutoPopStashAfterCheckoutBranch
-        {
-            get => GetBool("AutoPopStashAfterCheckoutBranch");
-            set => SetBool("AutoPopStashAfterCheckoutBranch", value);
-        }
-
-        public static GitPullAction? AutoPullOnPushRejectedAction
-        {
-            get => GetNullableEnum<GitPullAction>("AutoPullOnPushRejectedAction");
-            set => SetNullableEnum("AutoPullOnPushRejectedAction", value);
-        }
-
-        public static bool DontConfirmPushNewBranch
-        {
-            get => GetBool("DontConfirmPushNewBranch", false);
-            set => SetBool("DontConfirmPushNewBranch", value);
-        }
-
-        public static bool DontConfirmAddTrackingRef
-        {
-            get => GetBool("DontConfirmAddTrackingRef", false);
-            set => SetBool("DontConfirmAddTrackingRef", value);
-        }
-
-        public static bool DontConfirmCommitAfterConflictsResolved
-        {
-            get => GetBool("DontConfirmCommitAfterConflictsResolved", false);
-            set => SetBool("DontConfirmCommitAfterConflictsResolved", value);
-        }
-
-        public static bool DontConfirmSecondAbortConfirmation
-        {
-            get => GetBool("DontConfirmSecondAbortConfirmation", false);
-            set => SetBool("DontConfirmSecondAbortConfirmation", value);
-        }
-
-        public static bool DontConfirmRebase
-        {
-            get => GetBool("DontConfirmRebase", false);
-            set => SetBool("DontConfirmRebase", value);
-        }
-
-        public static bool DontConfirmResolveConflicts
-        {
-            get => GetBool("DontConfirmResolveConflicts", false);
-            set => SetBool("DontConfirmResolveConflicts", value);
-        }
-
-        public static bool DontConfirmUndoLastCommit
-        {
-            get => GetBool("DontConfirmUndoLastCommit", false);
-            set => SetBool("DontConfirmUndoLastCommit", value);
-        }
-
-        public static bool DontConfirmFetchAndPruneAll
-        {
-            get => GetBool("DontConfirmFetchAndPruneAll", false);
-            set => SetBool("DontConfirmFetchAndPruneAll", value);
-        }
-
-        public static bool DontConfirmSwitchWorktree
-        {
-            get => GetBool("DontConfirmSwitchWorktree", false);
-            set => SetBool("DontConfirmSwitchWorktree", value);
-        }
-
-        public static bool IncludeUntrackedFilesInAutoStash
-        {
-            get => GetBool("includeUntrackedFilesInAutoStash", false);
-            set => SetBool("includeUntrackedFilesInAutoStash", value);
-        }
-
-        public static bool IncludeUntrackedFilesInManualStash
-        {
-            get => GetBool("includeUntrackedFilesInManualStash", false);
-            set => SetBool("includeUntrackedFilesInManualStash", value);
-        }
-
         public static bool ShowRemoteBranches
         {
             get => GetBool("showRemoteBranches", true);
@@ -1222,8 +1026,8 @@ namespace GitCommands
 
         public static string Dictionary
         {
-            get => SettingsContainer.Detached().Dictionary;
-            set => SettingsContainer.Detached().Dictionary = value;
+            get => SettingsContainer.Detailed().Dictionary;
+            set => SettingsContainer.Detailed().Dictionary = value;
         }
 
         public static bool ShowGitCommandLine
@@ -1956,25 +1760,7 @@ namespace GitCommands
             return Path.GetDirectoryName(GetGitExtensionsFullPath());
         }
 
-        private static RegistryKey? _versionIndependentRegKey;
 
-        private static RegistryKey VersionIndependentRegKey
-        {
-            get
-            {
-                if (_versionIndependentRegKey is null)
-                {
-                    if (EnvUtils.IsMonoRuntime())
-                    {
-                        return _versionIndependentRegKey;
-                    }
-                    _versionIndependentRegKey = Registry.CurrentUser.CreateSubKey("Software\\GitExtensions", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                    Validates.NotNull(_versionIndependentRegKey);
-                }
-
-                return _versionIndependentRegKey;
-            }
-        }
 
         public static bool RepoObjectsTreeShowBranches
         {
@@ -2140,22 +1926,16 @@ namespace GitCommands
 
         private static IEnumerable<(string name, string value)> GetSettingsFromRegistry()
         {
-            RegistryKey oldSettings = VersionIndependentRegKey.OpenSubKey("GitExtensions");
-
-            if (oldSettings is null)
+            if (LegacyRegistrySettings is GitExtensionsRegistry gitExtensionsRegistry)
             {
-                yield break;
-            }
-
-            foreach (string name in oldSettings.GetValueNames())
-            {
-                object value = oldSettings.GetValue(name, null);
-
-                if (value is not null)
+                // The original code opened HKEY_CURRENT_USER\Software\GitExtensions\GitExtensions
+                // GitExtensionsRegistry.GetAllSettings("GitExtensions") is designed for this.
+                foreach (var setting in gitExtensionsRegistry.GetAllSettings("GitExtensions"))
                 {
-                    yield return (name, value.ToString());
+                    yield return setting;
                 }
             }
+            // If LegacyRegistrySettings is NullSettingsSource, this block is skipped, and an empty enumerable is returned.
         }
 
         private static void ImportFromRegistry()
