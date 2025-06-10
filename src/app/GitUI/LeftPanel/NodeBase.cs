@@ -1,4 +1,5 @@
 ﻿using GitCommands;
+using GitExtUtils;
 
 namespace GitUI.LeftPanel
 {
@@ -76,7 +77,10 @@ namespace GitUI.LeftPanel
 
         private void ResetFont()
         {
-            TreeViewNode.NodeFont.Dispose();
+            if (!EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                TreeViewNode.NodeFont.Dispose();
+            }
             TreeViewNode.NodeFont = null;
         }
         #endregion

@@ -541,6 +541,10 @@ namespace GitUI.CommandsDialogs
 
             async Task InitializeAndRegisterAllPluginsAsync()
             {
+                if (EnvUtils.IsMonoRuntimeOrMForms())
+                {
+                    return;
+                }
                 PluginRegistry.InitializeAll();
                 await this.SwitchToMainThreadAsync();
                 RegisterPlugins();
