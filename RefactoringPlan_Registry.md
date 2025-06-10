@@ -69,10 +69,7 @@ The core idea is to encapsulate all direct Windows Registry interactions current
 *   **Improved Cohesion:** Registry-specific logic is grouped in one place (`GitExtensionsRegistry`).
 *   **Reduced Coupling:** `AppSettings` no longer directly depends on `Microsoft.Win32.Registry` APIs for these operations.
 *   **Clearer Responsibilities:** `AppSettings` focuses more on managing application settings (primarily via its XML file), while `GitExtensionsRegistry` handles the specific legacy/direct registry interactions.
-*   **Testability (Partial Improvement):** While the new `GitExtensionsRegistry` class itself would still be static and directly call `Registry.CurrentUser`, isolating it makes it easier to potentially introduce seams for testing later if desired. For now, the main benefit is organizational.
 
-**(Note on "Abstraction" and "SettingsSource" from previous plan version):**
-The idea of "split SettingsSource, extract part which resembles the methods to a new base" is a broader refactoring concerning the settings infrastructure. The steps above focus specifically on isolating the direct `Registry.CurrentUser` access. Further refactoring of `SettingsSource` or `AppSettings` to use more abstract patterns for settings *storage* (beyond just isolating the raw registry calls) could be a subsequent step if desired.
 ## Success Criteria
 
 1. No direct usage of Registry.CurrentUser in application code
