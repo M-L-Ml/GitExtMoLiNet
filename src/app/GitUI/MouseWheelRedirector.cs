@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using ResourceManager;
 
 namespace GitUI
@@ -32,6 +33,7 @@ namespace GitUI
             }
         }
 
+        [SupportedOSPlatform("windows")]
         public bool PreFilterMessage(ref Message m)
         {
             const int WM_MOUSEWHEEL = 0x20a;
@@ -81,6 +83,7 @@ namespace GitUI
             static bool IsNonScrollableRichTextBox(Control c) => c is RichTextBox { ScrollBars: RichTextBoxScrollBars.None };
         }
 
+        [SupportedOSPlatform("windows")]
         private static partial class NativeMethods
         {
             // P/Invoke declarations

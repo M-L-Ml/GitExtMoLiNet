@@ -101,7 +101,6 @@ public class GitExtensionsRegistry : SettingsSourceBase, IDisposable
         {
             throw new ArgumentNullException(nameof(VersionIndependentRegKey));
             //return Enumerable.Empty<(string name, string value)>();
-            yield break;
 
         }
 

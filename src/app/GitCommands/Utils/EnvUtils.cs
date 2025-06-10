@@ -1,10 +1,13 @@
 ﻿using System.Diagnostics;
+using System.Runtime.Versioning;
+using JetBrains.Annotations;
 using Microsoft.Win32;
 
 namespace GitCommands.Utils
 {
     public static class EnvUtils
     {
+        [SupportedOSPlatformGuard("windows")]
         public static bool RunningOnWindows()
         {
             switch (Environment.OSVersion.Platform)
@@ -59,16 +62,21 @@ namespace GitCommands.Utils
                    && Environment.OSVersion.Version.CompareTo(new Version(6, 3)) >= 0;
         }
 
+
+        [SupportedOSPlatformGuard("linux")]
         public static bool RunningOnUnix()
         {
             return Environment.OSVersion.Platform == PlatformID.Unix;
         }
 
+        [SupportedOSPlatformGuard("macos")]
         public static bool RunningOnMacOSX()
         {
             return Environment.OSVersion.Platform == PlatformID.MacOSX;
         }
 
+        [SupportedOSPlatformGuard("linux")]
+        [MustUseReturnValue]
         public static bool IsMonoRuntime()
         {
             return RunningOnUnix();
@@ -77,6 +85,20 @@ namespace GitCommands.Utils
             //return Type.GetType("Mono.Runtime") != null;
         }
 
+        [UnsupportedOSPlatformGuard("windows")]
+        [MustUseReturnValue]
+        public static bool IsMonoRuntimeOrMForms()
+        {
+            return IsMonoRuntime() ||
+            //or return
+            Type.GetType("Mono.Posix.Signals") != null
+
+#if !(!__MonoCS__ && WINDOWS && WINDOWS_OWN)
+            || true;
+#endif
+            //or return GetAssembly( "Mono.Posix.NETStandard.dll" )!= null;
+            //return Type.GetType("Mono.Runtime") != null;
+        }
         public static bool IsNet4FullOrHigher()
         {
             if (Environment.Version.Major > 4)

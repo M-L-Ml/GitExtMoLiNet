@@ -36,6 +36,7 @@ using GitUIPluginInterfaces;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
 using Microsoft.Win32;
+using Mono.Unix.Native;
 using ResourceManager;
 #if !__MonoCS__ || (WINDOWS && WINDOWSAPICODEPACK)
 using Microsoft.WindowsAPICodePack.Taskbar;
@@ -861,6 +862,11 @@ namespace GitUI.CommandsDialogs
 
         private void RegisterPlugins()
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                return;
+            }
+
             const string PluginManagerName = "Plugin Manager";
             ILookup<object, ToolStripMenuItem> existingPluginMenus = pluginsToolStripMenuItem.DropDownItems.OfType<ToolStripMenuItem>().ToLookup(c => c.Tag);
 
