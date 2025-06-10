@@ -6,19 +6,8 @@ namespace System
     internal static partial class NativeMethods
     {
         [SupportedOSPlatform("windows")]
-        [LibraryImport(Libraries.UxTheme)]
-        private static unsafe partial int SetWindowTheme(IntPtr hWnd, char* pszSubAppName, char* pszSubIdList);
+        [LibraryImport(Libraries.UxTheme, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+        public static partial int SetWindowTheme(nint hWnd, string? pszSubAppName, string? pszSubIdList);
 
-        [SupportedOSPlatform("windows")]
-        public static unsafe int SetWindowTheme(IntPtr hWnd, string subAppName, string? subIdList)
-        {
-            fixed (char* pszSubAppName = subAppName)
-            {
-                fixed (char* pszSubIdList = subIdList)
-                {
-                    return SetWindowTheme(hWnd, pszSubAppName, pszSubIdList);
-                }
-            }
-        }
     }
 }
