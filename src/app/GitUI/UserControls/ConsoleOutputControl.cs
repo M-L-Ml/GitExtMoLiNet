@@ -3,6 +3,7 @@ using GitUI.HelperDialogs;
 
 namespace GitUI.UserControls
 {
+    //TODO: !refactor : made composition instead inheritance here.
     /// <summary>
     ///     <para>Base control for executing a console process, as used by the <see cref="FormProcess" />.</para>
     ///     <para>Switches between the basic impl which redirects stdout and integration of a real interactive terminal window into the form, if available.</para>

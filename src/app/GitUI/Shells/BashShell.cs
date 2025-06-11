@@ -1,14 +1,15 @@
 ﻿using GitCommands;
+using GitExtUtils;
 using GitUI.Properties;
 
 namespace GitUI.Shells
 {
     public class BashShell : ShellDescriptor
     {
-        //TODO: Linux support
-        private const string GitBashExe = "git-bash.exe"; // Bash with git in the path, should generally be in the git dir
-        private const string BashExe = "bash.exe"; // Fallback to generic bash, should generally be in the git bin dir
-        private const string ShExe = "sh.exe";     // Fallback to SH
+        private static string GitBashExe => EnvUtils.RunningOnWindows() ? "git-bash.exe" : "git-bash"; // Bash with git in the path, should                           
+        private static string BashExe => EnvUtils.RunningOnWindows() ? "bash.exe" : "bash";            // Fallback to generic bash, should                               
+        private static string ShExe => EnvUtils.RunningOnWindows() ? "sh.exe" : "sh";                  // Fallback to SH
+
         public const string ShellName = "bash";
 
         public BashShell()

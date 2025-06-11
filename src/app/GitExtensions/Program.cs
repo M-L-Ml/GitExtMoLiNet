@@ -76,6 +76,7 @@ namespace GitExtensions
             {
                 HighDpiMouseCursors.Enable();
             }
+
             try
             {
                 DiagnosticsClient.Initialize(ThisAssembly.Git.IsDirty);

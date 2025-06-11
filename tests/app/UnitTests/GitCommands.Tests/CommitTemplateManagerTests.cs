@@ -5,6 +5,7 @@ using FluentAssertions;
 using GitCommands;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
+using GitExtUtils;
 using NSubstitute;
 
 namespace GitCommandsTests
@@ -31,8 +32,7 @@ namespace GitCommandsTests
             _fileSystem.File.Returns(_file);
             _manager = new CommitTemplateManager(() => _module, _fullPathResolver, _fileSystem);
 
-            // TODO : fix  to Linux check
-            if (Type.GetType("Mono.Posix.Signals") != null)
+            if (EnvUtils.RunningOnUnix())
             {
                 _workingDir = "/home/user/repo";
             }

@@ -1,4 +1,8 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
 using GitCommands.Utils;
 using GitExtUtils;
@@ -13,7 +17,7 @@ namespace GitCommands
         // Windows build 21354 supports wsl.localhost too, not supported for WSL Git
         private const string WslPrefix = @"\\wsl$\";
         private const string WslLocalhostPrefix = @"\\wsl.localhost\";
-
+        private const string ProgramW6432EnvVar = "ProgramW6432";
         public static readonly char PosixDirectorySeparatorChar = '/';
         public static readonly char NativeDirectorySeparatorChar = Path.DirectorySeparatorChar;
 
@@ -407,33 +411,34 @@ namespace GitCommands
             return false;
         }
 
+
+
+
         public static bool TryFindShellPath(string shell, [NotNullWhen(returnValue: true)] out string? shellPath)
         {
             try
             {
+                // Path p = new("git");
+
                 //TODO: Linux support , error handling
-                shellPath = Path.Combine(EnvironmentAbstraction.GetEnvironmentVariable("ProgramW6432"), "Git", shell);
-                if (File.Exists(shellPath))
+                string programW6432Path = EnvironmentAbstraction.GetEnvironmentVariable(ProgramW6432EnvVar);
+                string programFilesX86Path = EnvironmentAbstraction.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+                string[] pathsToCheck = new[]
                 {
+                    Path.Combine(AppSettings.LinuxToolsDir, shell),
+
+                    programW6432Path == null ? string.Empty : Path.Combine(programW6432Path, "Git", shell),
+                    programW6432Path == null ? string.Empty : Path.Combine(programFilesX86Path, "Git", shell)
+
+                }
+                ;
+                foreach (var path in pathsToCheck.Where(path => File.Exists(path)))
+                {
+                    shellPath = path;
                     return true;
                 }
 
-                shellPath = Path.Combine(EnvironmentAbstraction.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Git", shell);
-                if (File.Exists(shellPath))
-                {
-                    return true;
-                }
-
-                shellPath = Path.Combine(AppSettings.LinuxToolsDir, shell);
-                if (File.Exists(shellPath))
-                {
-                    return true;
-                }
-
-                if (TryFindFullPath(shell, out shellPath))
-                {
-                    return true;
-                }
+                return TryFindFullPath(shell, out shellPath);
             }
             catch
             {
@@ -443,6 +448,8 @@ namespace GitCommands
             shellPath = null;
             return false;
         }
+
+
 
         /// <summary>
         /// Check if a folder path is inside the user's profile folder.
@@ -513,7 +520,7 @@ namespace GitCommands
 
                 fullName = FindFileInEnvVarFolder("LOCALAPPDATA", Path.Combine("Programs", location), fileName)
                     ?? FindFileInEnvVarFolder("ProgramFiles", location, fileName)
-                    ?? FindFileInEnvVarFolder("ProgramW6432", location, fileName);
+                    ?? FindFileInEnvVarFolder(ProgramW6432EnvVar, location, fileName);
                 if (fullName is not null)
                 {
                     return fullName;
@@ -592,5 +599,146 @@ namespace GitCommands
             public static bool IsWslLocalhostPrefixPath(string path) => PathUtil.IsWslLocalhostPrefixPath(path);
             public static bool IsWslPrefixPath(string path) => PathUtil.IsWslPrefixPath(path);
         }
+
+
+
+        public static string? FindExecutable(string exeName)
+        {
+            try
+            {
+
+                var r = FindExecutablePaths(exeName);
+                return r?.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Debug.Assert(false, $" ex {ex.Message}");
+
+                return null;
+                // Handle exceptions (command not found, etc.)
+            }
+        }
+        /// <summary>   ExecutableFinder
+        /// Usage example:
+        /// <code>string? path = ExecutableFinder.FindExecutable("dotnet");
+        // Console.WriteLine(path ?? "Not found");
+        // </code>
+        /// </summary>
+        /// <param name="exeName"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> FindExecutablePaths(string exeName)
+        {
+            // Determine the command and arguments based on OS
+            string command, arguments;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                command = "where";
+                arguments = exeName;
+            }
+            else
+            {
+                command = "which";
+                arguments = exeName;
+            }
+
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = command,
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                RedirectStandardError = false,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using var process = Process.Start(startInfo);
+            if (process == null)
+                throw new ArgumentException(" process is null");
+
+            string output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            if (process.ExitCode == 0)
+            {
+                throw new ArgumentException($" process error : code {process.ExitCode} : " + process.StandardError.ReadToEnd());
+            }
+
+            return output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                .WhereNotNullOrWhiteSpace()
+                .Select(line =>
+                        line.Trim());
+
+        }
+
+        #region from https://github.com/futo-org/Grayjay.Desktop/blob/701663bd641ad62ee834e044b2f7bf5e67c5ccdb/Grayjay.ClientServer/Updater.cs#L27
+        [SupportedOSPlatform("linux")]
+        public static ProcessStartInfo? GetLinuxShell(string cmd)
+        {
+            string[] eTerminals =
+            [
+                "x-terminal-emulator",
+                "gnome-terminal",
+                "konsole",
+                "xfce4-terminal",
+                "rxvt",
+                "xterm"
+            ];
+            string[] cTerminals =
+            [
+                "lxterminal",
+            ];
+            string[] supportedTerminals = [];
+            string[] allTerminals = eTerminals.Concat(cTerminals).Concat(supportedTerminals).ToArray();
+            string? selectedTerminalPath = null;
+            string? selectedTerminal = null;
+            foreach (var terminal in allTerminals)
+            {
+                var path = GetLinuxPath(terminal);
+                if (path != null)
+                {
+                    selectedTerminal = terminal;
+                    selectedTerminalPath = path;
+                    break;
+                }
+            }
+            if (selectedTerminalPath == null)
+                return null;
+
+            if (eTerminals.Contains(selectedTerminal))
+            {
+                return new ProcessStartInfo()
+                {
+                    FileName = selectedTerminalPath,
+                    Arguments = $"-e \"{cmd.Replace("\"", "\\\"")}\"",
+                    UseShellExecute = false,
+                    WorkingDirectory = Environment.CurrentDirectory
+                };
+            }
+            else if (cTerminals.Contains(selectedTerminal))
+            {
+                return new ProcessStartInfo()
+                {
+                    FileName = selectedTerminalPath,
+                    Arguments = $"-c \"{cmd.Replace("\"", "\\\"")}\"",
+                    UseShellExecute = false,
+                    WorkingDirectory = Environment.CurrentDirectory
+                };
+            }
+
+            return null;
+        }
+
+
+
+        [SupportedOSPlatform("linux")]
+        private static string? GetLinuxPath(string command)
+        {
+
+            return FindExecutable(command);
+        }
+        #endregion
     }
+
+
+
 }
