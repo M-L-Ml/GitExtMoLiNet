@@ -5,6 +5,7 @@ namespace GitUI.Shells
 {
     public class BashShell : ShellDescriptor
     {
+        //TODO: Linux support
         private const string GitBashExe = "git-bash.exe"; // Bash with git in the path, should generally be in the git dir
         private const string BashExe = "bash.exe"; // Fallback to generic bash, should generally be in the git bin dir
         private const string ShExe = "sh.exe";     // Fallback to SH

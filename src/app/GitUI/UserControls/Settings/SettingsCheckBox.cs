@@ -62,7 +62,21 @@ namespace GitUI.UserControls.Settings
         [Bindable(true)]
         public override string Text
         {
-            get => checkBox.Text;
+            get
+            {
+                if (checkBox == null)
+                {
+                    //check if now is not initialized state
+                    if (tableLayoutPanel == null)
+                    {
+                        return base.Text;
+                    }
+                    throw new InvalidOperationException("checkbox is null");
+                }
+
+                return checkBox.Text;
+            }
+
             set => checkBox.Text = value;
         }
 

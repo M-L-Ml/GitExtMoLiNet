@@ -143,6 +143,11 @@ namespace GitUIPluginInterfaces
 
         public static IEnumerable<Lazy<T, TMetadataView>> GetExports<T, TMetadataView>()
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            { 
+                //disable Plugins on linux for now
+                return Enumerable.Empty<Lazy<T, TMetadataView>>(); 
+            }
             return GetOrCreateLazyExportProvider(null).Value.GetExports<T, TMetadataView>();
         }
 

@@ -261,8 +261,10 @@ namespace GitUI.CommandsDialogs
         {
             _splitterManager = new(settingsSource);
 
-            SystemEvents.SessionEnding += (sender, args) => SaveApplicationSettings();
-
+            if (!EnvUtils.IsMonoRuntime())
+            {
+                SystemEvents.SessionEnding += (sender, args) => SaveApplicationSettings();
+            }
             _isFileHistoryMode = args.IsFileHistoryMode;
             InitializeComponent();
 

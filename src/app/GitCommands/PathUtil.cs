@@ -411,6 +411,7 @@ namespace GitCommands
         {
             try
             {
+                //TODO: Linux support , error handling
                 shellPath = Path.Combine(EnvironmentAbstraction.GetEnvironmentVariable("ProgramW6432"), "Git", shell);
                 if (File.Exists(shellPath))
                 {
