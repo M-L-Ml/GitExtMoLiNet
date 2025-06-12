@@ -62,7 +62,20 @@ namespace GitUI.UserControls.Settings
         [Bindable(true)]
         public override string Text
         {
-            get => linkLabel.Text;
+            get
+            {
+                if (linkLabel == null)
+                {
+                    //check if now is not initialized state
+                    if (tableLayoutPanel == null)
+                    {
+                        return base.Text;
+                    }
+                    throw new InvalidOperationException("now is not initialized state. linkLabel is null");
+                }
+                return linkLabel.Text;
+            }
+
             set => linkLabel.Text = value;
         }
 

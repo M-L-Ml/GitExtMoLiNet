@@ -410,10 +410,13 @@ namespace GitUI.CommandsDialogs
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            const uint TVM_SETEXTENDEDSTYLE = 0x1100 + 44;
-            const nint TVS_EX_DOUBLEBUFFER = 0x0004;
+            if (EnvUtils.RunningOnWindows())
+            {
+                const uint TVM_SETEXTENDEDSTYLE = 0x1100 + 44;
+                const nint TVS_EX_DOUBLEBUFFER = 0x0004;
 
-            SendMessageW(Handle, TVM_SETEXTENDEDSTYLE, TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER);
+                SendMessageW(Handle, TVM_SETEXTENDEDSTYLE, TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER);
+            }
             base.OnHandleCreated(e);
         }
 

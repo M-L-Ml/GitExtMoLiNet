@@ -571,7 +571,7 @@ namespace GitUI.CommandsDialogs
             // wait for windows to really be displayed, which isn't necessarily the case in OnLoad()
 
             //TODO: check for use original conditions: if !__MonoCS__            if (!EnvUtils.RunningOnWindows() || !TaskbarManager.IsPlatformSupported)
-#if !__MonoCS__  ||( WINDOWS && WINDOWSAPICODEPACK)
+#if true || !__MonoCS__  ||( WINDOWS && WINDOWSAPICODEPACK)
             if (_windowsJumpListManager.NeedsJumpListCreation)
             {
                 _windowsJumpListManager.CreateJumpList(
@@ -776,7 +776,6 @@ namespace GitUI.CommandsDialogs
             }
 
             revisionGpgInfo1.InvokeAndForget(() => FillGpgInfoAsync(selectedRevision));
-            // TODO:     use      if (EnvUtils.IsMonoRuntime()) inside FillBuildReport
             FillBuildReport(selectedRevision);
             repoObjectsTree.SelectionChanged(selectedRevisions);
         }

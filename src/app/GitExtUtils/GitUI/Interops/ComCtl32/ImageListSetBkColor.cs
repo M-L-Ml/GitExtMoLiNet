@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace System;
 
+[SupportedOSPlatform("windows")]
 internal static partial class NativeMethods
 {
     internal const int ComCtl32CLRNone = unchecked((int)0xFFFFFFFF);

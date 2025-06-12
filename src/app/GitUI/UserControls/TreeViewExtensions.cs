@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using GitExtensions.Extensibility;
+using GitExtUtils;
 
 namespace GitUI.UserControls;
 
@@ -162,6 +163,8 @@ public static class TreeViewExtensions
 
     public static void ScrollLeftMost(this TreeView? treeView)
     {
+        if (!EnvUtils.RunningOnWindows())
+            return;
         if (treeView is not null)
         {
             NativeMethods.SendMessageW(treeView.Handle, NativeMethods.WM_HSCROLL, (IntPtr)NativeMethods.SBH.LEFT, IntPtr.Zero);

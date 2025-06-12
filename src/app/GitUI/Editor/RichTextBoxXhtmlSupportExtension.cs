@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Xml;
 using GitExtensions.Extensibility;
+using GitExtUtils;
 
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
 
@@ -268,6 +270,7 @@ namespace GitUI.Editor.RichTextBoxExtension
             public short wBorders;
         }
 
+        [SupportedOSPlatform("windows")]
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct CHARFORMAT
         {
@@ -535,6 +538,7 @@ namespace GitUI.Editor.RichTextBoxExtension
             rtb.SetCharFormat(cf);
         }
 
+        [SupportedOSPlatform("windows")]
         private static CHARFORMAT GetDefaultCharFormat(HandleRef handleRef)
         {
             CHARFORMAT cf = new();
@@ -600,7 +604,7 @@ namespace GitUI.Editor.RichTextBoxExtension
             SetScrollPoint(handleRef, scrollPoint);
         }
 
-#region COLORREF helper functions
+        #region COLORREF helper functions
 
         // convert COLORREF to Color
         private static Color GetColor(int crColor)
@@ -632,7 +636,7 @@ namespace GitUI.Editor.RichTextBoxExtension
 
             return GetCOLORREF(r, g, b);
         }
-#endregion
+        #endregion
 
         public static string GetUrl(this LinkClickedEventArgs e)
         {
@@ -1247,6 +1251,11 @@ namespace GitUI.Editor.RichTextBoxExtension
         public static void SetXHTMLText(this RichTextBox rtb, string xhtmlText)
         {
             rtb.DetectUrls = false;
+            if (EnvUtils.IsMonoRuntime())
+            {
+                SetXHTMLTextAsPlainText(rtb, xhtmlText);
+                return;
+            }
 
             rtb.Clear();
             RTFCurrentState cs = new();

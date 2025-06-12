@@ -1,4 +1,6 @@
-﻿namespace GitUI.UserControls
+﻿using GitExtUtils;
+
+namespace GitUI.UserControls
 {
     internal sealed class TextBoxEx : TextBox
     {
@@ -56,10 +58,11 @@
             {
                 case NativeMethods.WM_NCPAINT:
                 case NativeMethods.WM_PAINT:
+                    if (!EnvUtils.RunningOnWindows())
+                        break;
                     Color penColor = Focused ? _borderFocusedColor
                         : _hovered ? _borderHoveredColor
                         : _borderDefaultColor;
-
                     IntPtr windowDC = NativeMethods.GetWindowDC(Handle);
                     try
                     {

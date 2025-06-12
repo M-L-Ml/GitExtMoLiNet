@@ -543,6 +543,18 @@ namespace GitUI.UserControls.RevisionGrid
                 LoadingFinishedWithRevisions();
             });
 
+
+            if (EnvUtils.IsMonoRuntime())
+            {
+                if (DefaultCellStyle.Font is  null)
+                {
+                    DefaultCellStyle.Font = _cellStyle.Value.NormalFont;
+                }
+                if (DefaultCellStyle.Font is null)
+                {
+                    DefaultCellStyle.Font = _cellStyle.Value.MonospaceFont;
+                }
+            }
             return;
 
             void LoadingFinishedWithRevisions()
