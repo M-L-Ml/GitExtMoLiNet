@@ -1682,8 +1682,10 @@ namespace GitCommands
             {
                 SettingsContainer.LockedAction(() =>
                 {
+                    Debug.Assert(EnvUtils.RunningOnWindows() || PathUtil.PosixDirectorySeparatorChar == Path.PathSeparator);
+
                     // prepend "Global\" in order to be safe in preparation for non-Windows OS, too
-                    _globalMutex ??= new Mutex(initiallyOwned: false, name: @$"Global\Mutex{SettingsFilePath.ToPosixPath()}");
+                    _globalMutex ??= new Mutex(initiallyOwned: false, name: @$"Global{Path.DirectorySeparatorChar}Mutex{SettingsFilePath.ToPosixPath()}");
 
                     try
                     {

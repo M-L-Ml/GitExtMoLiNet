@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -33,6 +33,7 @@ namespace GitCommands
         [return: NotNullIfNotNull(nameof(path))]
         public static string? ToPosixPath(this string? path)
         {
+            //TODO: check what about C:\ -> /mnt/c ?
             return path?.Replace(NativeDirectorySeparatorChar, PosixDirectorySeparatorChar);
         }
 
@@ -67,7 +68,7 @@ namespace GitCommands
             }
 
             path = path.ToPosixPath();
-            if (path.Length >= 2 && path[1] == ':')
+            if (path.Length >= 2 && path[1] == Path.VolumeSeparatorChar)
             {
                 char drive = char.ToLowerInvariant(path[0]);
                 if (drive is (>= 'a' and <= 'z'))
@@ -430,15 +431,20 @@ namespace GitCommands
                     programW6432Path == null ? string.Empty : Path.Combine(programW6432Path, "Git", shell),
                     programW6432Path == null ? string.Empty : Path.Combine(programFilesX86Path, "Git", shell)
 
-                }
-                ;
+                };
+                
                 foreach (var path in pathsToCheck.Where(path => File.Exists(path)))
                 {
                     shellPath = path;
                     return true;
                 }
 
-                return TryFindFullPath(shell, out shellPath);
+                if (TryFindFullPath(shell, out shellPath))
+                    return true;
+                if (EnvUtils.RunningOnUnix())
+                {
+
+                }
             }
             catch
             {

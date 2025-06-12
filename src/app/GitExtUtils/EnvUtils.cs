@@ -150,7 +150,7 @@ namespace GitExtUtils
             return s.Replace("\n", Environment.NewLine);
         }
 
-        public static char EnvVariableSeparator => RunningOnWindows() ? ';' : ':';
+        public static char EnvVariableSeparator => Path.PathSeparator;
 
 
     }
