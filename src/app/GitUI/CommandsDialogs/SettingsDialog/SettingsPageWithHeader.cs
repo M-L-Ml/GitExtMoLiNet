@@ -32,14 +32,18 @@ namespace GitUI.CommandsDialogs.SettingsDialog
 
                 SettingsPageHeader? TryGetHeader()
                 {
-                    try
-                    {
-                        return _header.Value;
-                    }
-                    catch (InvalidOperationException)
+
+                    /// <summary>
+                    /// Prevents reentrance of ReadOnly property( through reentrance of SaveSettings).
+                    /// < see cref="SaveSettings"/>
+                    ///  thus this is prevention
+                    /// </summary>
+                    if (!_header.IsValueCreated)
                     {
                         return null;
                     }
+                    return _header.Value;
+
                 }
             }
         }
