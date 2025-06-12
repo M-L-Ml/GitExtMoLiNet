@@ -14,32 +14,38 @@ namespace GitUI.Shells
 
         public BashShell()
         {
+            string gitBash = GitBashExe;
+            if (EnvUtils.RunningOnUnix())
+            {
+                gitBash = ShellName;
+            }
             Name = ShellName;
             Icon = Images.GitForWindows;
 
-            if (PathUtil.TryFindShellPath(GitBashExe, out string? exePath))
+            if (PathUtil.TryFindShellPath(gitBash, out string? exePath))
             {
-                ExecutableName = GitBashExe;
+                ExecutableName = gitBash;
                 ExecutablePath = exePath;
 
                 // Try to find bash or sh below to set ExecutableCommandLine, as git-bash.exe cannot be connected to the built-in console.
             }
+            else
 
-            foreach (string shellExecutableName in new string[] { BashExe, ShExe })
-            {
-                if (PathUtil.TryFindShellPath(shellExecutableName, out exePath))
+                foreach (string shellExecutableName in new string[] { BashExe, ShExe })
                 {
-                    if (ExecutablePath is null)
+                    if (PathUtil.TryFindShellPath(shellExecutableName, out exePath))
                     {
-                        ExecutableName = shellExecutableName;
-                        ExecutablePath = exePath;
+                        if (ExecutablePath is null)
+                        {
+                            ExecutableName = shellExecutableName;
+                            ExecutablePath = exePath;
+                        }
+
+                        ExecutableCommandLine = $"{exePath.Quote()} --login -i";
+
+                        break;
                     }
-
-                    ExecutableCommandLine = $"{exePath.Quote()} --login -i";
-
-                    break;
                 }
-            }
         }
 
         public override string GetChangeDirCommand(string path)

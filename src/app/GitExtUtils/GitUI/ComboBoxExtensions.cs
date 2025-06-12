@@ -1,4 +1,5 @@
-﻿using GitExtUtils.GitUI;
+﻿using GitExtUtils;
+using GitExtUtils.GitUI;
 
 namespace GitUI
 {
@@ -96,6 +97,8 @@ namespace GitUI
 
         private static unsafe int CalculateVerticalScrollBarWidth(ComboBox comboBox)
         {
+            if (!EnvUtils.RunningOnWindows() || EnvUtils.IsMonoRuntime())
+                return 5; //arbitrary
             NativeMethods.COMBOBOXINFO cboInfo = new() { cbSize = (uint)sizeof(NativeMethods.COMBOBOXINFO) };
 
             if (NativeMethods.GetComboBoxInfo(comboBox.Handle, &cboInfo) != Interop.BOOL.TRUE)

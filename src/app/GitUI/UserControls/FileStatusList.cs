@@ -3,6 +3,7 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
@@ -11,6 +12,7 @@ using GitCommands;
 using GitCommands.Git;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
+using GitExtUtils;
 using GitExtUtils.GitUI;
 using GitExtUtils.GitUI.Theming;
 using GitUI.CommandsDialogs;
@@ -257,6 +259,13 @@ namespace GitUI
             DebugHelpers.Assert(deltaWidth >= 0, "Can only increase image width");
             DebugHelpers.Assert(deltaHeight >= 0, "Can only increase image height");
             Bitmap scaled = new(paddedSize.Width, paddedSize.Height, input.PixelFormat);
+            if (EnvUtils.IsMonoRuntime() && ((scaled.PixelFormat & PixelFormat.Indexed) != 0))
+            {
+                // & PixelFormat.Indexed is not supported in the implementation for Unix 
+                Bitmap nonIndexedBitmap = new Bitmap(scaled.Width, scaled.Height, PixelFormat.Format32bppArgb);
+                scaled = nonIndexedBitmap;
+            }
+
             using Graphics g = Graphics.FromImage(scaled);
             int x = (deltaWidth / 2) + offsetX;
             int y = (deltaHeight / 2) + offsetY;
