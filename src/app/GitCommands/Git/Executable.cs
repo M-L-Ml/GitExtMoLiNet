@@ -134,6 +134,15 @@ namespace GitCommands
                 {
                     _process.Start();
 
+                    WeakReference<ProcessWrapper> processWeakReference = new(this);
+                    _cancellationToken.Register(() =>
+                    {
+                        if (!processWeakReference.TryGetTarget(out var thispw))
+                        {
+                            return;
+                        }
+                        thispw.TryDoCancellation();
+                    }, false);
                     if (_errorOutputStream is not null)
                     {
                         _process.StandardError.BaseStream.CopyToAsync(_errorOutputStream, cancellationToken);
@@ -155,6 +164,40 @@ namespace GitCommands
 
                     _logOperation.LogProcessEnd(ex);
                     throw new ExternalOperationException($"{fileName} {prefixArguments}".Trim(), arguments, workDir, innerException: ex);
+                }
+            }
+
+            /// <summary>
+            /// TODO: test this cancellation
+            /// </summary>
+            private void TryDoCancellation()
+            {
+                if (_disposed)
+                {
+                    return;
+                }
+
+                bool lockTaken = false;
+                try
+                {
+                    // Try to enter the lock with a timeout
+                    Monitor.TryEnter(_syncRoot, 11, ref lockTaken);
+                    if (!lockTaken)
+                    {
+                        return;
+                    }
+
+                    if (!Volatile.Read(ref _disposed))
+                    {
+                        KillProcessOnCancellation();
+                    }
+                }
+                finally
+                {
+                    if (lockTaken)
+                    {
+                        Monitor.Exit(_syncRoot);
+                    }
                 }
             }
 
@@ -288,7 +331,7 @@ namespace GitCommands
                         return;
                     }
 
-                    _disposed = true;
+                    Volatile.Write(ref _disposed, true);
 
                     if (!_exitHandlerRemoved)
                     {
@@ -304,12 +347,7 @@ namespace GitCommands
                             }
                             else if (_cancellationToken.IsCancellationRequested)
                             {
-                                // Directly kill the process because Ctrl+C does not reach the git process how we start it
-                                _process.Kill();
-
-                                OperationCanceledException ex = new("Process killed");
-                                _logOperation.LogProcessEnd(ex);
-                                _exitTaskCompletionSource.TrySetException(ex);
+                                // KillProcessOnCancellation();
                             }
                             else
                             {
@@ -328,6 +366,16 @@ namespace GitCommands
                 _logOperation.NotifyDisposed();
 
                 _errorOutputStream?.Dispose();
+            }
+
+            private void KillProcessOnCancellation()
+            {
+                // Directly kill the process because Ctrl+C does not reach the git process how we start it
+                _process.Kill();
+
+                OperationCanceledException ex = new("Process killed");
+                _logOperation.LogProcessEnd(ex);
+                _exitTaskCompletionSource.TrySetException(ex);
             }
         }
 
