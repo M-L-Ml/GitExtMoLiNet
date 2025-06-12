@@ -220,6 +220,7 @@
             // 
             // imageList1
             // 
+            //TODO: this somehow try to use  disableed unsafe (see https://aka.ms/binaryformatter ) BinnaryFormater ,  
             imageList1.ImageStream = ((ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             imageList1.Images.SetKeyName(0, "source_code.png");
             // 
