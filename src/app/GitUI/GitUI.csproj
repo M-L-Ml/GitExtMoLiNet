@@ -15,10 +15,6 @@
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
     -->
-
-    <!-- at least  imageList1.ImageStream = ((ImageListStreamer)(resources.GetObject("imageList1.ImageStream"))); -->
-    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
-
   </PropertyGroup>
 
   <ItemGroup>

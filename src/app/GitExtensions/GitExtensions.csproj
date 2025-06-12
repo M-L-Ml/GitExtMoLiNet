@@ -9,6 +9,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>..\..\..\setup\assets\Logo\git-extensions-logo.ico</ApplicationIcon>
     <StartupObject />
+    <!-- at least  imageList1.ImageStream = ((ImageListStreamer)(resources.GetObject("imageList1.ImageStream"))); -->
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
 
     <IsPublishable>true</IsPublishable>
