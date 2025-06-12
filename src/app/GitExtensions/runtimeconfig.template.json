@@ -2,5 +2,10 @@
   "configProperties": {
     "System.Drawing.EnableUnixSupport": true,
     "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true
+  },
+  "runtimeOptions": {
+    "configProperties": {
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true
+    }
   }
 }
