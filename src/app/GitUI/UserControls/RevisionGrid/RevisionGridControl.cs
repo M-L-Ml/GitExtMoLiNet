@@ -163,10 +163,13 @@ namespace GitUI
 
         internal Action<string>? SelectInLeftPanel { get; set; } = null;
 
+        private Font CellFont => AppSettings.Font;
+
         public RevisionGridControl()
         {
             InitializeComponent();
             openPullRequestPageStripMenuItem.AdaptImageLightness();
+
             InitializeComplete();
 
             _loadingControlText = new Label
@@ -197,7 +200,12 @@ namespace GitUI
             _selectionTimer = new System.Windows.Forms.Timer(components) { Interval = 75 };
             _selectionTimer.Tick += (_, e) =>
             {
+
                 _selectionTimer.Stop();
+                if (IsDisposed)
+                {
+                    return;
+                }
                 SelectionChanged?.Invoke(this, e);
             };
 
@@ -243,11 +251,19 @@ namespace GitUI
             _gridView.CellMouseEnter += _gridView_CellMouseEnter;
 
             // Allow to drop patch file on revision grid
-#if !__MonoCS__ && WINDOWS && WINDOWS_OWN
-            _gridView.AllowDrop = true;
-            _gridView.DragEnter += OnGridViewDragEnter;
-            _gridView.DragDrop += OnGridViewDragDrop;
-#endif
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                _gridView.AlternatingRowsDefaultCellStyle.Font = CellFont;
+                _gridView.DefaultCellStyle.Font = CellFont;
+                _gridView.RowsDefaultCellStyle.Font = CellFont;                
+            }
+            else
+            {
+                _gridView.AllowDrop = true;
+                _gridView.DragEnter += OnGridViewDragEnter;
+                _gridView.DragDrop += OnGridViewDragDrop;
+            }
+
             _buildServerWatcher = new BuildServerWatcher(revisionGrid: this, _gridView, revisionGridInfo: this, () => Module);
 
             GitRevisionSummaryBuilder gitRevisionSummaryBuilder = new();

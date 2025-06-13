@@ -25,7 +25,9 @@ namespace GitUI.CommandsDialogs.WorktreeDialog
         {
             InitializeComponent();
 
-            Sha1.Width = DpiUtil.Scale(53);
+            // TODO: make extension for DataGridViewColumn SetWidthToScale , and SetWidth
+            // and check to Sha1.MinimumWidth
+            Sha1.Width = Math.Max( Sha1.MinimumWidth * 2, DpiUtil.Scale(53));
             Worktrees.AutoGenerateColumns = false;
 
             Path.DataPropertyName = nameof(WorkTree.Path);

@@ -546,7 +546,7 @@ namespace GitUI.UserControls.RevisionGrid
 
             if (EnvUtils.IsMonoRuntime())
             {
-                if (DefaultCellStyle.Font is  null)
+                if (DefaultCellStyle.Font is null)
                 {
                     DefaultCellStyle.Font = _cellStyle.Value.NormalFont;
                 }
@@ -554,6 +554,8 @@ namespace GitUI.UserControls.RevisionGrid
                 {
                     DefaultCellStyle.Font = _cellStyle.Value.MonospaceFont;
                 }
+
+                Debug.Assert(DefaultCellStyle.Font != null, "Font should not be null");
             }
             return;
 
@@ -768,7 +770,7 @@ namespace GitUI.UserControls.RevisionGrid
 
             int fromIndex = Math.Max(0, FirstDisplayedScrollingRowIndex);
             int visibleRowCount = DisplayedRowCount(includePartialRow: true);
-            visibleRowCount = Math.Min(_revisionGraph.Count - fromIndex, visibleRowCount);
+            visibleRowCount = Math.Min(Math.Max(0, _revisionGraph.Count - fromIndex), visibleRowCount);
 
             if (!_forceRefresh && _visibleRowRange.FromIndex == fromIndex && _visibleRowRange.Count == visibleRowCount)
             {

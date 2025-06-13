@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net;
+using GitExtUtils;
 using Microsoft.VisualStudio.Threading;
 
 namespace GitUI.Avatars
@@ -27,7 +28,7 @@ namespace GitUI.Avatars
             }
 
             // check network connectivity
-            if (!NativeMethods.InternetGetConnectedState(out _, 0))
+            if (EnvUtils.RunningOnWindows() && !NativeMethods.InternetGetConnectedState(out _, 0))
             {
                 return null;
             }

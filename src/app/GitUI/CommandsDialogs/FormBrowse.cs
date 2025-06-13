@@ -580,7 +580,12 @@ namespace GitUI.CommandsDialogs
                         new WindowsThumbnailToolbarButton(toolStripButtonCommit.Text, toolStripButtonCommit.Image, CommitToolStripMenuItemClick),
                         new WindowsThumbnailToolbarButton(toolStripButtonPush.Text, toolStripButtonPush.Image, PushToolStripMenuItemClick),
                         new WindowsThumbnailToolbarButton(toolStripButtonPull.Text, toolStripButtonPull.Image, PullToolStripMenuItemClick),
-                        new WindowsThumbnailToolbarButton(_closeAll.Text, Images.DeleteFile, (s, e) => NativeMethods.PostMessageW(NativeMethods.HWND_BROADCAST, _closeAllMessage))));
+                        new WindowsThumbnailToolbarButton(_closeAll.Text, Images.DeleteFile, (s, e) =>
+                        {
+                            if (EnvUtils.RunningOnWindows())
+                                NativeMethods.PostMessageW(NativeMethods.HWND_BROADCAST, _closeAllMessage);
+
+                        })));
             }
 
             _windowsJumpListManager.EnableThumbnailToolbar(_dashboard?.Visible is not true && Module.IsValidGitWorkingDir());

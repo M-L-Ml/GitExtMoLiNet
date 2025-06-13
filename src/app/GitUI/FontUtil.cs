@@ -9,11 +9,8 @@
 #pragma warning disable SA1305 // Field names should not use Hungarian notation
         static FontUtil()
         {
-            if (EnvUtils.IsMonoRuntime())
-            {
-                return;
-            }
-            IntPtr hTheme = NativeMethods.OpenThemeData(IntPtr.Zero, "TEXTSTYLE");
+
+            IntPtr hTheme = EnvUtils.RunningOnWindows() ?NativeMethods.OpenThemeData(IntPtr.Zero, "TEXTSTYLE") : IntPtr.Zero;
             if (hTheme != IntPtr.Zero)
             {
                 NativeMethods.GetThemeFont(hTheme, IntPtr.Zero, NativeMethods.TEXT_MAININSTRUCTION, 0, NativeMethods.TMT_FONT, out NativeMethods.LOGFONT pFont);

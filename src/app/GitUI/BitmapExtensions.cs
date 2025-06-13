@@ -1,5 +1,7 @@
 ﻿#nullable enable
 
+using GitExtUtils;
+
 namespace GitUI
 {
     public static class BitmapExtensions
@@ -18,7 +20,7 @@ namespace GitUI
             }
             finally
             {
-                if (handle != IntPtr.Zero)
+                if (handle != IntPtr.Zero && EnvUtils.RunningOnWindows())
                 {
                     NativeMethods.DestroyIcon(handle);
                 }

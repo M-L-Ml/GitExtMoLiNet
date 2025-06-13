@@ -88,10 +88,11 @@ namespace GitUI.UserControls
                     default:
                         return;
                 }
-
-                newValue ??= GetScrollPos(Handle, SB.VERT);
-                Scroll?.Invoke(this, new ScrollEventArgs(type, newValue.Value));
-
+                if (EnvUtils.RunningOnWindows())
+                {
+                    newValue ??= GetScrollPos(Handle, SB.VERT);
+                    Scroll?.Invoke(this, new ScrollEventArgs(type, newValue.Value));
+                }
                 short LowWord(long number) =>
                     unchecked((short)(number & 0x0000ffff));
 

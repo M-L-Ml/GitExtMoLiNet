@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using GitExtUtils;
 
 namespace GitUI
 {
@@ -44,8 +45,11 @@ namespace GitUI
         {
             if (sender is ToolStripDropDownItem { Owner: Control control })
             {
-                // Suspends the control's rendering process.
-                NativeMethods.SendMessageW(control.Handle, NativeMethods.WM_SETREDRAW, NativeMethods.FALSE, IntPtr.Zero);
+                if (EnvUtils.RunningOnWindows())
+                {
+                    // Suspends the control's rendering process.
+                    NativeMethods.SendMessageW(control.Handle, NativeMethods.WM_SETREDRAW, NativeMethods.FALSE, IntPtr.Zero);
+                }
             }
         }
 
@@ -54,7 +58,10 @@ namespace GitUI
             if (sender is ToolStripDropDownItem { Owner: Control control })
             {
                 // Resumes the control's rendering process and trigger a redraw.
-                NativeMethods.SendMessageW(control.Handle, NativeMethods.WM_SETREDRAW, NativeMethods.TRUE, IntPtr.Zero);
+                if (EnvUtils.RunningOnWindows())
+                    NativeMethods.SendMessageW(control.Handle, NativeMethods.WM_SETREDRAW, NativeMethods.TRUE, IntPtr.Zero);
+                else
+                    control.Invalidate();
                 control.Refresh();
             }
         }
