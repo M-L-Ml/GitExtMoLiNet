@@ -583,6 +583,7 @@ namespace GitUI.Editor.RichTextBoxExtension
         private static Point GetScrollPoint(HandleRef handleRef)
         {
             Point scrollPoint = new();
+            //maybe directly User32.dll's GetScrollPos?
             NativeMethods.SendMessage(handleRef, NativeMethods.EM_GETSCROLLPOS, IntPtr.Zero, ref scrollPoint);
             return scrollPoint;
         }

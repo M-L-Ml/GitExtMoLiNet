@@ -13,6 +13,7 @@ namespace GitUI
             ArgumentNullException.ThrowIfNull(comboBox);
 
             int width = GetPreferredDropDownWidth(comboBox);
+            width = comboBox.EnsureMinimumWidth(width);
 
             comboBox.Width = width;
 
@@ -54,6 +55,20 @@ namespace GitUI
         {
             ArgumentNullException.ThrowIfNull(comboBox);
             ResizeDropDownWidth((ComboBox)comboBox.Control, minWidth, maxWidth, dpiScaleBounds);
+        }
+
+        /// <summary>
+        ///  ensure the width respects the MinimumWidth property
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public static int EnsureMinimumWidth(this Control control, int width)
+        {
+            var minimumWidth = control.MinimumSize.Width;
+            if (minimumWidth > 0)
+                return Math.Max(width, minimumWidth);
+            return width;
         }
 
         private static int GetPreferredDropDownWidth(ComboBox comboBox)
