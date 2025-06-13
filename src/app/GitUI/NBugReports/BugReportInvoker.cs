@@ -8,6 +8,7 @@ using GitCommands;
 using GitCommands.Utils;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Settings;
+using GitExtUtils;
 using GitUI.CommandsDialogs;
 
 #if WINDOWS
@@ -175,57 +176,56 @@ namespace GitUI.NBugReports
             StringBuilder text = GetExceptionInfo(exception);
             string rootError = GetRootError(exception);
 
-#if WINDOWS
-            TaskDialogPage page = new()
+            if (!EnvUtils.IsMonoRuntimeOrMForms())
             {
-                Icon = isExternalOperation || isUserExternalOperation ? TaskDialogIcon.Warning : TaskDialogIcon.Error,
-                Caption = TranslatedStrings.Error,
-                Heading = rootError,
-                AllowCancel = true,
-                SizeToContent = true
-            };
+                TaskDialogPage page = new()
+                {
+                    Icon = isExternalOperation || isUserExternalOperation ? TaskDialogIcon.Warning : TaskDialogIcon.Error,
+                    Caption = TranslatedStrings.Error,
+                    Heading = rootError,
+                    AllowCancel = true,
+                    SizeToContent = true
+                };
 
-            // prefer to ignore failed external operations
-            if (isExternalOperation)
-            {
-                AddIgnoreOrCloseButton(TranslatedStrings.ExternalErrorDescription);
-            }
-            else
-            {
-                // directions and button to raise a bug
-                text.AppendLine().AppendLine(TranslatedStrings.ReportBug);
-            }
+                // prefer to ignore failed external operations
+                if (isExternalOperation)
+                {
+                    AddIgnoreOrCloseButton(TranslatedStrings.ExternalErrorDescription);
+                }
+                else
+                {
+                    // directions and button to raise a bug
+                    text.AppendLine().AppendLine(TranslatedStrings.ReportBug);
+                }
 
-            // no bug reports for user configured operations
-            TaskDialogCommandLinkButton taskDialogCommandLink
-                = isUserExternalOperation ? new(TranslatedStrings.ButtonViewDetails)
-                    : isExternalOperation ? new(TranslatedStrings.ReportIssue, TranslatedStrings.ReportIssueDescription)
-                    : new(TranslatedStrings.ButtonReportBug);
-            taskDialogCommandLink.Click += (s, e) =>
-            {
-                ShowNBug(OwnerForm, exception, isExternalOperation, isTerminating);
-            };
-            page.Buttons.Add(taskDialogCommandLink);
-
-            // let the user decide whether to report the bug
-            if (!isExternalOperation)
-            {
-                AddIgnoreOrCloseButton();
-            }
-
-            page.Text = text.ToString().Trim();
-            TaskDialog.ShowDialog(OwnerFormHandle, page);
-            return;
-
-            void AddIgnoreOrCloseButton(string descriptionText = null)
-            {
-                string buttonText = isTerminating ? TranslatedStrings.ButtonCloseApp : TranslatedStrings.ButtonIgnore;
-                TaskDialogCommandLinkButton taskDialogCommandLink = new(buttonText, descriptionText);
+                // no bug reports for user configured operations
+                TaskDialogCommandLinkButton taskDialogCommandLink
+                    = isUserExternalOperation ? new(TranslatedStrings.ButtonViewDetails)
+                        : isExternalOperation ? new(TranslatedStrings.ReportIssue, TranslatedStrings.ReportIssueDescription)
+                        : new(TranslatedStrings.ButtonReportBug);
+                taskDialogCommandLink.Click += (s, e) =>
+                {
+                    ShowNBug(OwnerForm, exception, isExternalOperation, isTerminating);
+                };
                 page.Buttons.Add(taskDialogCommandLink);
+
+                // let the user decide whether to report the bug
+                if (!isExternalOperation)
+                {
+                    AddIgnoreOrCloseButton();
+                }
+
+                page.Text = text.ToString().Trim();
+                TaskDialog.ShowDialog(OwnerFormHandle, page);
+                return;
+
+                void AddIgnoreOrCloseButton(string descriptionText = null)
+                {
+                    string buttonText = isTerminating ? TranslatedStrings.ButtonCloseApp : TranslatedStrings.ButtonIgnore;
+                    TaskDialogCommandLinkButton taskDialogCommandLink = new(buttonText, descriptionText);
+                    page.Buttons.Add(taskDialogCommandLink);
+                }
             }
-#else
-            // Provide stub implementation for non-Windows builds.
-#endif
         }
 
         private static void ReportFailedToLoadAnAssembly(FileNotFoundException exception, bool isTerminating)
@@ -237,7 +237,14 @@ namespace GitUI.NBugReports
                 fileName = fileName[..uninterestingIndex];
             }
 
-#if WINDOWS
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                // Provide implementation for non-Windows builds.
+                // TODO: implement
+                Trace.Assert(false, $" not implemented {nameof(ReportFailedToLoadAnAssembly)}");
+                return;
+            }
+
             TaskDialogPage page = new()
             {
                 Icon = TaskDialogIcon.Warning,
@@ -255,6 +262,7 @@ namespace GitUI.NBugReports
             TaskDialogCommandLinkButton reportButton = new(text: TranslatedStrings.ReportIssue, descriptionText: TranslatedStrings.ReportReproducedIssueDescription);
             reportButton.Click += (_, _) => ShowNBug(OwnerForm, exception, isExternalOperation: false, isTerminating);
             page.Buttons.Add(reportButton);
+#if WINDOWS_OWN
 
             page.Expander = new TaskDialogExpander
             {
@@ -263,10 +271,10 @@ namespace GitUI.NBugReports
                 Position = TaskDialogExpanderPosition.AfterFootnote,
                 Text = exception.Message
             };
-
+#endif
             TaskDialog.ShowDialog(OwnerFormHandle, page);
-            return;
 
+            return;
             static void RestartGE()
             {
                 // Skipping the 1st parameter that, starting from .net core, contains the path to application dll (instead of exe)
@@ -276,7 +284,6 @@ namespace GitUI.NBugReports
                 Process.Start(pi);
                 Environment.Exit(0);
             }
-#endif
         }
 
         private static void ReportDubiousOwnership(ExternalOperationException exception)
@@ -301,7 +308,12 @@ namespace GitUI.NBugReports
         {
             ArgumentNullException.ThrowIfNull(exception.InnerException);
             string error = exception.InnerException.Message;
-#if WINDOWS_OWN
+#if true
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                Trace.Assert(false, $" not implemented {nameof(ReportDubiousOwnershipImpl)}");
+                return;
+            }
             TaskDialogPage pageSecurity = new()
             {
                 Icon = TaskDialogIcon.Error,
@@ -329,6 +341,7 @@ namespace GitUI.NBugReports
 
             pageSecurity.Buttons.Add(helpButton);
             pageSecurity.Buttons.Add(TaskDialogButton.Close);
+#if WINDOWS_OWN
 
             pageSecurity.Expander = new TaskDialogExpander
             {
@@ -337,8 +350,8 @@ namespace GitUI.NBugReports
                 Position = TaskDialogExpanderPosition.AfterFootnote,
                 Text = error,
             };
-
-            TaskDialogButton button = TaskDialog.ShowDialog(OwnerFormHandle, pageSecurity);
+#endif
+            var button = TaskDialog.ShowDialog(OwnerFormHandle, pageSecurity);
             if (button == TaskDialogButton.Cancel || button == TaskDialogButton.Close)
             {
                 ShowGitRepo(OwnerForm, workingDir: null);
@@ -390,6 +403,11 @@ namespace GitUI.NBugReports
                 int quoteIndex = command.IndexOf('\'');
                 return quoteIndex < 0 ? command : @$"{command[..quoteIndex]}""{command[(quoteIndex + 1)..^1]}""";
             }
+#else
+            // Provide implementation for non-Windows builds.
+            // TODO: implement
+            Trace.Assert(false, $" not implemented {nameof(ReportFailedToLoadAnAssembly}");
+
 #endif
         }
 
