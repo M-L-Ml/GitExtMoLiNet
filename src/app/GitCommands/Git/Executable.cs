@@ -201,6 +201,16 @@ namespace GitCommands
                 }
             }
 
+            public override string ToString()
+            {
+                var str = base.ToString();
+                if (_disposed)
+                    str = $" Disposed" + str;
+                var si = _process?.StartInfo;
+                str = $" \"{si?.FileName}\" \"{si?.Arguments}\" " + str;
+                return str;
+            }
+
             private void HandleProcessExit()
             {
                 try
@@ -236,23 +246,24 @@ namespace GitCommands
 
                 return;
 
-                string? ReadErrorOutput()
+            }
+
+            private string? ReadErrorOutput()
+            {
+                if (_errorOutputStream is null)
                 {
-                    if (_errorOutputStream is null)
-                    {
-                        return null;
-                    }
+                    return null;
+                }
 
-                    try
-                    {
-                        _errorOutput = _errorEncoding.GetString(_errorOutputStream.GetBuffer(), 0, (int)_errorOutputStream.Length);
+                try
+                {
+                    _errorOutput = _errorEncoding.GetString(_errorOutputStream.GetBuffer(), 0, (int)_errorOutputStream.Length);
 
-                        return _errorOutput.Trim();
-                    }
-                    catch (Exception ex)
-                    {
-                        return $"Failed to read: {ex}";
-                    }
+                    return _errorOutput.Trim();
+                }
+                catch (Exception ex)
+                {
+                    return $"ReadError Failed to read: {ex}";
                 }
             }
 
@@ -370,12 +381,32 @@ namespace GitCommands
 
             private void KillProcessOnCancellation()
             {
+                bool hasExited = GetHasExited() ?? false;
                 // Directly kill the process because Ctrl+C does not reach the git process how we start it
                 _process.Kill();
+                if (hasExited)
+                {
+                    _logOperation.LogProcessEnd(_process.ExitCode, "Process HasExited "
+                        + ((_errorOutput ?? ReadErrorOutput()) + " ."));
+                    _exitTaskCompletionSource.TrySetResult(_process.ExitCode);
+                    return;
+                }
 
                 OperationCanceledException ex = new("Process killed");
                 _logOperation.LogProcessEnd(ex);
                 _exitTaskCompletionSource.TrySetException(ex);
+            }
+
+            private bool? GetHasExited()
+            {
+                try
+                {
+                    return _process.HasExited;
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return null;
+                }
             }
         }
 
