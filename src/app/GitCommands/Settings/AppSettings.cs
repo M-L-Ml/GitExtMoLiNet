@@ -1680,12 +1680,18 @@ namespace GitCommands
             SaveEncodings();
             try
             {
-                SettingsContainer.LockedAction(() =>
+                SettingsContainer.LockedAction(static () =>
                 {
                     Debug.Assert(EnvUtils.RunningOnWindows() || PathUtil.PosixDirectorySeparatorChar == Path.DirectorySeparatorChar);
 
                     // prepend "Global\" in order to be safe in preparation for non-Windows OS, too
-                    _globalMutex ??= new Mutex(initiallyOwned: false, name: @$"Global{Path.DirectorySeparatorChar}Mutex{SettingsFilePath.ToPosixPath()}");
+                    string  globalSettingsMutexName = @$"Global{Path.DirectorySeparatorChar}Mutex{SettingsFilePath.ToPosixPath()}";
+                    if (EnvUtils.RunningOnUnix())
+                    {
+                        //unix compatible name
+                        globalSettingsMutexName = globalSettingsMutexName.Replace(PathUtil.PosixDirectorySeparatorChar, '.');
+                    }
+                    _globalMutex ??= new Mutex(initiallyOwned: false, name: globalSettingsMutexName);
 
                     try
                     {
