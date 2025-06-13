@@ -1,5 +1,8 @@
-﻿using GitCommands.Utils;
+﻿using System.Diagnostics;
+using System.Drawing;
+using GitCommands.Utils;
 using GitExtUtils;
+using static System.Environment;
 
 namespace GitCommands
 {
@@ -38,8 +41,96 @@ namespace GitCommands
             }
 
             // HOME variable
-            Env.SetEnvironmentVariable("HOME", ComputeHomeLocation());
+            string userHomeDir = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.User)
+            ?? Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Machine);
+            var hom = Env.GetEnvironmentVariable("HOME") ?? userHomeDir;
+            Env.SetEnvironmentVariable("HOME", ComputeHomeLocation() ?? hom);
+            if (EnvUtils.RunningOnUnix())
+            {
+                // see         private static string ReadXdgDirectory(string homeDir, string key, string fallback)
+                hom = Env.GetEnvironmentVariable("HOME") ?? hom;
+                if (string.IsNullOrEmpty(hom))
+                {
+                    hom = Path.Combine( "/home", Env.GetEnvironmentVariable("LOGNAME"));
+                    Env.SetEnvironmentVariable("HOME",  hom);
+                    // hom = ComputeHomeLocation();
+                }
 
+
+                //return ReadXdgDirectory(home, "XDG_DESKTOP_DIR", "Desktop");
+                //case SpecialFolder.ApplicationData:
+                //    return GetXdgConfig(home);
+                //case SpecialFolder.LocalApplicationData:
+                //    // "$XDG_DATA_HOME defines the base directory relative to which user specific data files should be stored."
+                //    // "If $XDG_DATA_HOME is either not set or empty, a default equal to $HOME/.local/share should be used."
+                //    string? data = GetEnvironmentVariable("XDG_DATA_HOME");
+                //    if (data is null || !data.StartsWith('/'))
+                //    {
+                //        data = Path.Combine(home, ".local", "share");
+                //    }
+                //    return data;
+                //case SpecialFolder.MyDocuments: // same value as Personal
+                //    return ReadXdgDirectory(home, "XDG_DOCUMENTS_DIR", "Documents");
+                //case SpecialFolder.MyMusic:
+                //    return ReadXdgDirectory(home, "XDG_MUSIC_DIR", "Music");
+                //case SpecialFolder.MyVideos:
+                //    return ReadXdgDirectory(home, "XDG_VIDEOS_DIR", "Videos");
+                //case SpecialFolder.MyPictures:
+                //    return ReadXdgDirectory(home, "XDG_PICTURES_DIR", "Pictures");
+                //case SpecialFolder.Fonts:
+
+
+                //    Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+
+                //case UIIcon.PlacesDesktop:
+                //        return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                //    case UIIcon.PlacesPersonal:
+                //        return Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                //    case UIIcon.PlacesMyComputer:
+                //        return Environment.GetFolderPath(Environment.SpecialFolder.MyComputer
+                //
+                // using Environment.SpecialFolder;
+
+                var tups = new (Environment.SpecialFolder enn, string vname, string desc)[]
+                {
+                    (SpecialFolder.DesktopDirectory, "XDG_DESKTOP_DIR", "Desktop"),
+                    (SpecialFolder.MyDocuments, "XDG_DOCUMENTS_DIR", "Documents"),
+                    (SpecialFolder.MyMusic, "XDG_MUSIC_DIR", "Music"),
+                    (SpecialFolder.MyVideos, "XDG_VIDEOS_DIR", "Videos"),
+                    (SpecialFolder.MyPictures, "XDG_PICTURES_DIR", "Pictures"),
+                };
+
+                foreach (var (enn, vname, desc) in tups)
+                {
+                    var dir = GetFolderPath(enn);
+                    if (!string.IsNullOrEmpty(dir))
+                    {
+                        // If the directory exists, it will be used - no error
+                        continue;
+                    }
+
+                    string? dir2 = Env.GetEnvironmentVariable(vname);
+                    if (!string.IsNullOrEmpty(dir2))
+                    {
+                        Debug.Assert(false, "check this , wrong env vars? ");
+                        if (Directory.Exists(dir2))
+                        {
+
+                            // If the directory exists, it will be used - no error
+                            continue;
+                        }
+                    }
+                    if (enn == SpecialFolder.DesktopDirectory)
+                    {
+                        Env.SetEnvironmentVariable(vname, "/");
+                    }
+                    else
+                        // If the directory does not exist
+                    //set  default value
+                        Env.SetEnvironmentVariable(vname, Env.GetEnvironmentVariable("HOME"));
+                     Debug.Assert(!string.IsNullOrEmpty( GetFolderPath(enn)));
+                }
+            }
             // TERM variable
 
             // to prevent from leaking processes see issue #1092 for details
@@ -120,7 +211,7 @@ namespace GitCommands
                 return Env.GetEnvironmentVariable("USERPROFILE");
             }
 
-            return Env.GetFolderPath(Environment.SpecialFolder.Personal);
+            return Env.GetFolderPath(SpecialFolder.Personal);
         }
     }
 }
