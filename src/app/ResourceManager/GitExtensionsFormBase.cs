@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using GitCommands;
 using GitExtensions.Extensibility;
@@ -166,7 +166,8 @@ namespace ResourceManager
                     }
                 }
             }
-
+            if (IsDisposed)
+                return;
             base.WndProc(ref m);
         }
 

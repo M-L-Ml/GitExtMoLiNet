@@ -669,7 +669,8 @@ namespace GitUI.CommandsDialogs
 
                 Close();
             }
-
+            if (IsDisposed)
+                return;
             base.WndProc(ref m);
         }
 
