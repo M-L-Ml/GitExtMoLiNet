@@ -2,7 +2,7 @@
 
 namespace GitUI.HelperDialogs
 {
-    public partial class FormBuildServerCredentials : Form
+    public partial class FormBuildServerCredentials : Form2
     {
         public FormBuildServerCredentials(string buildServerUniqueKey)
         {

@@ -1,6 +1,6 @@
 ﻿namespace GitUI.CommandsDialogs
 {
-    public partial class SearchWindow<T> : Form where T : class
+    public partial class SearchWindow<T> : Form2 where T : class
     {
         private readonly SearchControl<T> _searchControl;
 

@@ -1,6 +1,6 @@
 ﻿namespace GitUI.CommandsDialogs.SettingsDialog
 {
-    public partial class SimpleHelpDisplayDialog : Form
+    public partial class SimpleHelpDisplayDialog : Form2
     {
         public SimpleHelpDisplayDialog()
         {

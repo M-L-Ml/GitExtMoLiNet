@@ -2,7 +2,7 @@
 
 namespace GitUI.ScriptsEngine;
 
-internal partial class SimplePrompt : Form, IUserInputPrompt
+internal partial class SimplePrompt : Form2, IUserInputPrompt
 {
     public string UserInput { get; private set; } = "";
 

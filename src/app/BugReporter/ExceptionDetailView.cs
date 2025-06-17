@@ -6,7 +6,7 @@
 
 namespace BugReporter
 {
-    internal partial class ExceptionDetailView : Form
+    internal partial class ExceptionDetailView : Form2
     {
         public ExceptionDetailView()
         {
