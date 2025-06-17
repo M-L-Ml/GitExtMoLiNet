@@ -1,3 +1,97 @@
+# Issues
+
+# 1 Issue libgdiplus
+To resolve the `System.DllNotFoundException` for `gdiplus.dll` in Ubuntu WSL during .NET debugging, follow these steps:
+
+---
+
+### **1. Install libgdiplus**
+Run these commands in your WSL terminal:
+```bash
+sudo apt-get update
+sudo apt-get install -y libgdiplus libc6-dev
+```
+This installs the native library required for `System.Drawing` functionality on Linux[1][6].
+
+---
+
+### **2. Create Compatibility Symlinks**
+Some .NET versions expect `gdiplus.dll` instead of `libgdiplus.so`. Add these symbolic links:
+```bash
+sudo ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
+sudo ln -s /usr/lib/libgdiplus.so /usr/lib/libgdiplus.dll
+```
+This resolves path mismatches in .NET Core’s library lookup logic[1][6].
+
+---
+
+### **3. Verify Installation**
+Confirm the library is detectable:
+```bash
+ldconfig -p | grep libgdiplus
+```
+You should see `/usr/lib/libgdiplus.so` listed.
+
+---
+
+### **4. Environment Variable (Optional)**
+If the error persists, try forcing .NET to use the system-installed library:
+```bash
+export DOTNET_SYSTEM_DRAWING_USESYSTEMDRAWING=false
+```
+Add this to your shell profile (e.g., `.bashrc`) for persistence[2].
+
+---
+
+### **5. Project Configuration**
+Ensure your `.csproj` references `System.Drawing.Common`:
+```xml
+
+  
+
+```
+This NuGet package relies on the native `libgdiplus` library[2][5].
+
+---
+
+### **6. Docker/WSL-Specific Notes**
+- For Docker-based development, include these lines in your Dockerfile:
+  ```dockerfile
+  RUN apt-get update && apt-get install -y libgdiplus libc6-dev
+  RUN ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
+  ```
+- In WSL, ensure no Windows-specific paths are hardcoded in your project.
+
+---
+
+### **Troubleshooting**
+- **Error persists?** Check library permissions with `ls -l /usr/lib/libgdiplus*`.
+- **Using Alpine Linux?** Switch to a Debian-based image (Alpine has compatibility issues)[1][3].
+- **Azure/Cloud deployment?** Add the install commands to your startup script[4].
+
+---
+
+By following these steps, your .NET application should resolve the missing `gdiplus.dll` dependency and function correctly in Ubuntu WSL.
+
+[1] https://stackoverflow.com/questions/58304429/how-to-fix-exception-unable-to-load-dll-gdiplus-dll-the-specified-module-coul
+[2] https://ironsoftware.com/csharp/ocr/troubleshooting/libgdiplus/
+[3] https://forum.aspose.com/t/unable-to-load-shared-library-libgdiplus-or-one-of-its-dependencies/294046
+[4] https://learn.microsoft.com/en-us/answers/questions/21167/linux-app-service-system-drawing-gdiplus-threw-an
+[5] https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install
+[6] https://support.innovatrics.com/support/solutions/articles/13000066395-system-dllnotfoundexception-unable-to-load-dll-libgdiplus-
+[7] https://forum.winehq.org/viewtopic.php?t=39743
+[8] https://learn.microsoft.com/en-us/windows/wsl/troubleshooting
+[9] https://docs.tatukgis.com/DK11/guides:tutorials:netlinux
+[10] https://github.com/dotnet/dotnet-docker/issues/1098
+[11] https://answers.microsoft.com/en-us/windows/forum/all/gdiplusdll-not-found/1378f7c9-ac95-48da-ba1f-60cb11ae2dc9
+[12] https://github.com/dotnet/runtime/issues/63135
+[13] https://forum.aspose.com/t/unable-to-find-an-entry-point-named-gdiplusstartup-in-dll-libgdiplus/207980
+[14] https://wiki.mdriven.net/Documentation:WSL_Windows_subsystem_for_Linux
+[15] https://stackoverflow.com/questions/4120246/trying-to-run-a-mono-bundled-program-but-getting-missing-libgdiplus-exception
+[16] https://discussions.unity.com/t/how-do-you-load-system-drawing-dll-and-gdiplus-dll-on-unity-mac/27248
+[17] https://forum.plasticscm.com/topic/255-installation-on-linux-issues-libgdiplus/
+
+
 # AI prompt task
 
 Fix errors of compilation the GitUI project by implementing conditional compilation and/or stubs classes, or functions, or properties.
