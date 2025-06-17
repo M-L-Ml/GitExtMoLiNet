@@ -6,6 +6,7 @@
             : base(serviceProvider)
         {
             InitializeComponent();
+            this.AddTooltipsAndIconsToButtons();
             InitializeComplete();
         }
 
