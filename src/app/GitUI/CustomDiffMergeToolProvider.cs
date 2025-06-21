@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using GitCommands;
 using GitExtensions.Extensibility.Git;
+using GitExtUtils;
 
 namespace GitUI
 {
@@ -111,11 +112,16 @@ namespace GitUI
             {
                 foreach (CustomDiffMergeTool menu in menus)
                 {
-#if !__MonoCS__ && WINDOWS && WINDOWS_OWN
-                    menu.MenuItem.DropDown = null;
-#endif
+                    if (!EnvUtils.IsMonoRuntimeOrMForms())
+                        menu.MenuItem.DropDown = null;
+
+                    else
+                        menu.MenuItem.DropDown = NullDropDown.Value;
                 }
             }
         }
+
+        public static readonly Lazy<ToolStripDropDown> NullDropDown = new(() => new ToolStripDropDown() { Text = "---" });
+
     }
 }

@@ -333,7 +333,7 @@ namespace GitUI.NBugReports
 
             AddTrustRepoButton(TranslatedStrings.GitDubiousOwnershipTrustRepository, gitConfigTrustRepoCommand, exception.WorkingDirectory ?? ".");
 
-            TaskDialogButton helpButton = TaskDialogButton.Help;
+            var helpButton = TaskDialogButton.Help;
             helpButton.Click += (_, _) =>
             {
                 OsShellUtil.OpenUrlInDefaultBrowser("https://git-scm.com/docs/git-config/#Documentation/git-config.txt-safedirectory");

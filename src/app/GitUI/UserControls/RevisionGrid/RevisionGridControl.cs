@@ -2170,7 +2170,7 @@ namespace GitUI
 
             int selectInLeftPanelCount = selectInLeftPanelDropDown.Items.Count;
             SetEnabled(tsmiSelectInLeftPanel, SelectInLeftPanel is not null && selectInLeftPanelCount > 0);
-            tsmiSelectInLeftPanel.DropDown = selectInLeftPanelCount > 1 ? selectInLeftPanelDropDown : null;
+            tsmiSelectInLeftPanel.DropDown = selectInLeftPanelCount > 1 ? selectInLeftPanelDropDown : new ToolStripDropDown() { Text = " -- " };
             if (selectInLeftPanelCount > 0)
             {
                 tsmiSelectInLeftPanel.Tag = selectInLeftPanelDropDown.Items[0].Text;

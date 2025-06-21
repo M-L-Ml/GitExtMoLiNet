@@ -55,9 +55,11 @@ namespace GitUI.LeftPanel
             using (new WaitCursorScope())
             {
 #if !WINDOWS_OWN
-                Microsoft.WindowsAPICodePack.Dialogs.
+                Microsoft.WindowsAPICodePack.Dialogs.TaskDialogButtonBase
+#else
+                TaskDialogButton
 #endif
-                TaskDialogButton result;
+                 result;
                 if (AppSettings.DontConfirmStashDrop)
                 {
                     result = TaskDialogButton.Yes;
