@@ -215,6 +215,12 @@ namespace GitExtensions
                 string dirArg = args[2].TrimEnd('"');
                 if (!string.IsNullOrWhiteSpace(dirArg))
                 {
+                    if (EnvUtils.RunningOnWindows())
+                    {
+                        if (dirArg.StartsWith("/", StringComparison.Ordinal))
+                            if (PathUtil.ConvertWslPathToWindows(dirArg, out var converted)) dirArg = converted;
+
+                    }
                     if (!Directory.Exists(dirArg))
                     {
                         dirArg = Path.GetDirectoryName(dirArg);

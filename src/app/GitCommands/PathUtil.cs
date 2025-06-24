@@ -330,7 +330,33 @@ namespace GitCommands
 
             return path.ToPosixPath();
         }
+        /// <summary>
+        /// Converts a WSL-style path (/mnt/drive/...) to a Windows-style path (drive:\...).
+        /// </summary>
+        /// <param name="wslPath">The WSL path string to convert.</param>
+        /// <returns>The converted Windows path, or the original string if the format doesn't match.</returns>
+        public static bool ConvertWslPathToWindows(string wslPath , out string res)
+        {
+            const string mnt = "/mnt/";
 
+            if (wslPath != null && wslPath.StartsWith(mnt) && wslPath.Length > 6)
+            {
+                // Extract the drive letter (e.g., 'c')
+                char driveLetter = wslPath[5];
+
+                // Get the rest of the path
+                string pathRemainder = wslPath.Substring(mnt.Length + 2);
+
+                // Construct the Windows path and replace forward slashes with backslashes
+                res= $"{driveLetter}:\\{pathRemainder.Replace('/', '\\')}";
+                return true;
+            }
+
+            // Return the original path if it's not a valid WSL path
+            res = wslPath;
+            return false;
+
+        }
         /// <summary>
         /// Convert a path to Windows format, native to the application.
         /// If the app is supported on other OSes, the method should be renamed.
@@ -432,7 +458,7 @@ namespace GitCommands
                     programW6432Path == null ? string.Empty : Path.Combine(programFilesX86Path, "Git", shell)
 
                 };
-                
+
                 foreach (var path in pathsToCheck.Where(path => File.Exists(path)))
                 {
                     shellPath = path;
