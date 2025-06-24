@@ -256,6 +256,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shell", "externals\Windows-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoFormsAdds", "externals\Windows-API-Code-Pack\source\MonoFormsAdds\class\MonoFormsAdds.csproj", "{2FED3650-600E-6285-446F-2B66623AF240}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSTaskDialog", "externals\Windows-API-Code-Pack\source\PSTaskDialog\PSTaskDialog\PSTaskDialog.csproj", "{0253E98B-6374-48AA-8740-89BC2939FF77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -472,6 +474,10 @@ Global
 		{2FED3650-600E-6285-446F-2B66623AF240}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FED3650-600E-6285-446F-2B66623AF240}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FED3650-600E-6285-446F-2B66623AF240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0253E98B-6374-48AA-8740-89BC2939FF77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0253E98B-6374-48AA-8740-89BC2939FF77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0253E98B-6374-48AA-8740-89BC2939FF77}.Release|Any CPU.ActiveCfg = Release|x86
+		{0253E98B-6374-48AA-8740-89BC2939FF77}.Release|Any CPU.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -545,6 +551,7 @@ Global
 		{8EF58F5A-58CE-FC01-FEED-83E63C7A65A6} = {0E859634-B3DF-46AC-A73C-D49734F19D6A}
 		{09D43FEE-EF7B-EDC4-3DFB-1CB598081C2A} = {0E859634-B3DF-46AC-A73C-D49734F19D6A}
 		{2FED3650-600E-6285-446F-2B66623AF240} = {0E859634-B3DF-46AC-A73C-D49734F19D6A}
+		{0253E98B-6374-48AA-8740-89BC2939FF77} = {0E859634-B3DF-46AC-A73C-D49734F19D6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ECECB7EA-BCCF-44AD-B63E-C2FA45589FB0}
