@@ -36,13 +36,14 @@ using GitUIPluginInterfaces;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
 using Microsoft.Win32;
-using Mono.Unix.Native;
 using ResourceManager;
-#if !__MonoCS__ || (WINDOWS && WINDOWSAPICODEPACK)
 using Microsoft.WindowsAPICodePack.Taskbar;
+#if !__MonoCS__ || (WINDOWS && WINDOWSAPICODEPACK)
+#else
+using Mono.Unix.Native;
 #endif
 
-// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
+// This file is  references WindowsAPICodePack.
 
 namespace GitUI.CommandsDialogs
 {
@@ -365,12 +366,10 @@ namespace GitUI.CommandsDialogs
                         // fall back to operation without info in the button
                         UpdateCommitButtonAndGetBrush(null, showCount: false);
                         RevisionGrid.UpdateArtificialCommitCount(null);
-#if WINDOWS && WINDOWSAPICODEPACK
-                        if (EnvUtils.RunningOnWindowsWithMainWindow())
+                        if (EnvUtils.RunningOnWindowsWithMainWindow() && EnvUtils.IsMonoRuntimeOrMForms())
                         {
                             TaskbarManager.Instance.SetOverlayIcon(null, "");
                         }
-#endif
                         lastBrush = null;
                     }
                 };
@@ -413,11 +412,11 @@ namespace GitUI.CommandsDialogs
 
                     void UpdateStatusInTaskbar()
                     {
-#if !__MonoCS__ || (WINDOWS && WINDOWSAPICODEPACK)
                         if (!EnvUtils.RunningOnWindowsWithMainWindow())
                         {
                             return;
                         }
+#if !__MonoCS__ || (WINDOWS && WINDOWSAPICODEPACK)
 
                         if (ReferenceEquals(brush, lastBrush))
                         {
@@ -443,9 +442,9 @@ namespace GitUI.CommandsDialogs
                         }
 
                         TaskbarManager.Instance.SetOverlayIcon(overlay, "");
+#endif
 
                         _windowsJumpListManager.UpdateCommitIcon(toolStripButtonCommit.Image);
-#endif
                     }
                 };
             }
@@ -598,9 +597,7 @@ namespace GitUI.CommandsDialogs
         protected override void OnDeactivate(EventArgs e)
         {
             bool formDeactivatedByOwnModalDialog = ActiveForm is not null;
-#if WINDOWS && WINDOWSAPICODEPACK
             _windowsJumpListManager.EnableThumbnailToolbar(!formDeactivatedByOwnModalDialog && _dashboard?.Visible is not true && Module.IsValidGitWorkingDir());
-#endif
 
             base.OnDeactivate(e);
         }
@@ -806,8 +803,8 @@ namespace GitUI.CommandsDialogs
 
         private void ShowDashboard()
         {
-#if WINDOWS && WINDOWSAPICODEPACK
             _windowsJumpListManager.EnableThumbnailToolbar(false);
+#if WINDOWS && WINDOWSAPICODEPACK
 #endif
 
             toolPanel.SuspendLayout();

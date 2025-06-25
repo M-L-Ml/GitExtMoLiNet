@@ -1,15 +1,22 @@
-﻿// This file is Windows-specific and references WindowsAPICodePack. Exclude from cross-platform build.
-//#if WINDOWS && WINDOWSAPICODEPACK
+﻿//#if WINDOWS && WINDOWSAPICODEPACK
 using GitCommands.Utils;
 using GitExtUtils;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace GitUI
 {
+    #if !(WINDOWS && WINDOWSAPICODEPACK)
+    [Obsolete("This class is not implemented on Linux with the current version of ported WinForms. The Windows API Code Pack.")]
+    #endif
     public static class TaskbarProgress
     {
         private static void Try(Action<TaskbarManager> action)
         {
+            // This class is not implemented on Linux with the current version of ported WinForms. The Windows API Code Pack.
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                return;
+            }
             if (EnvUtils.RunningOnWindowsWithMainWindow() && TaskbarManager.IsPlatformSupported)
             {
                 try
@@ -21,7 +28,7 @@ namespace GitUI
                 }
             }
         }
-#if FULLAPI
+#if true
 
         public static void Clear()
         {

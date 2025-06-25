@@ -572,7 +572,6 @@ namespace GitUI.CommandsDialogs
                 bool? messageBoxResult = AppSettings.AutoPopStashAfterPull;
                 if (messageBoxResult is null)
                 {
-#if WINDOWS_OWN
                     TaskDialogPage page = new()
                     {
                         Text = _applyStashedItemsAgain.Text,
@@ -592,7 +591,6 @@ namespace GitUI.CommandsDialogs
                     {
                         AppSettings.AutoPopStashAfterPull = messageBoxResult;
                     } 
-#endif
                 }
 
                 if ((bool)messageBoxResult)

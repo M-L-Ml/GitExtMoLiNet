@@ -676,13 +676,11 @@ namespace GitUI.CommandsDialogs
                     forcePush = true;
                 }
 
-#if WINDOWS_OWN
                 if (page.Verification.Checked)
                 {
                     AppSettings.AutoPullOnPushRejectedAction = onRejectedPullAction;
                 }
 
-#endif
             }
 
                 return (onRejectedPullAction ?? GitPullAction.None, forcePush);
