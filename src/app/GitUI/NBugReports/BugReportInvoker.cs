@@ -175,7 +175,8 @@ namespace GitUI.NBugReports
 
             StringBuilder text = GetExceptionInfo(exception);
             string rootError = GetRootError(exception);
-
+            //TODO: change send bug report address
+            //TODO: check the bug report 
             if (!EnvUtils.IsMonoRuntimeOrMForms())
             {
                 TaskDialogPage page = new()
@@ -237,13 +238,6 @@ namespace GitUI.NBugReports
                 fileName = fileName[..uninterestingIndex];
             }
 
-            if (EnvUtils.IsMonoRuntimeOrMForms())
-            {
-                // Provide implementation for non-Windows builds.
-                // TODO: implement
-                Trace.Assert(false, $" not implemented {nameof(ReportFailedToLoadAnAssembly)}");
-                return;
-            }
 
             TaskDialogPage page = new()
             {
@@ -308,12 +302,7 @@ namespace GitUI.NBugReports
         {
             ArgumentNullException.ThrowIfNull(exception.InnerException);
             string error = exception.InnerException.Message;
-#if true
-            if (EnvUtils.IsMonoRuntimeOrMForms())
-            {
-                Trace.Assert(false, $" not implemented {nameof(ReportDubiousOwnershipImpl)}");
-                return;
-            }
+
             TaskDialogPage pageSecurity = new()
             {
                 Icon = TaskDialogIcon.Error,
@@ -403,12 +392,7 @@ namespace GitUI.NBugReports
                 int quoteIndex = command.IndexOf('\'');
                 return quoteIndex < 0 ? command : @$"{command[..quoteIndex]}""{command[(quoteIndex + 1)..^1]}""";
             }
-#else
-            // Provide implementation for non-Windows builds.
-            // TODO: implement
-            Trace.Assert(false, $" not implemented {nameof(ReportFailedToLoadAnAssembly}");
 
-#endif
         }
 
         private static void ShowNBug(IWin32Window? owner, Exception exception, bool isExternalOperation, bool isTerminating)

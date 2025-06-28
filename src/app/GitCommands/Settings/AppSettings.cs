@@ -102,6 +102,7 @@ namespace GitCommands
 
             if (newFile || !File.Exists(SettingsFilePath))
             {
+                //TODO: check whether it works on Linux now
                 if (!EnvUtils.IsMonoRuntime())
                 {
                     ImportFromRegistry();
@@ -109,6 +110,7 @@ namespace GitCommands
             }
 
             MigrateAvatarSettings();
+            //TODO: check whether it works on Linux now
             if (!EnvUtils.IsMonoRuntime())
             {
                 MigrateSshSettings();

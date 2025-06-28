@@ -1015,18 +1015,20 @@ partial class FileStatusList
         {
             userSelection = (baseSourceDirectory) =>
             {
-#if WINDOWS_OWN
                 using FolderBrowserDialog dialog = new()
                 {
+#if WINDOWS_OWN
                     InitialDirectory = baseSourceDirectory,
+#else
+                    SelectedPath = baseSourceDirectory,
+#endif
                     ShowNewFolderButton = true,
                 };
-
+   
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
                     return dialog.SelectedPath;
                 } 
-#endif
 
                 return null;
             };

@@ -2259,7 +2259,6 @@ namespace GitUI
                 UICommands.StartRebase(ParentForm, _rebaseOnTopOf);
                 return;
             }
-#if WINDOWS_OWN
 
             TaskDialogPage page = new()
             {
@@ -2276,7 +2275,7 @@ namespace GitUI
                 SizeToContent = true
             };
 
-            TaskDialogButton result = TaskDialog.ShowDialog(Handle, page);
+            var result = TaskDialog.ShowDialog(Handle, page);
 
             if (page.Verification.Checked)
             {
@@ -2287,7 +2286,6 @@ namespace GitUI
             {
                 UICommands.StartRebase(ParentForm, _rebaseOnTopOf);
             }
-#endif
         }
 
         private void OnRebaseInteractivelyClicked(object sender, EventArgs e)
@@ -2302,7 +2300,6 @@ namespace GitUI
                 UICommands.StartInteractiveRebase(ParentForm, _rebaseOnTopOf);
                 return;
             }
-#if WINDOWS_OWN
 
             TaskDialogPage page = new()
             {
@@ -2318,7 +2315,7 @@ namespace GitUI
                 SizeToContent = true
             };
 
-            TaskDialogButton result = TaskDialog.ShowDialog(Handle, page);
+            var result = TaskDialog.ShowDialog(Handle, page);
 
             if (page.Verification.Checked)
             {
@@ -2329,7 +2326,6 @@ namespace GitUI
             {
                 UICommands.StartInteractiveRebase(ParentForm, _rebaseOnTopOf);
             }
-#endif
         }
 
         private void OnRebaseWithAdvOptionsClicked(object sender, EventArgs e)
