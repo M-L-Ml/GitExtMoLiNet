@@ -3,8 +3,9 @@ https://github.com/DanielVanNoord/System.Windows.Forms.git
 https://www.nuget.org/packages/Core.System.Windows.Forms/
 This allows it to be run on Linux theoretially.
 
-Status : The code compiles on Windows, but there are still issues to be resolved before it can be run successfully.
-Making it usable on Linux is hard. 
+Status: The application runs on Linux, but with many layout issues. There may be undetected bugs, as thorough testing has been minimal. All plugins and the built-in terminal are currently disabled, making this an alpha version. Despite these issues, it can still be useful. There is no plan for extensive maintenance unless someone volunteers to collaborate. Fixing it for Linux is challenging. The code was compiled on Windows and smoke-tested on WSL Ubuntu.
+
+
 So the goal is to make the whole project a library to a cross-platform ready project, while preserving the ability to merge changes from the upstream project.
 
 ![Git Extensions logo](https://cdn.rawgit.com/gitextensions/gitextensions/master/setup/assets/Logo/git-extensions-logo.svg)
