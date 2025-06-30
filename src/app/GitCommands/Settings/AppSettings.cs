@@ -31,7 +31,7 @@ namespace GitCommands
         public static readonly string UserPluginsDirectoryName = "UserPlugins";
 
         private static readonly Lazy<SettingsSourceBase> _registrySettings =
-            new Lazy<SettingsSourceBase>(() =>( EnvUtils.RunningOnWindows() || !EnvUtils.IsMonoRuntime() )
+            new Lazy<SettingsSourceBase>(() => (EnvUtils.RunningOnWindows() || !EnvUtils.IsMonoRuntime())
                 ? new GitExtensionsRegistry()
                 : AppSettings.SettingsContainer);
 
@@ -102,15 +102,11 @@ namespace GitCommands
 
             if (newFile || !File.Exists(SettingsFilePath))
             {
-                //TODO: check whether it works on Linux now
-                if (!EnvUtils.IsMonoRuntime())
-                {
-                    ImportFromRegistry();
-                }
+                ImportFromRegistry();
             }
 
             MigrateAvatarSettings();
-            //TODO: check whether it works on Linux now
+
             if (!EnvUtils.IsMonoRuntime())
             {
                 MigrateSshSettings();
@@ -395,7 +391,7 @@ namespace GitCommands
             get => GetString("WslGitCommand", "wsl");
         }
 
-         // Currently not configurable in UI (Set manually in settings file)
+        // Currently not configurable in UI (Set manually in settings file)
         public static string WslGitPath
         {
             get => GetString("WslGitPath", "git");
@@ -1687,7 +1683,7 @@ namespace GitCommands
                     Debug.Assert(EnvUtils.RunningOnWindows() || PathUtil.PosixDirectorySeparatorChar == Path.DirectorySeparatorChar);
 
                     // prepend "Global\" in order to be safe in preparation for non-Windows OS, too
-                    string  globalSettingsMutexName = @$"Global{Path.DirectorySeparatorChar}Mutex{SettingsFilePath.ToPosixPath()}";
+                    string globalSettingsMutexName = @$"Global{Path.DirectorySeparatorChar}Mutex{SettingsFilePath.ToPosixPath()}";
                     if (EnvUtils.RunningOnUnix())
                     {
                         //unix compatible name

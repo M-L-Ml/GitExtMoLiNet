@@ -519,6 +519,36 @@ namespace GitUI.CommandsDialogs
                 AssignCommitMessageFromTemplate();
             }
 
+
+            if (!EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                //fix zero Height bug in a ToolStrip
+                //TODO: fix toolbarSelectionFilter visibility
+                var p = toolbarSelectionFilter.Parent;
+                bool heightChanged = false;
+                if (p.Height < 1)
+                {
+                    UpHeight(p, p.Parent.Height - 1);
+                    AppSettings.CommitDialogSelectionFilter = false;
+                    SetVisibilityOfSelectionFilter(AppSettings.CommitDialogSelectionFilter);
+                    heightChanged = true;
+
+                }                // p.Parent.Height )
+                if (toolbarSelectionFilter.Height < 1)
+                {
+                    UpHeight(toolbarSelectionFilter, p.Height - 1);
+                    AppSettings.CommitDialogSelectionFilter = false;
+                    SetVisibilityOfSelectionFilter(AppSettings.CommitDialogSelectionFilter);
+                    heightChanged = true;
+
+                }
+                if (heightChanged)
+                {
+                    // Force a layout update
+                    toolStripContainer1.PerformLayout();
+                    (toolStripContainer1.Parent as ContainerControl)?.PerformLayout();
+                }
+            }
             base.OnShown(e);
 
             return;
@@ -550,6 +580,11 @@ namespace GitUI.CommandsDialogs
 
                 Message.Text = text; // initial assignment
                 _commitTemplate = text;
+            }
+
+            static void UpHeight(Control сontrol, params int[] heights)
+            {
+                сontrol.Height = heights.Concat([сontrol.Height, 1]).Max();
             }
         }
 

@@ -496,7 +496,7 @@ namespace GitUI.CommandsDialogs
             RefreshSplitViewLayout();
             LayoutRevisionInfo();
             SetSplitterPositions();
-
+            ToolStripMain.PerformLayout();
             base.OnLoad(e);
 
             _formBrowseDiagnosticsReporter.Report();
@@ -568,9 +568,6 @@ namespace GitUI.CommandsDialogs
         protected override void OnActivated(EventArgs e)
         {
             // wait for windows to really be displayed, which isn't necessarily the case in OnLoad()
-
-            //TODO: check for use original conditions: if !__MonoCS__            if (!EnvUtils.RunningOnWindows() || !TaskbarManager.IsPlatformSupported)
-#if true || !__MonoCS__  ||( WINDOWS && WINDOWSAPICODEPACK)
             if (_windowsJumpListManager.NeedsJumpListCreation)
             {
                 _windowsJumpListManager.CreateJumpList(
@@ -588,7 +585,6 @@ namespace GitUI.CommandsDialogs
             }
 
             _windowsJumpListManager.EnableThumbnailToolbar(_dashboard?.Visible is not true && Module.IsValidGitWorkingDir());
-#endif
 
             this.InvokeAndForget(OnActivate);
             base.OnActivated(e);
