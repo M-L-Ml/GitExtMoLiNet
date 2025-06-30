@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Frozen;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -97,7 +98,9 @@ namespace GitCommands
             _wslDistro = AppSettings.WslGitEnabled ? PathUtil.GetWslDistro(WorkingDir) : "";
             if (!string.IsNullOrEmpty(_wslDistro))
             {
-                _gitExecutable = new Executable(() => AppSettings.WslGitCommand, WorkingDir, $"-d {_wslDistro} {AppSettings.WslGitPath} ");
+                // In some WSL environments the current working directory is not passed along to the git command without using the `--cd` argument. Adding it to
+                // the command line is required for these environments. For those that do not need it using the argument is just redundant.
+                _gitExecutable = new Executable(() => AppSettings.WslCommand, WorkingDir, $"-d {_wslDistro} --cd {WorkingDir.RemoveTrailingPathSeparator().Quote()} {AppSettings.WslGitCommand} ");
                 _gitCommandRunner = new GitCommandRunner(_gitExecutable, () => SystemEncoding);
             }
             else
@@ -3938,7 +3941,7 @@ namespace GitCommands
                 (string section, string? subsection, string name) = IGitConfigSettingsGetter.SplitSetting(setting);
                 if (section == "branch" && name == "remote" && value == remoteName)
                 {
-                    string remoteBranch = localGitConfigSettings.GetValue($"{section}.{subsection}.merge").Replace("refs/heads/", string.Empty);
+                    string? remoteBranch = localGitConfigSettings.GetValue($"{section}.{subsection}.merge")?.Replace("refs/heads/", string.Empty);
                     if (remoteBranch == branchName)
                     {
                         return subsection;
