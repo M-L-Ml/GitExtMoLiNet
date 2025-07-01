@@ -1,0 +1,17 @@
+{
+    "name": "GitExtensions .NET 9.0 DevContainer",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "workspaceFolder": "/workspace",
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+    ],
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "ms-dotnettools.csharp"
+    ],
+    "postCreateCommand": "dotnet --info"
+}
