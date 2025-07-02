@@ -32,7 +32,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/artifacts/Debug/bin/GitExtensions/net9.0-windows/GitExtensions.exe",
+            "program": "${workspaceFolder}/artifacts/Debug/bin/GitExtensions/net9.0/GitExtensions.dll",
             "args": ["browse", "${workspaceFolder}"],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
@@ -49,5 +49,46 @@
             "stopAtEntry": false,
             "console": "internalConsole"
         },
+        {
+          "name": "C#: GitExtensions DevContainer Debug",
+          "type": "coreclr",
+          "request": "launch",
+          // "preLaunchTask": "build",
+          "program": "/workspace/artifacts/Debug/bin/GitExtensions/net9.0/GitExtensions.dll",
+          "args": ["browse", "/workspace"],
+          "cwd": "/workspace",
+          "pipeTransport": {
+            "pipeProgram": "docker",
+            "pipeArgs": ["exec", "-i", "${input:containerName}"],
+            "debuggerPath": "/usr/share/dotnet/dotnet",
+            "pipeCwd": "${workspaceFolder}"
+          },
+          "env": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+          },
+          "stopAtEntry": false,
+          "console": "internalConsole",
+          "sourceFileMap": {
+            "/workspace": "${workspaceFolder}"
+          }
+        },
+        {
+          "name": "C#: GitExtensions DevContainer Debug (Simple)",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "build",
+          "program": "/workspace/artifacts/Debug/bin/GitExtensions/net9.0/GitExtensions.dll",
+          "args": ["browse", "/workspace"],
+          "cwd": "/workspace",
+          "stopAtEntry": false,
+          "console": "internalConsole"
+        }
+    ],
+    "inputs": [
+      {
+        "id": "containerName",
+        "type": "promptString",
+        "description": "Enter the name of the running devcontainer (use 'docker ps' to list)"
+      }
     ]
 }
