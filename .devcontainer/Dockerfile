@@ -11,7 +11,19 @@ RUN apt-get update \
         curl \
         wget \
         unzip \
-    && rm -rf /var/lib/apt/lists/*
+        mc \
+        htop  
+  
+
+ #  rm -rf /var/lib/apt/lists/*
+
+# RUN LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*') \
+#     && curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" \
+#     && tar xf lazygit.tar.gz lazygit \
+#     && sudo install lazygit -D -t /usr/local/bin/ 
+
+# Install Visual Studio Debugger (VSDBG) for remote debugging
+RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /vsdbg
 
 # Set up working directory
 WORKDIR /workspace

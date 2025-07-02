@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "name": "GitExtensions Launch with Profile",
+        "type": "coreclr",
+        "request": "launch",
+        "program": "${workspaceFolder}/src/GitExtensions/bin/Debug/net9.0/GitExtensions.dll",
+        "cwd": "${workspaceFolder}/src/GitExtensions",
+     //   "launchSettingsFilePath": "${workspaceFolder}/src/GitExtensions/Properties/launchSettings.json",
+        "launchSettingsProfile": "Blame"
+      },
+      {
         "name": "C#: GitExtensions Debug",
         "type": "dotnet",
         "request": "launch",
@@ -49,8 +58,32 @@
             "stopAtEntry": false,
             "console": "internalConsole"
         },
+         {
+          "name": "C#: GitExtensions DevContainer Debug (Simple)",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "build",
+          "program": "/workspace/artifacts/Debug/bin/GitExtensions/net9.0/GitExtensions.dll",
+          "args": ["browse", "/workspace"],
+          "cwd": "/workspace",
+          "stopAtEntry": false,
+          "console": "internalConsole"
+        },
         {
-          "name": "C#: GitExtensions DevContainer Debug",
+          "name": ".NET Core Docker Attach",
+          "type": "coreclr",
+          "request": "attach",  // Note: "attach", not "launch"
+          "processId": "${command:pickRemoteProcess}",
+          "pipeTransport": {
+            "pipeProgram": "docker",
+            "pipeArgs": ["exec", "-i", "${input:containerName}"],
+            "debuggerPath": "/vsdbg/vsdbg",  // This is the key!
+            "pipeCwd": "${workspaceRoot}",
+            "quoteArgs": false
+          }
+        },
+       {
+          "name": "C#: Not work GitExtensions DevContainer Debug",
           "type": "coreclr",
           "request": "launch",
           // "preLaunchTask": "build",
@@ -71,17 +104,6 @@
           "sourceFileMap": {
             "/workspace": "${workspaceFolder}"
           }
-        },
-        {
-          "name": "C#: GitExtensions DevContainer Debug (Simple)",
-          "type": "coreclr",
-          "request": "launch",
-          "preLaunchTask": "build",
-          "program": "/workspace/artifacts/Debug/bin/GitExtensions/net9.0/GitExtensions.dll",
-          "args": ["browse", "/workspace"],
-          "cwd": "/workspace",
-          "stopAtEntry": false,
-          "console": "internalConsole"
         }
     ],
     "inputs": [

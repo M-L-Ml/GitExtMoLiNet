@@ -6,7 +6,7 @@
     "workspaceFolder": "/workspace",
     "mounts": [
         "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
-    ],
+    ,"source=${localWorkspaceFolder}\\..\\gitextensions,target=/gitextensions,type=bind,consistency=cached" ],
     "customizations": {
         "vscode": {
             "settings": {
@@ -26,7 +26,9 @@
     },
     "features": {
         "ghcr.io/devcontainers/features/git:1": {},
-        "ghcr.io/devcontainers/features/github-cli:1": {}
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/georgofenbeck/features/lazygit-linuxbinary": {},
+        "ghcr.io/christophermacgown/devcontainer-features/mcfly": {}
     },
     "postCreateCommand": "dotnet restore && dotnet --info",
     "remoteUser": "root"
