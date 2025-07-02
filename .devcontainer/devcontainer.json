@@ -7,11 +7,27 @@
     "mounts": [
         "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
     ],
-    "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+                "omnisharp.enableEditorConfigSupport": true,
+                "omnisharp.enableRoslynAnalyzers": true
+            },
+            "extensions": [
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.vscode-dotnet-runtime",
+                "ms-vscode.vscode-json",
+                "editorconfig.editorconfig",
+                "ms-vscode.powershell"
+            ]
+        }
     },
-    "extensions": [
-        "ms-dotnettools.csharp"
-    ],
-    "postCreateCommand": "dotnet --info"
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+    "postCreateCommand": "dotnet restore && dotnet --info",
+    "remoteUser": "root"
 }
