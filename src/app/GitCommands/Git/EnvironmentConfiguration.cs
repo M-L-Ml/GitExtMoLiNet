@@ -51,11 +51,26 @@ namespace GitCommands
                 hom = Env.GetEnvironmentVariable("HOME") ?? hom;
                 if (string.IsNullOrEmpty(hom))
                 {
-                    hom = Path.Combine( "/home", Env.GetEnvironmentVariable("LOGNAME"));
-                    Env.SetEnvironmentVariable("HOME",  hom);
-                    // hom = ComputeHomeLocation();
+                    var user = Env.GetEnvironmentVariable("LOGNAME")
+                        ?? Env.GetEnvironmentVariable("USER")
+                        ?? Env.GetEnvironmentVariable("USERNAME");
+                    if (!string.IsNullOrEmpty(user))
+                    {
+                        hom = Path.Combine("/home", user);
+                        if (Directory.Exists(hom))
+                        {
+                            Env.SetEnvironmentVariable("HOME", hom);
+                        }
+                        else
+                        {
+                            Debug.Assert(false, "HOME directory does not exist: " + hom);
+                        }
+                    }
+                    else
+                    {
+                        Env.SetEnvironmentVariable("HOME", "/home");
+                    }
                 }
-
 
                 //return ReadXdgDirectory(home, "XDG_DESKTOP_DIR", "Desktop");
                 //case SpecialFolder.ApplicationData:
@@ -92,13 +107,13 @@ namespace GitCommands
                 // using Environment.SpecialFolder;
 
                 var tups = new (Environment.SpecialFolder enn, string vname, string desc)[]
-                {
+            {
                     (SpecialFolder.DesktopDirectory, "XDG_DESKTOP_DIR", "Desktop"),
                     (SpecialFolder.MyDocuments, "XDG_DOCUMENTS_DIR", "Documents"),
                     (SpecialFolder.MyMusic, "XDG_MUSIC_DIR", "Music"),
                     (SpecialFolder.MyVideos, "XDG_VIDEOS_DIR", "Videos"),
                     (SpecialFolder.MyPictures, "XDG_PICTURES_DIR", "Pictures"),
-                };
+            };
 
                 foreach (var (enn, vname, desc) in tups)
                 {
@@ -126,9 +141,9 @@ namespace GitCommands
                     }
                     else
                         // If the directory does not exist
-                    //set  default value
+                        //set  default value
                         Env.SetEnvironmentVariable(vname, Env.GetEnvironmentVariable("HOME"));
-                     Debug.Assert(!string.IsNullOrEmpty( GetFolderPath(enn)));
+                    Debug.Assert(!string.IsNullOrEmpty(GetFolderPath(enn)));
                 }
             }
             // TERM variable

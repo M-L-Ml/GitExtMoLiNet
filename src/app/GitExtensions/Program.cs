@@ -346,7 +346,10 @@ namespace GitExtensions
             var result = TaskDialog.ShowDialog(page);
             if (result == btnFindGitExecutable)
             {
-                using OpenFileDialog dialog = new() { Filter = @"git.exe|git.exe|git.cmd|git.cmd" };
+                 string GitExecutableFileFilter = EnvUtils.RunningOnWindows()
+?                    @"git.exe|git.exe|git.cmd|git.cmd": @"git|git";
+
+                using OpenFileDialog dialog = new() { Filter = GitExecutableFileFilter };
                 if (dialog.ShowDialog(null) == DialogResult.OK)
                 {
                     AppSettings.GitCommandValue = dialog.FileName;
