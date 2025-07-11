@@ -8,8 +8,8 @@
         "name": "GitExtensions Launch with Profile",
         "type": "coreclr",
         "request": "launch",
-        "program": "${workspaceFolder}/src/GitExtensions/bin/Debug/net9.0/GitExtensions.dll",
-        "cwd": "${workspaceFolder}/src/GitExtensions",
+        "program": "${workspaceFolder}/artifacts/Debug/bin/GitExtensions/net9.0/GitExtensions.dll",
+        "cwd": "${workspaceFolder}/artifacts/Debug/bin/GitExtensions/net9.0",
      //   "launchSettingsFilePath": "${workspaceFolder}/src/GitExtensions/Properties/launchSettings.json",
         "launchSettingsProfile": "Blame"
       },
