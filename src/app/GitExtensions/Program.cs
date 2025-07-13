@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Design;
 using System.Configuration;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using GitCommands;
 using GitCommands.Utils;
@@ -31,6 +32,7 @@ namespace GitExtensions
         [STAThread]
         private static void Main()
         {
+            NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), FileUtility.DllImportResolver);
             // TODO: enable bug report. If you want to suppress the BugReportInvoker when debugging and exit quickly, uncomment the condition:
             ///if (!Debugger.IsAttached)
             {

@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace GitExtUtils
 {
@@ -26,6 +28,51 @@ namespace GitExtUtils
 
             // after flushing, set the stream length to the current position in order to truncate leftover text
             fs.SetLength(fs.Position);
+        }
+
+
+        /// <summary>
+        /// Register the import resolver before calling the imported function.
+        /// Only one import resolver can be set for a given assembly.
+        /// <code> NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), DllImportResolver);  </code> 
+        /// </summary>
+        /// <param name="libraryName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="searchPath"></param>
+        /// <returns></returns>
+        public static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+
+            /// or fix using
+            /// sudo ln -s /usr/lib/x86_64-linux-gnu/libXinerama.so.1 /usr/lib/x86_64-linux-gnu/libXinerama.so
+            switch (libraryName.ToLowerInvariant())
+            {
+                case "xinerama":
+                case "libxinerama":
+                case "libxinerama.so":
+                case "libxinerama.so.1":
+                    {
+
+                        string[] paths = ["/usr/lib/x86_64-linux-gnu/libXinerama.so", "/usr/lib/x86_64-linux-gnu/libXinerama.so.1"];
+                        // Define the custom path where the .so file is located
+                        string customPath = "/opt/my-app/lib/libnativelib.so";
+                        foreach (string path in paths)
+                        {
+                            // Attempt to load the library from the custom path
+                            if (NativeLibrary.TryLoad(customPath, out IntPtr handle))
+                            {
+                                return handle;
+                            }
+                        }
+
+                        //  return NativeLibrary.Load("nativedep_avx2", assembly, searchPath
+                    }
+                    break;
+
+            }
+
+            // Otherwise, fallback to default import resolver.
+            return IntPtr.Zero;
         }
     }
 }
