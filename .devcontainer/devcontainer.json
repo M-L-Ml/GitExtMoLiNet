@@ -1,44 +1,45 @@
 {
-    "name": "GitExtensions .NET 9.0 DevContainer",
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
-    "workspaceMount": "source=gitext_vol,target=/workspace/gitext_wtl,type=volume",
-    "workspaceFolder": "/workspace/gitext_wtl",
-    "mounts": [
-        "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
-    ,"source=${localWorkspaceFolder}\\..\\gitextensions,target=/gitextensions,type=bind,consistency=cached" ],
-    "customizations": {
-        "vscode": {
-            "settings": {
-                "terminal.integrated.defaultProfile.linux": "bash",
-                "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
-                "omnisharp.enableEditorConfigSupport": true,
-                "omnisharp.enableRoslynAnalyzers": true
-            },
-            "extensions": [
-                "ms-dotnettools.csharp",
-                "ms-dotnettools.vscode-dotnet-runtime",
-                "ms-vscode.vscode-json",
-                "editorconfig.editorconfig",
-                "ms-vscode.powershell"
-            ]
-        }
-    },
-    "features": {
-        "ghcr.io/devcontainers/features/git:1": {},
-        "ghcr.io/devcontainers/features/github-cli:1": {},
-        "ghcr.io/georgofenbeck/features/lazygit-linuxbinary": {},
-        "ghcr.io/devcontainers-extra/features/fzf": {},
-        "ghcr.io/devcontainers/features/powershell": {},
-        "ghcr.io/devcontainer-community/devcontainer-features/btop": {},
-        "ghcr.io/devcontainers-extra/features/apt-get-packages": {
-            "packages": [
-                "aptitude",
-                "less"
-            ]
-        }
-    },
-    "postCreateCommand": " dotnet --info ; echo Hello devcontainerId ${devcontainerId}, containerWorkspaceFolder ${containerWorkspaceFolder}, containerWorkspaceFolderBasename ${containerWorkspaceFolderBasename}, localEnv:USERNAME ${localEnv:USERNAME} ; ",
-    "remoteUser": "root"
+  "name": "GitExtensions .NET 9.0 DevContainer",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceMount": "source=gitext_vol,target=/workspace/gitext_wtl,type=volume",
+  "workspaceFolder": "/workspace/gitext_wtl",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}\\..\\gitextensions,target=/gitextensions,type=bind,consistency=cached"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+        "omnisharp.enableEditorConfigSupport": true,
+        "omnisharp.enableRoslynAnalyzers": true
+      },
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-vscode.vscode-json",
+        "editorconfig.editorconfig",
+        "ms-vscode.powershell"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/georgofenbeck/features/lazygit-linuxbinary": {},
+    "ghcr.io/devcontainers-extra/features/fzf": {},
+    "ghcr.io/devcontainers/features/powershell": {},
+    "ghcr.io/devcontainer-community/devcontainer-features/btop": {},
+    "ghcr.io/devcontainers-extra/features/apt-get-packages": {
+      "packages": [
+        "aptitude",
+        "less"
+      ]
+    }
+  },
+  "postCreateCommand": " dotnet --info ; echo Hello devcontainerId ${devcontainerId}, containerWorkspaceFolder ${containerWorkspaceFolder}, containerWorkspaceFolderBasename ${containerWorkspaceFolderBasename}, localEnv:USERNAME ${localEnv:USERNAME} ; ",
+  "remoteUser": "root"
 }
