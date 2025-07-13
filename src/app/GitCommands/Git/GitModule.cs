@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Frozen;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -922,6 +922,7 @@ namespace GitCommands
             }
             else
             {
+                //TODO: refactor gitk finding
                 // locate gitk based on location of git executable
                 string cmd = AppSettings.GitCommand
                     .Replace("bin\\git.exe", "cmd\\gitk")

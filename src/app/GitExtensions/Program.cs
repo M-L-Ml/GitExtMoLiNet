@@ -38,7 +38,7 @@ namespace GitExtensions
                 Application.ThreadException += (s, e) => BugReportInvoker.Report(e.Exception, isTerminating: false);
             }
 
-            if (Environment.OSVersion.Version.Major >= 6)
+            if (EnvUtils.RunningOnWindows() && Environment.OSVersion.Version.Major >= 6)
             {
                 SetProcessDPIAware();
             }
