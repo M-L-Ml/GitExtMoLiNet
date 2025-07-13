@@ -3,7 +3,8 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
-    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=gitext_vol,target=/workspace/gitext_wtl,type=volume",
+    "workspaceFolder": "/workspace/gitext_wtl",
     "mounts": [
         "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
     ,"source=${localWorkspaceFolder}\\..\\gitextensions,target=/gitextensions,type=bind,consistency=cached" ],
@@ -28,8 +29,16 @@
         "ghcr.io/devcontainers/features/git:1": {},
         "ghcr.io/devcontainers/features/github-cli:1": {},
         "ghcr.io/georgofenbeck/features/lazygit-linuxbinary": {},
-        "ghcr.io/christophermacgown/devcontainer-features/mcfly": {}
+        "ghcr.io/devcontainers-extra/features/fzf": {},
+        "ghcr.io/devcontainers/features/powershell": {},
+        "ghcr.io/devcontainer-community/devcontainer-features/btop": {},
+        "ghcr.io/devcontainers-extra/features/apt-get-packages": {
+            "packages": [
+                "aptitude",
+                "less"
+            ]
+        }
     },
-    "postCreateCommand": "dotnet restore && dotnet --info",
+    "postCreateCommand": " dotnet --info ; echo Hello devcontainerId ${devcontainerId}, containerWorkspaceFolder ${containerWorkspaceFolder}, containerWorkspaceFolderBasename ${containerWorkspaceFolderBasename}, localEnv:USERNAME ${localEnv:USERNAME} ; ",
     "remoteUser": "root"
 }
