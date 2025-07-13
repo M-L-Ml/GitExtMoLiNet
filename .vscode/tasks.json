@@ -6,13 +6,11 @@
             "command": "dotnet",
             "type": "process",
             "args": [
-                "build"
+                "build",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "problemMatcher": "$msCompile"
         },
         {
             "label": "build-vc",
@@ -45,13 +43,11 @@
             "command": "dotnet",
             "type": "process",
             "args": [
-                "publish"
+                "publish",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build"
-            },
-            "dependsOn": ["build", "build-vc"]
+            "problemMatcher": "$msCompile"
         },
         {
             "label": "watch",
@@ -59,9 +55,7 @@
             "type": "process",
             "args": [
                 "watch",
-                "run",
-                "--project",
-                "${workspaceFolder}/GitExtensions.sln"
+                "run"
             ],
             "problemMatcher": "$msCompile"
         },
