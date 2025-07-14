@@ -3,12 +3,14 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "workspaceMount": "source=gitext_vol,target=/workspace/gitext_wtl,type=volume",
-  "workspaceFolder": "/workspace/gitext_wtl",
-  "mounts": [
-    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-    "source=${localWorkspaceFolder}\\..\\gitextensions,target=/gitextensions,type=bind,consistency=cached"
-  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/gitext_wt3,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace/gitext_wt3",
+  "mounts": [               
+    "source=gitext_vol,target=/workspace/gitext_wtl,type=volume" ,
+    "source=${localWorkspaceFolder}\\..\\gitextensions,target=/workspace/gitextensions,type=bind,consistency=cached",
+    "source=C:\\Progs\\Symbol_Cache,target=/workspace/symbols_cache,type=bind,consistency=cached"
+  ],	
+  // Configure tool-specific properties.
   "customizations": {
     "vscode": {
       "settings": {
@@ -40,6 +42,19 @@
       ]
     }
   },
-  "postCreateCommand": " dotnet --info ; echo Hello devcontainerId ${devcontainerId}, containerWorkspaceFolder ${containerWorkspaceFolder}, containerWorkspaceFolderBasename ${containerWorkspaceFolderBasename}, localEnv:USERNAME ${localEnv:USERNAME} ; ",
+    
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "dotnet restore",
+  "postCreateCommand": " dotnet --info ; echo Hello devcontainerId ${devcontainerId}, containerWorkspaceFolder ${containerWorkspaceFolder}, containerWorkspaceFolderBasename ${containerWorkspaceFolderBasename}, localEnv:USERNAME ${localEnv:USERNAME} ; dotnet restore ; echo $?",
+  //  to connect as root  . More info: https://aka.ms/dev-containers-non-root.
   "remoteUser": "root"
+  
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [5000, 5001],
+  // "portsAttributes": {
+  //		"5001": {
+  //			"protocol": "https"
+  //		}
+  // }
+
 }
