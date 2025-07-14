@@ -8,7 +8,8 @@
   "mounts": [               
     "source=gitext_vol,target=/workspace/gitext_wtl,type=volume" ,
     "source=${localWorkspaceFolder}\\..\\gitextensions,target=/workspace/gitextensions,type=bind,consistency=cached",
-    "source=C:\\Progs\\Symbol_Cache,target=/workspace/symbols_cache,type=bind,consistency=cached"
+    "source=C:\\Progs\\Symbol_Cache,target=/workspace/symbols_cache,type=bind,consistency=cached",
+    "source=nuget-packages1,target=/root/.nuget/packages,type=volume"
   ],	
   // Configure tool-specific properties.
   "customizations": {
@@ -45,7 +46,7 @@
     
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "dotnet restore",
-  "postCreateCommand": " dotnet --info ; echo Hello devcontainerId ${devcontainerId}, containerWorkspaceFolder ${containerWorkspaceFolder}, containerWorkspaceFolderBasename ${containerWorkspaceFolderBasename}, localEnv:USERNAME ${localEnv:USERNAME} ; dotnet restore ; echo $?",
+  "postCreateCommand": " dotnet --info ; echo Hello devcontainerId ${devcontainerId}, containerWorkspaceFolder ${containerWorkspaceFolder}, containerWorkspaceFolderBasename ${containerWorkspaceFolderBasename}, localEnv:USERNAME ${localEnv:USERNAME} ; fzf --bash >> ~/.bashrc; dotnet restore ; echo $?",
   //  to connect as root  . More info: https://aka.ms/dev-containers-non-root.
   "remoteUser": "root"
   
