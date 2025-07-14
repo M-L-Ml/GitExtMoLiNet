@@ -509,7 +509,6 @@
             // 
             fixedWidthFontDialog.AllowVerticalFonts = false;
             fixedWidthFontDialog.Color = SystemColors.ControlText;
-            fixedWidthFontDialog.FixedPitchOnly = true;
             // 
             // applicationDialog
             // 

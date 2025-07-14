@@ -1,4 +1,5 @@
-﻿using GitCommands;
+﻿using System.Diagnostics;
+using GitCommands;
 using GitCommands.Utils;
 using GitExtensions.Extensibility.Settings;
 using GitExtensions.Extensibility.Translations;
@@ -22,12 +23,15 @@ namespace GitUI.CommandsDialogs.SettingsDialog.Pages
             : base(serviceProvider)
         {
             InitializeComponent();
+
+            //TODO:not used, remove
+            fixedWidthFontDialog.SetFontDialogFixedPitchOnly();
+
             InitializeComplete();
 
             FillComboBoxWithEnumValues<AvatarProvider>(AvatarProvider);
             FillComboBoxWithEnumValues<AvatarFallbackType>(_NO_TRANSLATE_NoImageService);
         }
-
         private static void FillComboBoxWithEnumValues<T>(ComboBox comboBox) where T : Enum
         {
             comboBox.DisplayMember = nameof(ComboBoxItem<T>.Text);
@@ -237,6 +241,24 @@ namespace GitUI.CommandsDialogs.SettingsDialog.Pages
                 Text = text;
                 Value = value;
             }
+        }
+    }
+    public static class FormsExtensions
+    {
+        public static bool SetFontDialogFixedPitchOnly(this FontDialog fontDialog)
+        {
+            try
+            {
+                fontDialog.FixedPitchOnly = true;
+                return true;
+            }
+            catch (Exception e)
+            {
+                // This can happen with Mono WinForm if the system has no fixed pitch fonts.
+                Trace.TraceWarning("Failed to initialize font dialog" + Environment.NewLine + Environment.NewLine + e.ToStringDemystified());
+                return false;
+            }
+
         }
     }
 }

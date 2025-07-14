@@ -14,6 +14,7 @@ namespace GitUI.CommandsDialogs.SettingsDialog.Pages
             : base(serviceProvider)
         {
             InitializeComponent();
+            diffFontDialog.SetFontDialogFixedPitchOnly();
             InitializeComplete();
         }
 

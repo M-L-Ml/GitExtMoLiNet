@@ -200,7 +200,6 @@
             // 
             diffFontDialog.AllowVerticalFonts = false;
             diffFontDialog.Color = SystemColors.ControlText;
-            diffFontDialog.FixedPitchOnly = true;
             // 
             // applicationDialog
             // 
