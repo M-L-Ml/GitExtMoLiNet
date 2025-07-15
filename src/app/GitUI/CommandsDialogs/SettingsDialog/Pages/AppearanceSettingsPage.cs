@@ -23,10 +23,6 @@ namespace GitUI.CommandsDialogs.SettingsDialog.Pages
             : base(serviceProvider)
         {
             InitializeComponent();
-
-            //TODO:not used, remove
-            fixedWidthFontDialog.SetFontDialogFixedPitchOnly();
-
             InitializeComplete();
 
             FillComboBoxWithEnumValues<AvatarProvider>(AvatarProvider);

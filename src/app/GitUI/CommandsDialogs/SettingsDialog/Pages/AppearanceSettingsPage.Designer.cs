@@ -60,7 +60,6 @@
             lblCustomAvatarTemplate = new Label();
             txtCustomAvatarTemplate = new TextBox();
             ClearImageCache = new Button();
-            fixedWidthFontDialog = new FontDialog();
             applicationDialog = new FontDialog();
             commitFontDialog = new FontDialog();
             tlpnlMain = new TableLayoutPanel();
@@ -505,11 +504,6 @@
             ClearImageCache.UseVisualStyleBackColor = true;
             ClearImageCache.Click += ClearImageCache_Click;
             // 
-            // fixedWidthFontDialog
-            // 
-            fixedWidthFontDialog.AllowVerticalFonts = false;
-            fixedWidthFontDialog.Color = SystemColors.ControlText;
-            // 
             // applicationDialog
             // 
             applicationDialog.AllowVerticalFonts = false;
@@ -575,7 +569,6 @@
         private Label lblCacheDays;
         private Button ClearImageCache;
         private CheckBox ShowAuthorAvatarInCommitInfo;
-        private FontDialog fixedWidthFontDialog;
         private FontDialog applicationDialog;
         private FontDialog commitFontDialog;
         private TableLayoutPanel tlpnlLanguage;
