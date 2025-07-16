@@ -32,9 +32,13 @@ namespace GitExtensions
         [STAThread]
         private static void Main()
         {
+            DialogResult doBugReporter = DialogResult.Yes;
+#if DEBUG
+            doBugReporter = MessageBox.Show("Hello. Enable BugReport?", "Git Extensions", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+#endif
             NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), FileUtility.DllImportResolver);
             // TODO: enable bug report. If you want to suppress the BugReportInvoker when debugging and exit quickly, uncomment the condition:
-            ///if (!Debugger.IsAttached)
+            if (!Debugger.IsAttached || doBugReporter == DialogResult.Yes)
             {
                 AppDomain.CurrentDomain.UnhandledException += (s, e) => BugReportInvoker.Report((Exception)e.ExceptionObject, e.IsTerminating);
                 Application.ThreadException += (s, e) => BugReportInvoker.Report(e.Exception, isTerminating: false);
@@ -348,8 +352,8 @@ namespace GitExtensions
             var result = TaskDialog.ShowDialog(page);
             if (result == btnFindGitExecutable)
             {
-                 string GitExecutableFileFilter = EnvUtils.RunningOnWindows()
-?                    @"git.exe|git.exe|git.cmd|git.cmd": @"git|git";
+                string GitExecutableFileFilter = EnvUtils.RunningOnWindows()
+? @"git.exe|git.exe|git.cmd|git.cmd" : @"git|git";
 
                 using OpenFileDialog dialog = new() { Filter = GitExecutableFileFilter };
                 if (dialog.ShowDialog(null) == DialogResult.OK)
