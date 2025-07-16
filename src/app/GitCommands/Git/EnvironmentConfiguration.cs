@@ -6,6 +6,7 @@ using static System.Environment;
 
 namespace GitCommands
 {
+    //TODO: refactor: avoid static classes, prepare for use DI
     public static class EnvironmentConfiguration
     {
         private static readonly IEnvironmentAbstraction Env = new EnvironmentAbstraction();
@@ -41,37 +42,9 @@ namespace GitCommands
             }
 
             // HOME variable
-            string userHomeDir = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.User)
-            ?? Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Machine);
-            var hom = Env.GetEnvironmentVariable("HOME") ?? userHomeDir;
-            Env.SetEnvironmentVariable("HOME", ComputeHomeLocation() ?? hom);
-            if (EnvUtils.RunningOnUnix())
+            EnsureHomeEnvironmentVariable();
+            if (!EnvUtils.RunningOnWindows())
             {
-                // see         private static string ReadXdgDirectory(string homeDir, string key, string fallback)
-                hom = Env.GetEnvironmentVariable("HOME") ?? hom;
-                if (string.IsNullOrEmpty(hom))
-                {
-                    var user = Env.GetEnvironmentVariable("LOGNAME")
-                        ?? Env.GetEnvironmentVariable("USER")
-                        ?? Env.GetEnvironmentVariable("USERNAME");
-                    if (!string.IsNullOrEmpty(user))
-                    {
-                        hom = Path.Combine("/home", user);
-                        if (Directory.Exists(hom))
-                        {
-                            Env.SetEnvironmentVariable("HOME", hom);
-                        }
-                        else
-                        {
-                            Debug.Assert(false, "HOME directory does not exist: " + hom);
-                        }
-                    }
-                    else
-                    {
-                        Env.SetEnvironmentVariable("HOME", "/home");
-                    }
-                }
-
                 //return ReadXdgDirectory(home, "XDG_DESKTOP_DIR", "Desktop");
                 //case SpecialFolder.ApplicationData:
                 //    return GetXdgConfig(home);
@@ -95,7 +68,7 @@ namespace GitCommands
                 //case SpecialFolder.Fonts:
 
 
-                //    Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+                //    Env.GetFolderPath(Environment.SpecialFolder.Recent);
 
                 //case UIIcon.PlacesDesktop:
                 //        return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
@@ -107,13 +80,13 @@ namespace GitCommands
                 // using Environment.SpecialFolder;
 
                 var tups = new (Environment.SpecialFolder enn, string vname, string desc)[]
-            {
-                    (SpecialFolder.DesktopDirectory, "XDG_DESKTOP_DIR", "Desktop"),
-                    (SpecialFolder.MyDocuments, "XDG_DOCUMENTS_DIR", "Documents"),
-                    (SpecialFolder.MyMusic, "XDG_MUSIC_DIR", "Music"),
-                    (SpecialFolder.MyVideos, "XDG_VIDEOS_DIR", "Videos"),
-                    (SpecialFolder.MyPictures, "XDG_PICTURES_DIR", "Pictures"),
-            };
+                {
+                        (SpecialFolder.DesktopDirectory, "XDG_DESKTOP_DIR", "Desktop"),
+                        (SpecialFolder.MyDocuments, "XDG_DOCUMENTS_DIR", "Documents"),
+                        (SpecialFolder.MyMusic, "XDG_MUSIC_DIR", "Music"),
+                        (SpecialFolder.MyVideos, "XDG_VIDEOS_DIR", "Videos"),
+                        (SpecialFolder.MyPictures, "XDG_PICTURES_DIR", "Pictures"),
+                };
 
                 foreach (var (enn, vname, desc) in tups)
                 {
@@ -193,6 +166,41 @@ namespace GitCommands
                 }
 
                 return GetDefaultHomeDir();
+            }
+
+            static void EnsureHomeEnvironmentVariable()
+            {
+                string userHomeDir = Env.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.User)
+                ?? Env.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Machine);
+                var hom = Env.GetEnvironmentVariable("HOME") ?? userHomeDir;
+                Env.SetEnvironmentVariable("HOME", ComputeHomeLocation() ?? hom);
+                if (!EnvUtils.RunningOnWindows())
+                {
+                    // see         private static string ReadXdgDirectory(string homeDir, string key, string fallback)
+                    hom = Env.GetEnvironmentVariable("HOME") ?? hom;
+                    if (string.IsNullOrEmpty(hom))
+                    {
+                        var user = Env.GetEnvironmentVariable("LOGNAME")
+                            ?? Env.GetEnvironmentVariable("USER")
+                            ?? Env.GetEnvironmentVariable("USERNAME");
+                        if (!string.IsNullOrEmpty(user))
+                        {
+                            hom = Path.Combine("/home", user);
+                            if (Directory.Exists(hom))
+                            {
+                                Env.SetEnvironmentVariable("HOME", hom);
+                            }
+                            else
+                            {
+                                Debug.Assert(false, "HOME directory does not exist: " + hom);
+                            }
+                        }
+                        else
+                        {
+                            Env.SetEnvironmentVariable("HOME", "/home");
+                        }
+                    }
+                }
             }
         }
 
