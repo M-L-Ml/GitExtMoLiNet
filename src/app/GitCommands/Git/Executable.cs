@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text;
 using GitCommands.Logging;
 using GitExtensions.Extensibility;
@@ -12,6 +12,7 @@ namespace GitCommands
     {
         private readonly string _workingDir;
         private readonly Func<string> _fileNameProvider;
+        private readonly EnvironmentConfiguration EnvironmentConfiguration;
 
         public Executable(string fileName, string workingDir = "")
             : this(() => fileName, workingDir)
@@ -19,11 +20,14 @@ namespace GitCommands
             Debug.Assert(!string.IsNullOrEmpty(fileName));
         }
 
-        public Executable(Func<string> fileNameProvider, string workingDir = "", string prefixArguments = "")
+        public Executable(Func<string> fileNameProvider, string workingDir = "", string prefixArguments = "", EnvironmentConfiguration environmentConfiguration = default)
+           // : this(fileNameProvider, workingDir, prefixArguments, environmentConfiguration)
         {
+
             _workingDir = workingDir;
             _fileNameProvider = fileNameProvider;
             PrefixArguments = prefixArguments;
+            EnvironmentConfiguration = environmentConfiguration ?? GitCommands.EnvironmentConfiguration.Instance;
         }
 
         public string WorkingDir => _workingDir;

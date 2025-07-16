@@ -64,7 +64,7 @@ namespace GitUI.CommandsDialogs.BrowseDialog
                     directories.Add(AppSettings.RecentWorkingDir.EnsureTrailingPathSeparator());
                 }
 
-                string homeDir = EnvironmentConfiguration.GetHomeDir();
+                string homeDir = EnvironmentConfiguration.Instance.GetHomeDir();
                 if (!string.IsNullOrWhiteSpace(homeDir))
                 {
                     directories.Add(homeDir.EnsureTrailingPathSeparator());

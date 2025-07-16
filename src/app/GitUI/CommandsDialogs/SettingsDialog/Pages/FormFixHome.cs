@@ -100,7 +100,7 @@ namespace GitUI.CommandsDialogs.SettingsDialog.Pages
 
         public static void CheckHomePath()
         {
-            EnvironmentConfiguration.SetEnvironmentVariables();
+            EnvironmentConfiguration.Instance.SetEnvironmentVariables();
 
             if (IsFixHome())
             {

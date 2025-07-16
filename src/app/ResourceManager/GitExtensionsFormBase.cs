@@ -26,6 +26,7 @@ namespace ResourceManager
     {
         private readonly GitExtensionsControlInitialiser _initialiser;
         private IReadOnlyList<HotkeyCommand>? _hotkeys;
+        public EnvironmentConfiguration EnvironmentConfiguration => EnvironmentConfiguration.Instance;
 
         /// <summary>Creates a new <see cref="GitExtensionsFormBase"/> indicating position restore.</summary>
         public GitExtensionsFormBase()

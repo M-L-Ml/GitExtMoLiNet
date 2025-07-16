@@ -1,43 +1,55 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
+using GitCommands.Settings;
 using GitCommands.Utils;
 using GitExtUtils;
 using static System.Environment;
 
 namespace GitCommands
 {
-    //TODO: refactor: avoid static classes, prepare for use DI
-    public static class EnvironmentConfiguration
+    public class EnvironmentConfiguration //: IEnvironmentConfiguration
     {
-        private static readonly IEnvironmentAbstraction Env = new EnvironmentAbstraction();
+        public static readonly EnvironmentConfiguration Instance = new();
+        private readonly IEnvironmentAbstraction Env = new EnvironmentAbstraction();
+        private readonly IAppSettings _appSettings;
 
         /// <summary>
         /// The <c>USER</c> environment variable's value for the user/machine.
         /// </summary>
-        private static readonly string? UserHomeDir
-            = Env.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.User)
+        private readonly string? _userHomeDir;
+
+        public EnvironmentConfiguration(IAppSettings appSettings)
+        {
+            _appSettings = appSettings;
+            _userHomeDir = Env.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.User)
            ?? Env.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Machine);
+        }
+
+        public EnvironmentConfiguration()
+            : this(new AppSettingsAdapter())
+        {
+        }
 
         /// <summary>
         /// Sets <c>PATH</c>, <c>HOME</c>, <c>TERM</c> and <c>SSH_ASKPASS</c> environment variables
         /// for the current process.
         /// </summary>
-        public static void SetEnvironmentVariables()
+        public void SetEnvironmentVariables()
         {
             // PATH variable
 
-            if (!string.IsNullOrEmpty(AppSettings.LinuxToolsDir))
+            if (!string.IsNullOrEmpty(_appSettings.LinuxToolsDir))
             {
                 // Ensure the GNU/Linux tools dir is on the path
                 string? path = Env.GetEnvironmentVariable("PATH");
 
                 if (path is null)
                 {
-                    Env.SetEnvironmentVariable("PATH", AppSettings.LinuxToolsDir);
+                    Env.SetEnvironmentVariable("PATH", _appSettings.LinuxToolsDir);
                 }
-                else if (!path.Contains(AppSettings.LinuxToolsDir))
+                else if (!path.Contains(_appSettings.LinuxToolsDir))
                 {
-                    Env.SetEnvironmentVariable("PATH", $"{path}{Path.PathSeparator}{AppSettings.LinuxToolsDir}");
+                    Env.SetEnvironmentVariable("PATH", $"{path}{Path.PathSeparator}{_appSettings.LinuxToolsDir}");
                 }
             }
 
@@ -134,7 +146,7 @@ namespace GitCommands
 
             if (EnvUtils.RunningOnWindows())
             {
-                string sshAskPass = Path.Combine(AppSettings.GetInstallDir(), "GitExtSshAskPass.exe");
+                string sshAskPass = Path.Combine(_appSettings.GetInstallDir(), "GitExtSshAskPass.exe");
 
                 if (File.Exists(sshAskPass))
                 {
@@ -153,14 +165,14 @@ namespace GitCommands
 
             return;
 
-            static string? ComputeHomeLocation()
+            string? ComputeHomeLocation()
             {
-                if (!string.IsNullOrEmpty(AppSettings.CustomHomeDir))
+                if (!string.IsNullOrEmpty(_appSettings.CustomHomeDir))
                 {
-                    return AppSettings.CustomHomeDir;
+                    return _appSettings.CustomHomeDir;
                 }
 
-                if (AppSettings.UserProfileHomeDir)
+                if (_appSettings.UserProfileHomeDir)
                 {
                     return Env.GetEnvironmentVariable("USERPROFILE");
                 }
@@ -168,7 +180,7 @@ namespace GitCommands
                 return GetDefaultHomeDir();
             }
 
-            static void EnsureHomeEnvironmentVariable()
+            void EnsureHomeEnvironmentVariable()
             {
                 string userHomeDir = Env.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.User)
                 ?? Env.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.Machine);
@@ -208,17 +220,17 @@ namespace GitCommands
         /// Gets the value of the current process's <c>HOME</c> environment variable.
         /// </summary>
         /// <returns>The variable's value, or an empty string if it is not present.</returns>
-        public static string GetHomeDir()
+        public string GetHomeDir()
         {
             return Env.GetEnvironmentVariable("HOME") ?? "";
         }
 
-        public static string? GetDefaultHomeDir()
+        public string? GetDefaultHomeDir()
         {
             // Use the HOME property from the user or machine, as captured at startup
-            if (!string.IsNullOrEmpty(UserHomeDir))
+            if (!string.IsNullOrEmpty(_userHomeDir))
             {
-                return UserHomeDir;
+                return _userHomeDir;
             }
 
             if (EnvUtils.RunningOnWindows())

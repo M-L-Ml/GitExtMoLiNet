@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text;
 using GitCommands;
 using GitCommands.Git.Extensions;
@@ -119,7 +119,7 @@ namespace GitUI.UserControls
 
             try
             {
-                EnvironmentConfiguration.SetEnvironmentVariables();
+                EnvironmentConfiguration.Instance.SetEnvironmentVariables();
 
                 KillProcess();
 

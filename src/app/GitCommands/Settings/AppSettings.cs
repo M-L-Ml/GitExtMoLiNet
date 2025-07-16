@@ -761,7 +761,7 @@ namespace GitCommands
                 return;
             }
 
-            EnvironmentConfiguration.SetEnvironmentVariables();
+            EnvironmentConfiguration.Instance.SetEnvironmentVariables();
             IPersistentConfigValueStore globalSettings = new GitConfigSettings(new Executable(AppSettings.GitCommand), GitSettingLevel.Global);
             string? path = globalSettings.GetValue("core.editor");
             if (path?.Contains("Program Files (x86)/GitExtensions", StringComparison.CurrentCultureIgnoreCase) is not true)

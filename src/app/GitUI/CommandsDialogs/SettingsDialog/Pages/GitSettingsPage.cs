@@ -28,8 +28,8 @@ namespace GitUI.CommandsDialogs.SettingsDialog.Pages
 
         protected override void SettingsToPage()
         {
-            EnvironmentConfiguration.SetEnvironmentVariables();
-            homeIsSetToLabel.Text = string.Concat(_homeIsSetToString.Text, " ", EnvironmentConfiguration.GetHomeDir());
+            EnvironmentConfiguration.Instance.SetEnvironmentVariables();
+            homeIsSetToLabel.Text = string.Concat(_homeIsSetToString.Text, " ", EnvironmentConfiguration.Instance.GetHomeDir());
 
             GitPath.Text = AppSettings.GitCommandValue;
             LinuxToolsDir.Text = AppSettings.LinuxToolsDir;
