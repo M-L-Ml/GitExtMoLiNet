@@ -87,8 +87,9 @@ namespace GitUI.CommandsDialogs.BrowseDialog.DashboardControl
             lblRecentRepositories.Font = new Font(AppSettings.Font.FontFamily, AppSettings.Font.SizeInPoints + 5.5f);
             lblRecentRepositories.ForeColor.AdaptTextColor();
 
-           // textBoxSearch.PlaceholderText = _repositorySearchPlaceholder.Text;
-
+#if !__MonoCS__ && WINDOWS_OWN
+            textBoxSearch.PlaceholderText = _repositorySearchPlaceholder.Text;
+#endif
             listView1.Items.Clear();
             listView1.Groups.Clear();
 
@@ -318,10 +319,12 @@ namespace GitUI.CommandsDialogs.BrowseDialog.DashboardControl
                         .Where(c => !string.IsNullOrWhiteSpace(c))
                         .Distinct(GroupHeaderComparer)
                         .OrderBy(c => c)
-                        .Select(c => new ListViewGroup(c, c)
+                        .Select(c =>
                         {
-                            //CollapsedState = ListViewGroupCollapsedState.Expanded,
-                           // TaskLink = _groupActions.Text
+                            var g = new ListViewGroup(c, c);
+                            g.CollapsedState(ListViewGroupCollapsedState.Expanded);
+                            g.TaskLink(_groupActions.Text);
+                            return g;
                         }))
                     .ToArray();
 
