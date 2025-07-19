@@ -5,11 +5,12 @@
   },
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/gitext_wt3,type=bind,consistency=cached",
   "workspaceFolder": "/workspace/gitext_wt3",
-  "mounts": [               
-    "source=gitext_vol,target=/workspace/gitext_wtl,type=volume" ,
+  "mounts": [
+    "source=gitext_vol,target=/workspace/gitext_wtl,type=volume",
     "source=${localWorkspaceFolder}\\..\\gitextensions,target=/workspace/gitextensions,type=bind,consistency=cached",
     "source=C:\\Progs\\Symbol_Cache,target=/workspace/symbols_cache,type=bind,consistency=cached",
-    "source=nuget-packages1,target=/root/.nuget/packages,type=volume"
+    "source=nuget-packages1,target=/root/.nuget/packages,type=volume",
+    "source=lin_symbolcache,target=/root/.dotnet/symbolcache/,type=volume"
   ],	
   // Configure tool-specific properties.
   "customizations": {
