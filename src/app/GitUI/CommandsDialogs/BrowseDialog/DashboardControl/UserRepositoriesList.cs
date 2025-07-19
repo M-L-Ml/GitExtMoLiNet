@@ -67,6 +67,9 @@ namespace GitUI.CommandsDialogs.BrowseDialog.DashboardControl
         public UserRepositoriesList()
         {
             InitializeComponent();
+#if !__MonoCS__ && WINDOWS_OWN
+            listView1.GroupTaskLinkClick += ListView1_GroupTaskLinkClick;
+#endif
             InitializeComplete();
 
             mnuTop.DropDownItems.Clear();
