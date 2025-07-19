@@ -1,4 +1,4 @@
-#pragma warning disable VSTHRD108 // Assert thread affinity unconditionally
+﻿#pragma warning disable VSTHRD108 // Assert thread affinity unconditionally
 
 using System.Diagnostics;
 using GitCommands;
@@ -21,7 +21,11 @@ namespace ResourceManager
             {
                 return;
             }
+#if __MonoCS__ || !WINDOWS_OWN
 
+            if (form.AllowDrop == true)
+                form.AllowDrop = false;
+#endif
             ThreadHelper.ThrowIfNotOnUIThread();
             form.Load += LoadHandler;
             _translate = form;
@@ -33,7 +37,12 @@ namespace ResourceManager
             {
                 return;
             }
+#if __MonoCS__ || !WINDOWS_OWN
 
+            // not implemented in Mono
+            if (control.AllowDrop == true)
+                control.AllowDrop = false;
+#endif
             ThreadHelper.ThrowIfNotOnUIThread();
             control.Load += LoadHandler;
             _translate = control;

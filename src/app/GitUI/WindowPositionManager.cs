@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using GitExtUtils.GitUI;
 
 namespace GitUI
@@ -143,6 +143,7 @@ namespace GitUI
             catch
             {
                 // TODO: how to restore a corrupted config?
+                Debug.WriteLine("  == Failed to load window position from settings.");
             }
 
             return null;
