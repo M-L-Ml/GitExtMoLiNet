@@ -15,9 +15,14 @@ namespace GitUI
         {
             Queue<Control> queue = new();
 
+            if (skip?.Invoke(control) == true)
+            {
+                yield break;
+            }
+
             foreach (Control child in control.Controls)
             {
-                if (skip?.Invoke(control) == true)
+                if (skip?.Invoke(child) == true)
                 {
                     continue;
                 }
