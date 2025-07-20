@@ -70,7 +70,7 @@
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(12);
-            groupBox1.Size = new Size(1015, 478);
+            groupBox1.Size = new Size(1015, 554);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             // 
@@ -105,7 +105,7 @@
             tableLayoutPanel1.Controls.Add(DiffTool, 0, 4);
             tableLayoutPanel1.Controls.Add(ShellExtensionsRegistered, 0, 5);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(12, 26);
+            tableLayoutPanel1.Location = new Point(12, 28);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 14;
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
@@ -122,14 +122,14 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(991, 404);
+            tableLayoutPanel1.Size = new Size(991, 478);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // GcmDetectedFix
             // 
             GcmDetectedFix.AutoSize = true;
             GcmDetectedFix.Dock = DockStyle.Fill;
-            GcmDetectedFix.Location = new Point(903, 348);
+            GcmDetectedFix.Location = new Point(903, 350);
             GcmDetectedFix.Name = "GcmDetectedFix";
             GcmDetectedFix.Size = new Size(85, 30);
             GcmDetectedFix.TabIndex = 20;
@@ -149,7 +149,7 @@
             GcmDetected.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             GcmDetected.FlatStyle = FlatStyle.Flat;
             GcmDetected.ForeColor = SystemColors.ControlText;
-            GcmDetected.Location = new Point(3, 348);
+            GcmDetected.Location = new Point(3, 350);
             GcmDetected.Name = "GcmDetected";
             GcmDetected.Size = new Size(894, 30);
             GcmDetected.TabIndex = 19;
@@ -165,16 +165,15 @@
             label11.Location = new Point(3, 0);
             label11.Name = "label11";
             label11.Padding = new Padding(0, 0, 0, 8);
-            label11.Size = new Size(985, 21);
+            label11.Size = new Size(985, 23);
             label11.TabIndex = 0;
-            label11.Text = "The checklist below validates the basic settings needed for Git Extensions to work" +
-    " properly.";
+            label11.Text = "The checklist below validates the basic settings needed for Git Extensions to work properly.";
             // 
             // translationConfig_Fix
             // 
             translationConfig_Fix.AutoSize = true;
             translationConfig_Fix.Dock = DockStyle.Fill;
-            translationConfig_Fix.Location = new Point(903, 312);
+            translationConfig_Fix.Location = new Point(903, 314);
             translationConfig_Fix.Name = "translationConfig_Fix";
             translationConfig_Fix.Size = new Size(85, 30);
             translationConfig_Fix.TabIndex = 18;
@@ -187,9 +186,9 @@
             // 
             CheckAtStartup.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             CheckAtStartup.AutoSize = true;
-            CheckAtStartup.Location = new Point(3, 384);
+            CheckAtStartup.Location = new Point(3, 386);
             CheckAtStartup.Name = "CheckAtStartup";
-            CheckAtStartup.Size = new Size(894, 17);
+            CheckAtStartup.Size = new Size(894, 19);
             CheckAtStartup.TabIndex = 21;
             CheckAtStartup.Text = "Check settings at startup (disables automatically if all settings are correct)";
             CheckAtStartup.UseVisualStyleBackColor = true;
@@ -206,7 +205,7 @@
             GitFound.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             GitFound.FlatStyle = FlatStyle.Flat;
             GitFound.ForeColor = SystemColors.ControlText;
-            GitFound.Location = new Point(3, 24);
+            GitFound.Location = new Point(3, 26);
             GitFound.Name = "GitFound";
             GitFound.Size = new Size(894, 30);
             GitFound.TabIndex = 1;
@@ -226,7 +225,7 @@
             translationConfig.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             translationConfig.FlatStyle = FlatStyle.Flat;
             translationConfig.ForeColor = SystemColors.ControlText;
-            translationConfig.Location = new Point(3, 312);
+            translationConfig.Location = new Point(3, 314);
             translationConfig.Name = "translationConfig";
             translationConfig.Size = new Size(894, 30);
             translationConfig.TabIndex = 17;
@@ -239,7 +238,7 @@
             // 
             SshConfig_Fix.AutoSize = true;
             SshConfig_Fix.Dock = DockStyle.Fill;
-            SshConfig_Fix.Location = new Point(903, 276);
+            SshConfig_Fix.Location = new Point(903, 278);
             SshConfig_Fix.Name = "SshConfig_Fix";
             SshConfig_Fix.Size = new Size(85, 30);
             SshConfig_Fix.TabIndex = 16;
@@ -252,7 +251,7 @@
             // 
             GitFound_Fix.AutoSize = true;
             GitFound_Fix.Dock = DockStyle.Fill;
-            GitFound_Fix.Location = new Point(903, 24);
+            GitFound_Fix.Location = new Point(903, 26);
             GitFound_Fix.Name = "GitFound_Fix";
             GitFound_Fix.Size = new Size(85, 30);
             GitFound_Fix.TabIndex = 2;
@@ -265,7 +264,7 @@
             // 
             GitExtensionsInstall_Fix.AutoSize = true;
             GitExtensionsInstall_Fix.Dock = DockStyle.Fill;
-            GitExtensionsInstall_Fix.Location = new Point(903, 240);
+            GitExtensionsInstall_Fix.Location = new Point(903, 242);
             GitExtensionsInstall_Fix.Name = "GitExtensionsInstall_Fix";
             GitExtensionsInstall_Fix.Size = new Size(85, 30);
             GitExtensionsInstall_Fix.TabIndex = 14;
@@ -285,7 +284,7 @@
             SshConfig.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             SshConfig.FlatStyle = FlatStyle.Flat;
             SshConfig.ForeColor = SystemColors.ControlText;
-            SshConfig.Location = new Point(3, 276);
+            SshConfig.Location = new Point(3, 278);
             SshConfig.Name = "SshConfig";
             SshConfig.Size = new Size(894, 30);
             SshConfig.TabIndex = 15;
@@ -305,7 +304,7 @@
             UserNameSet.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             UserNameSet.FlatStyle = FlatStyle.Flat;
             UserNameSet.ForeColor = SystemColors.ControlText;
-            UserNameSet.Location = new Point(3, 60);
+            UserNameSet.Location = new Point(3, 62);
             UserNameSet.Name = "UserNameSet";
             UserNameSet.Size = new Size(894, 30);
             UserNameSet.TabIndex = 3;
@@ -318,7 +317,7 @@
             // 
             GitBinFound_Fix.AutoSize = true;
             GitBinFound_Fix.Dock = DockStyle.Fill;
-            GitBinFound_Fix.Location = new Point(903, 204);
+            GitBinFound_Fix.Location = new Point(903, 206);
             GitBinFound_Fix.Name = "GitBinFound_Fix";
             GitBinFound_Fix.Size = new Size(85, 30);
             GitBinFound_Fix.TabIndex = 12;
@@ -331,7 +330,7 @@
             // 
             UserNameSet_Fix.AutoSize = true;
             UserNameSet_Fix.Dock = DockStyle.Fill;
-            UserNameSet_Fix.Location = new Point(903, 60);
+            UserNameSet_Fix.Location = new Point(903, 62);
             UserNameSet_Fix.Name = "UserNameSet_Fix";
             UserNameSet_Fix.Size = new Size(85, 30);
             UserNameSet_Fix.TabIndex = 4;
@@ -344,7 +343,7 @@
             // 
             ShellExtensionsRegistered_Fix.AutoSize = true;
             ShellExtensionsRegistered_Fix.Dock = DockStyle.Fill;
-            ShellExtensionsRegistered_Fix.Location = new Point(903, 168);
+            ShellExtensionsRegistered_Fix.Location = new Point(903, 170);
             ShellExtensionsRegistered_Fix.Name = "ShellExtensionsRegistered_Fix";
             ShellExtensionsRegistered_Fix.Size = new Size(85, 30);
             ShellExtensionsRegistered_Fix.TabIndex = 10;
@@ -364,7 +363,7 @@
             MergeTool.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             MergeTool.FlatStyle = FlatStyle.Flat;
             MergeTool.ForeColor = SystemColors.ControlText;
-            MergeTool.Location = new Point(3, 96);
+            MergeTool.Location = new Point(3, 98);
             MergeTool.Name = "MergeTool";
             MergeTool.Size = new Size(894, 30);
             MergeTool.TabIndex = 5;
@@ -384,7 +383,7 @@
             GitExtensionsInstall.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             GitExtensionsInstall.FlatStyle = FlatStyle.Flat;
             GitExtensionsInstall.ForeColor = SystemColors.ControlText;
-            GitExtensionsInstall.Location = new Point(3, 240);
+            GitExtensionsInstall.Location = new Point(3, 242);
             GitExtensionsInstall.Name = "GitExtensionsInstall";
             GitExtensionsInstall.Size = new Size(894, 30);
             GitExtensionsInstall.TabIndex = 13;
@@ -404,7 +403,7 @@
             GitBinFound.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             GitBinFound.FlatStyle = FlatStyle.Flat;
             GitBinFound.ForeColor = SystemColors.ControlText;
-            GitBinFound.Location = new Point(3, 204);
+            GitBinFound.Location = new Point(3, 206);
             GitBinFound.Name = "GitBinFound";
             GitBinFound.Size = new Size(894, 30);
             GitBinFound.TabIndex = 11;
@@ -417,7 +416,7 @@
             // 
             DiffTool_Fix.AutoSize = true;
             DiffTool_Fix.Dock = DockStyle.Fill;
-            DiffTool_Fix.Location = new Point(903, 132);
+            DiffTool_Fix.Location = new Point(903, 134);
             DiffTool_Fix.Name = "DiffTool_Fix";
             DiffTool_Fix.Size = new Size(85, 30);
             DiffTool_Fix.TabIndex = 8;
@@ -430,7 +429,7 @@
             // 
             MergeTool_Fix.AutoSize = true;
             MergeTool_Fix.Dock = DockStyle.Fill;
-            MergeTool_Fix.Location = new Point(903, 96);
+            MergeTool_Fix.Location = new Point(903, 98);
             MergeTool_Fix.Name = "MergeTool_Fix";
             MergeTool_Fix.Size = new Size(85, 30);
             MergeTool_Fix.TabIndex = 6;
@@ -450,7 +449,7 @@
             DiffTool.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             DiffTool.FlatStyle = FlatStyle.Flat;
             DiffTool.ForeColor = SystemColors.ControlText;
-            DiffTool.Location = new Point(3, 132);
+            DiffTool.Location = new Point(3, 134);
             DiffTool.Name = "DiffTool";
             DiffTool.Size = new Size(894, 30);
             DiffTool.TabIndex = 7;
@@ -470,7 +469,7 @@
             ShellExtensionsRegistered.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
             ShellExtensionsRegistered.FlatStyle = FlatStyle.Flat;
             ShellExtensionsRegistered.ForeColor = SystemColors.ControlText;
-            ShellExtensionsRegistered.Location = new Point(3, 168);
+            ShellExtensionsRegistered.Location = new Point(3, 170);
             ShellExtensionsRegistered.Name = "ShellExtensionsRegistered";
             ShellExtensionsRegistered.Size = new Size(894, 30);
             ShellExtensionsRegistered.TabIndex = 9;
@@ -485,7 +484,7 @@
             flowLayoutPanel1.Controls.Add(Rescan);
             flowLayoutPanel1.Dock = DockStyle.Bottom;
             flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new Point(12, 430);
+            flowLayoutPanel1.Location = new Point(12, 506);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(991, 36);
             flowLayoutPanel1.TabIndex = 1;
@@ -510,7 +509,6 @@
             MinimumSize = new Size(680, 460);
             Name = "ChecklistSettingsPage";
             Size = new Size(1015, 608);
-            Text = "Checklist";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
