@@ -66,10 +66,10 @@
             tlpnlTelemetry.SuspendLayout();
             groupBoxPerformance.SuspendLayout();
             tlpnlPerformance.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(_NO_TRANSLATE_MaxCommits)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)_NO_TRANSLATE_MaxCommits).BeginInit();
             groupBoxBehaviour.SuspendLayout();
             tlpnlBehaviour.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(RevisionGridQuickSearchTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)RevisionGridQuickSearchTimeout).BeginInit();
             SuspendLayout();
             // 
             // tlpnlMain
@@ -89,7 +89,7 @@
             tlpnlMain.RowStyles.Add(new RowStyle());
             tlpnlMain.RowStyles.Add(new RowStyle());
             tlpnlMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpnlMain.Size = new Size(1263, 507);
+            tlpnlMain.Size = new Size(1263, 747);
             tlpnlMain.TabIndex = 0;
             // 
             // groupBoxTelemetry
@@ -97,10 +97,10 @@
             groupBoxTelemetry.AutoSize = true;
             groupBoxTelemetry.Controls.Add(tlpnlTelemetry);
             groupBoxTelemetry.Dock = DockStyle.Fill;
-            groupBoxTelemetry.Location = new Point(3, 503);
+            groupBoxTelemetry.Location = new Point(3, 634);
             groupBoxTelemetry.Name = "groupBoxTelemetry";
             groupBoxTelemetry.Padding = new Padding(8);
-            groupBoxTelemetry.Size = new Size(1257, 52);
+            groupBoxTelemetry.Size = new Size(1257, 57);
             groupBoxTelemetry.TabIndex = 3;
             groupBoxTelemetry.TabStop = false;
             groupBoxTelemetry.Text = "Telemetry";
@@ -115,11 +115,11 @@
             tlpnlTelemetry.Controls.Add(chkTelemetry, 0, 0);
             tlpnlTelemetry.Controls.Add(llblTelemetryPrivacyLink, 1, 0);
             tlpnlTelemetry.Dock = DockStyle.Top;
-            tlpnlTelemetry.Location = new Point(8, 21);
+            tlpnlTelemetry.Location = new Point(8, 24);
             tlpnlTelemetry.Name = "tlpnlTelemetry";
             tlpnlTelemetry.RowCount = 1;
             tlpnlTelemetry.RowStyles.Add(new RowStyle());
-            tlpnlTelemetry.Size = new Size(1241, 23);
+            tlpnlTelemetry.Size = new Size(1241, 25);
             tlpnlTelemetry.TabIndex = 0;
             // 
             // chkTelemetry
@@ -128,7 +128,7 @@
             chkTelemetry.Dock = DockStyle.Fill;
             chkTelemetry.Location = new Point(3, 3);
             chkTelemetry.Name = "chkTelemetry";
-            chkTelemetry.Size = new Size(128, 17);
+            chkTelemetry.Size = new Size(139, 19);
             chkTelemetry.TabIndex = 0;
             chkTelemetry.Text = "Yes, I allow telemetry!";
             chkTelemetry.UseVisualStyleBackColor = true;
@@ -136,9 +136,9 @@
             // llblTelemetryPrivacyLink
             // 
             llblTelemetryPrivacyLink.Dock = DockStyle.Fill;
-            llblTelemetryPrivacyLink.Location = new Point(137, 0);
+            llblTelemetryPrivacyLink.Location = new Point(148, 0);
             llblTelemetryPrivacyLink.Name = "llblTelemetryPrivacyLink";
-            llblTelemetryPrivacyLink.Size = new Size(1357, 23);
+            llblTelemetryPrivacyLink.Size = new Size(1357, 25);
             llblTelemetryPrivacyLink.TabIndex = 1;
             llblTelemetryPrivacyLink.TabStop = true;
             llblTelemetryPrivacyLink.Text = "Why and what is captured?";
@@ -152,8 +152,8 @@
             groupBoxPerformance.Dock = DockStyle.Fill;
             groupBoxPerformance.Location = new Point(3, 3);
             groupBoxPerformance.Name = "groupBoxPerformance";
-            groupBoxPerformance.Padding = new Padding(8);
-            groupBoxPerformance.Size = new Size(1257, 216);
+            groupBoxPerformance.Padding = new Padding(8, 8, 8, 80);
+            groupBoxPerformance.Size = new Size(1257, 283);
             groupBoxPerformance.TabIndex = 0;
             groupBoxPerformance.TabStop = false;
             groupBoxPerformance.Text = "Performance";
@@ -174,7 +174,7 @@
             tlpnlPerformance.Controls.Add(lblCommitsLimit, 0, 6);
             tlpnlPerformance.Controls.Add(_NO_TRANSLATE_MaxCommits, 1, 6);
             tlpnlPerformance.Dock = DockStyle.Top;
-            tlpnlPerformance.Location = new Point(8, 21);
+            tlpnlPerformance.Location = new Point(8, 24);
             tlpnlPerformance.Name = "tlpnlPerformance";
             tlpnlPerformance.RowCount = 7;
             tlpnlPerformance.RowStyles.Add(new RowStyle());
@@ -186,16 +186,16 @@
             tlpnlPerformance.RowStyles.Add(new RowStyle());
             tlpnlPerformance.RowStyles.Add(new RowStyle());
             tlpnlPerformance.RowStyles.Add(new RowStyle());
-            tlpnlPerformance.Size = new Size(1241, 187);
+            tlpnlPerformance.Size = new Size(1241, 179);
             tlpnlPerformance.TabIndex = 0;
             // 
             // chkShowAheadBehindDataInBrowseWindow
             // 
             chkShowAheadBehindDataInBrowseWindow.AutoSize = true;
             chkShowAheadBehindDataInBrowseWindow.Dock = DockStyle.Fill;
-            chkShowAheadBehindDataInBrowseWindow.Location = new Point(3, 118);
+            chkShowAheadBehindDataInBrowseWindow.Location = new Point(3, 103);
             chkShowAheadBehindDataInBrowseWindow.Name = "chkShowAheadBehindDataInBrowseWindow";
-            chkShowAheadBehindDataInBrowseWindow.Size = new Size(347, 17);
+            chkShowAheadBehindDataInBrowseWindow.Size = new Size(389, 19);
             chkShowAheadBehindDataInBrowseWindow.TabIndex = 6;
             chkShowAheadBehindDataInBrowseWindow.Text = "Show ahead and behind information on status bar in browse window";
             chkShowAheadBehindDataInBrowseWindow.UseVisualStyleBackColor = true;
@@ -204,9 +204,9 @@
             // 
             chkCheckForUncommittedChangesInCheckoutBranch.AutoSize = true;
             chkCheckForUncommittedChangesInCheckoutBranch.Dock = DockStyle.Fill;
-            chkCheckForUncommittedChangesInCheckoutBranch.Location = new Point(3, 141);
+            chkCheckForUncommittedChangesInCheckoutBranch.Location = new Point(3, 128);
             chkCheckForUncommittedChangesInCheckoutBranch.Name = "chkCheckForUncommittedChangesInCheckoutBranch";
-            chkCheckForUncommittedChangesInCheckoutBranch.Size = new Size(347, 17);
+            chkCheckForUncommittedChangesInCheckoutBranch.Size = new Size(389, 19);
             chkCheckForUncommittedChangesInCheckoutBranch.TabIndex = 7;
             chkCheckForUncommittedChangesInCheckoutBranch.Text = "Check for uncommitted changes in checkout branch dialog";
             chkCheckForUncommittedChangesInCheckoutBranch.UseVisualStyleBackColor = true;
@@ -218,7 +218,7 @@
             chkShowGitStatusInToolbar.Dock = DockStyle.Fill;
             chkShowGitStatusInToolbar.Location = new Point(3, 3);
             chkShowGitStatusInToolbar.Name = "chkShowGitStatusInToolbar";
-            chkShowGitStatusInToolbar.Size = new Size(1235, 17);
+            chkShowGitStatusInToolbar.Size = new Size(1235, 19);
             chkShowGitStatusInToolbar.TabIndex = 0;
             chkShowGitStatusInToolbar.Text = "Show number of changed files on commit button";
             chkShowGitStatusInToolbar.UseVisualStyleBackColor = true;
@@ -229,9 +229,9 @@
             chkShowGitStatusForArtificialCommits.AutoSize = true;
             tlpnlPerformance.SetColumnSpan(chkShowGitStatusForArtificialCommits, 2);
             chkShowGitStatusForArtificialCommits.Dock = DockStyle.Fill;
-            chkShowGitStatusForArtificialCommits.Location = new Point(3, 26);
+            chkShowGitStatusForArtificialCommits.Location = new Point(3, 28);
             chkShowGitStatusForArtificialCommits.Name = "chkShowGitStatusForArtificialCommits";
-            chkShowGitStatusForArtificialCommits.Size = new Size(1235, 17);
+            chkShowGitStatusForArtificialCommits.Size = new Size(1235, 19);
             chkShowGitStatusForArtificialCommits.TabIndex = 1;
             chkShowGitStatusForArtificialCommits.Text = "Show number of changed files for artificial commits";
             chkShowGitStatusForArtificialCommits.UseVisualStyleBackColor = true;
@@ -241,9 +241,9 @@
             // 
             chkShowStashCountInBrowseWindow.AutoSize = true;
             chkShowStashCountInBrowseWindow.Dock = DockStyle.Fill;
-            chkShowStashCountInBrowseWindow.Location = new Point(3, 95);
+            chkShowStashCountInBrowseWindow.Location = new Point(3, 78);
             chkShowStashCountInBrowseWindow.Name = "chkShowStashCountInBrowseWindow";
-            chkShowStashCountInBrowseWindow.Size = new Size(347, 17);
+            chkShowStashCountInBrowseWindow.Size = new Size(389, 19);
             chkShowStashCountInBrowseWindow.TabIndex = 5;
             chkShowStashCountInBrowseWindow.Text = "Show stash count on status bar in browse window";
             chkShowStashCountInBrowseWindow.UseVisualStyleBackColor = true;
@@ -252,9 +252,9 @@
             // 
             chkShowSubmoduleStatusInBrowse.AutoSize = true;
             chkShowSubmoduleStatusInBrowse.Dock = DockStyle.Fill;
-            chkShowSubmoduleStatusInBrowse.Location = new Point(3, 49);
+            chkShowSubmoduleStatusInBrowse.Location = new Point(3, 53);
             chkShowSubmoduleStatusInBrowse.Name = "chkShowSubmoduleStatusInBrowse";
-            chkShowSubmoduleStatusInBrowse.Size = new Size(347, 17);
+            chkShowSubmoduleStatusInBrowse.Size = new Size(389, 19);
             chkShowSubmoduleStatusInBrowse.TabIndex = 2;
             chkShowSubmoduleStatusInBrowse.Text = "Show submodule status in browse menu";
             chkShowSubmoduleStatusInBrowse.UseVisualStyleBackColor = true;
@@ -263,46 +263,34 @@
             // 
             lblCommitsLimit.AutoSize = true;
             lblCommitsLimit.Dock = DockStyle.Fill;
-            lblCommitsLimit.Location = new Point(3, 164);
+            lblCommitsLimit.Location = new Point(3, 153);
             lblCommitsLimit.Name = "lblCommitsLimit";
-            lblCommitsLimit.Size = new Size(347, 20);
+            lblCommitsLimit.Size = new Size(389, 23);
             lblCommitsLimit.TabIndex = 7;
             lblCommitsLimit.Text = "Limit number of commits to be loaded";
             lblCommitsLimit.CheckedChanged += lblCommitsLimit_CheckedChanged;
             // 
             // _NO_TRANSLATE_MaxCommits
             // 
-            _NO_TRANSLATE_MaxCommits.Increment = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            _NO_TRANSLATE_MaxCommits.Location = new Point(356, 164);
-            _NO_TRANSLATE_MaxCommits.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
+            _NO_TRANSLATE_MaxCommits.Increment = new decimal(new int[] { 10000, 0, 0, 0 });
+            _NO_TRANSLATE_MaxCommits.Location = new Point(398, 153);
+            _NO_TRANSLATE_MaxCommits.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             _NO_TRANSLATE_MaxCommits.Name = "_NO_TRANSLATE_MaxCommits";
-            _NO_TRANSLATE_MaxCommits.Size = new Size(85, 20);
+            _NO_TRANSLATE_MaxCommits.Size = new Size(85, 23);
             _NO_TRANSLATE_MaxCommits.TabIndex = 8;
             _NO_TRANSLATE_MaxCommits.TextAlign = HorizontalAlignment.Right;
             _NO_TRANSLATE_MaxCommits.ThousandsSeparator = true;
-            _NO_TRANSLATE_MaxCommits.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+            _NO_TRANSLATE_MaxCommits.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // groupBoxBehaviour
             // 
             groupBoxBehaviour.AutoSize = true;
             groupBoxBehaviour.Controls.Add(tlpnlBehaviour);
             groupBoxBehaviour.Dock = DockStyle.Fill;
-            groupBoxBehaviour.Location = new Point(3, 225);
+            groupBoxBehaviour.Location = new Point(3, 292);
             groupBoxBehaviour.Name = "groupBoxBehaviour";
-            groupBoxBehaviour.Padding = new Padding(8);
-            groupBoxBehaviour.Size = new Size(1257, 272);
+            groupBoxBehaviour.Padding = new Padding(8, 8, 8, 40);
+            groupBoxBehaviour.Size = new Size(1257, 336);
             groupBoxBehaviour.TabIndex = 1;
             groupBoxBehaviour.TabStop = false;
             groupBoxBehaviour.Text = "Behaviour";
@@ -331,8 +319,9 @@
             tlpnlBehaviour.Controls.Add(cboDefaultPullAction, 1, 8);
             tlpnlBehaviour.Controls.Add(chkUpdateModules, 0, 4);
             tlpnlBehaviour.Dock = DockStyle.Top;
-            tlpnlBehaviour.Location = new Point(8, 21);
+            tlpnlBehaviour.Location = new Point(8, 24);
             tlpnlBehaviour.Name = "tlpnlBehaviour";
+            tlpnlBehaviour.Padding = new Padding(0, 0, 0, 8);
             tlpnlBehaviour.RowCount = 10;
             tlpnlBehaviour.RowStyles.Add(new RowStyle());
             tlpnlBehaviour.RowStyles.Add(new RowStyle());
@@ -344,56 +333,40 @@
             tlpnlBehaviour.RowStyles.Add(new RowStyle());
             tlpnlBehaviour.RowStyles.Add(new RowStyle());
             tlpnlBehaviour.RowStyles.Add(new RowStyle());
-            tlpnlBehaviour.Size = new Size(1241, 243);
+            tlpnlBehaviour.Size = new Size(1241, 272);
             tlpnlBehaviour.TabIndex = 0;
             // 
             // chkFollowRenamesInFileHistoryExact
             // 
             chkFollowRenamesInFileHistoryExact.AutoSize = true;
             chkFollowRenamesInFileHistoryExact.Dock = DockStyle.Fill;
-            chkFollowRenamesInFileHistoryExact.Location = new Point(273, 118);
+            chkFollowRenamesInFileHistoryExact.Location = new Point(300, 128);
             chkFollowRenamesInFileHistoryExact.Name = "chkFollowRenamesInFileHistoryExact";
-            chkFollowRenamesInFileHistoryExact.Size = new Size(907, 17);
+            chkFollowRenamesInFileHistoryExact.Size = new Size(877, 19);
             chkFollowRenamesInFileHistoryExact.TabIndex = 6;
             chkFollowRenamesInFileHistoryExact.Text = "Follow exact renames and copies only";
             chkFollowRenamesInFileHistoryExact.UseVisualStyleBackColor = true;
             // 
             // RevisionGridQuickSearchTimeout
             // 
-            RevisionGridQuickSearchTimeout.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            RevisionGridQuickSearchTimeout.Location = new Point(273, 220);
-            RevisionGridQuickSearchTimeout.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            RevisionGridQuickSearchTimeout.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            RevisionGridQuickSearchTimeout.Increment = new decimal(new int[] { 100, 0, 0, 0 });
+            RevisionGridQuickSearchTimeout.Location = new Point(300, 238);
+            RevisionGridQuickSearchTimeout.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            RevisionGridQuickSearchTimeout.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
             RevisionGridQuickSearchTimeout.Name = "RevisionGridQuickSearchTimeout";
-            RevisionGridQuickSearchTimeout.Size = new Size(85, 20);
+            RevisionGridQuickSearchTimeout.Size = new Size(85, 23);
             RevisionGridQuickSearchTimeout.TabIndex = 11;
             RevisionGridQuickSearchTimeout.TextAlign = HorizontalAlignment.Right;
             RevisionGridQuickSearchTimeout.ThousandsSeparator = true;
-            RevisionGridQuickSearchTimeout.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+            RevisionGridQuickSearchTimeout.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // btnDefaultDestinationBrowse
             // 
             btnDefaultDestinationBrowse.AutoSize = true;
             btnDefaultDestinationBrowse.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            btnDefaultDestinationBrowse.Location = new Point(1186, 164);
+            btnDefaultDestinationBrowse.Location = new Point(1183, 178);
             btnDefaultDestinationBrowse.Name = "btnDefaultDestinationBrowse";
-            btnDefaultDestinationBrowse.Size = new Size(52, 23);
+            btnDefaultDestinationBrowse.Size = new Size(55, 25);
             btnDefaultDestinationBrowse.TabIndex = 9;
             btnDefaultDestinationBrowse.Text = "Browse";
             btnDefaultDestinationBrowse.UseVisualStyleBackColor = true;
@@ -403,9 +376,9 @@
             // 
             lblQuickSearchTimeout.AutoSize = true;
             lblQuickSearchTimeout.Dock = DockStyle.Fill;
-            lblQuickSearchTimeout.Location = new Point(3, 217);
+            lblQuickSearchTimeout.Location = new Point(3, 235);
             lblQuickSearchTimeout.Name = "lblQuickSearchTimeout";
-            lblQuickSearchTimeout.Size = new Size(264, 26);
+            lblQuickSearchTimeout.Size = new Size(291, 29);
             lblQuickSearchTimeout.TabIndex = 11;
             lblQuickSearchTimeout.Text = "Revision grid quick search timeout [ms]";
             lblQuickSearchTimeout.TextAlign = ContentAlignment.MiddleLeft;
@@ -416,7 +389,7 @@
             chkCloseProcessDialog.Dock = DockStyle.Fill;
             chkCloseProcessDialog.Location = new Point(3, 3);
             chkCloseProcessDialog.Name = "chkCloseProcessDialog";
-            chkCloseProcessDialog.Size = new Size(264, 17);
+            chkCloseProcessDialog.Size = new Size(291, 19);
             chkCloseProcessDialog.TabIndex = 0;
             chkCloseProcessDialog.Text = "Close Process dialog when process succeeds";
             chkCloseProcessDialog.UseVisualStyleBackColor = true;
@@ -427,18 +400,18 @@
             cbDefaultCloneDestination.AutoCompleteSource = AutoCompleteSource.FileSystemDirectories;
             cbDefaultCloneDestination.Dock = DockStyle.Fill;
             cbDefaultCloneDestination.FormattingEnabled = true;
-            cbDefaultCloneDestination.Location = new Point(273, 164);
+            cbDefaultCloneDestination.Location = new Point(300, 178);
             cbDefaultCloneDestination.Name = "cbDefaultCloneDestination";
-            cbDefaultCloneDestination.Size = new Size(907, 21);
+            cbDefaultCloneDestination.Size = new Size(877, 23);
             cbDefaultCloneDestination.TabIndex = 8;
             // 
             // chkShowGitCommandLine
             // 
             chkShowGitCommandLine.AutoSize = true;
             chkShowGitCommandLine.Dock = DockStyle.Fill;
-            chkShowGitCommandLine.Location = new Point(3, 26);
+            chkShowGitCommandLine.Location = new Point(3, 28);
             chkShowGitCommandLine.Name = "chkShowGitCommandLine";
-            chkShowGitCommandLine.Size = new Size(264, 17);
+            chkShowGitCommandLine.Size = new Size(291, 19);
             chkShowGitCommandLine.TabIndex = 1;
             chkShowGitCommandLine.Text = "Show console window when executing git process";
             chkShowGitCommandLine.UseVisualStyleBackColor = true;
@@ -447,9 +420,9 @@
             // 
             lblDefaultCloneDestination.AutoSize = true;
             lblDefaultCloneDestination.Dock = DockStyle.Fill;
-            lblDefaultCloneDestination.Location = new Point(3, 161);
+            lblDefaultCloneDestination.Location = new Point(3, 175);
             lblDefaultCloneDestination.Name = "lblDefaultCloneDestination";
-            lblDefaultCloneDestination.Size = new Size(264, 29);
+            lblDefaultCloneDestination.Size = new Size(291, 31);
             lblDefaultCloneDestination.TabIndex = 8;
             lblDefaultCloneDestination.Text = "Default clone destination";
             lblDefaultCloneDestination.TextAlign = ContentAlignment.MiddleLeft;
@@ -458,9 +431,9 @@
             // 
             chkUseHistogramDiffAlgorithm.AutoSize = true;
             chkUseHistogramDiffAlgorithm.Dock = DockStyle.Fill;
-            chkUseHistogramDiffAlgorithm.Location = new Point(3, 49);
+            chkUseHistogramDiffAlgorithm.Location = new Point(3, 53);
             chkUseHistogramDiffAlgorithm.Name = "chkUseHistogramDiffAlgorithm";
-            chkUseHistogramDiffAlgorithm.Size = new Size(264, 17);
+            chkUseHistogramDiffAlgorithm.Size = new Size(291, 19);
             chkUseHistogramDiffAlgorithm.TabIndex = 2;
             chkUseHistogramDiffAlgorithm.Text = "Use histogram diff algorithm";
             chkUseHistogramDiffAlgorithm.UseVisualStyleBackColor = true;
@@ -469,9 +442,9 @@
             // 
             chkStashUntrackedFiles.AutoSize = true;
             chkStashUntrackedFiles.Dock = DockStyle.Fill;
-            chkStashUntrackedFiles.Location = new Point(3, 72);
+            chkStashUntrackedFiles.Location = new Point(3, 78);
             chkStashUntrackedFiles.Name = "chkStashUntrackedFiles";
-            chkStashUntrackedFiles.Size = new Size(264, 17);
+            chkStashUntrackedFiles.Size = new Size(291, 19);
             chkStashUntrackedFiles.TabIndex = 3;
             chkStashUntrackedFiles.Text = "Include untracked files in autostash";
             chkStashUntrackedFiles.UseVisualStyleBackColor = true;
@@ -480,9 +453,9 @@
             // 
             chkStartWithRecentWorkingDir.AutoSize = true;
             chkStartWithRecentWorkingDir.Dock = DockStyle.Fill;
-            chkStartWithRecentWorkingDir.Location = new Point(3, 141);
+            chkStartWithRecentWorkingDir.Location = new Point(3, 153);
             chkStartWithRecentWorkingDir.Name = "chkStartWithRecentWorkingDir";
-            chkStartWithRecentWorkingDir.Size = new Size(264, 17);
+            chkStartWithRecentWorkingDir.Size = new Size(291, 19);
             chkStartWithRecentWorkingDir.TabIndex = 7;
             chkStartWithRecentWorkingDir.Text = "Open last working directory on startup";
             chkStartWithRecentWorkingDir.UseVisualStyleBackColor = true;
@@ -491,9 +464,9 @@
             // 
             chkFollowRenamesInFileHistory.AutoSize = true;
             chkFollowRenamesInFileHistory.Dock = DockStyle.Fill;
-            chkFollowRenamesInFileHistory.Location = new Point(3, 118);
+            chkFollowRenamesInFileHistory.Location = new Point(3, 128);
             chkFollowRenamesInFileHistory.Name = "chkFollowRenamesInFileHistory";
-            chkFollowRenamesInFileHistory.Size = new Size(264, 17);
+            chkFollowRenamesInFileHistory.Size = new Size(291, 19);
             chkFollowRenamesInFileHistory.TabIndex = 5;
             chkFollowRenamesInFileHistory.Text = "Follow renames in file history";
             chkFollowRenamesInFileHistory.UseVisualStyleBackColor = true;
@@ -502,9 +475,9 @@
             // 
             lblDefaultPullAction.AutoSize = true;
             lblDefaultPullAction.Dock = DockStyle.Fill;
-            lblDefaultPullAction.Location = new Point(3, 190);
+            lblDefaultPullAction.Location = new Point(3, 206);
             lblDefaultPullAction.Name = "lblDefaultPullAction";
-            lblDefaultPullAction.Size = new Size(264, 27);
+            lblDefaultPullAction.Size = new Size(291, 29);
             lblDefaultPullAction.TabIndex = 14;
             lblDefaultPullAction.Text = "Default pull action";
             lblDefaultPullAction.TextAlign = ContentAlignment.MiddleLeft;
@@ -512,17 +485,17 @@
             // cboDefaultPullAction
             // 
             cboDefaultPullAction.FormattingEnabled = true;
-            cboDefaultPullAction.Location = new Point(273, 193);
+            cboDefaultPullAction.Location = new Point(300, 209);
             cboDefaultPullAction.Name = "cboDefaultPullAction";
-            cboDefaultPullAction.Size = new Size(121, 21);
+            cboDefaultPullAction.Size = new Size(121, 23);
             cboDefaultPullAction.TabIndex = 10;
             // 
             // chkUpdateModules
             // 
             chkUpdateModules.AutoSize = true;
-            chkUpdateModules.Location = new Point(3, 95);
+            chkUpdateModules.Location = new Point(3, 103);
             chkUpdateModules.Name = "chkUpdateModules";
-            chkUpdateModules.Size = new Size(183, 17);
+            chkUpdateModules.Size = new Size(201, 19);
             chkUpdateModules.TabIndex = 4;
             chkUpdateModules.Text = "Update submodules on checkout";
             chkUpdateModules.ThreeState = true;
@@ -536,8 +509,7 @@
             Controls.Add(tlpnlMain);
             Name = "GeneralSettingsPage";
             Padding = new Padding(8);
-            Size = new Size(1279, 523);
-            Text = "General";
+            Size = new Size(1279, 763);
             tlpnlMain.ResumeLayout(false);
             tlpnlMain.PerformLayout();
             groupBoxTelemetry.ResumeLayout(false);
@@ -548,12 +520,12 @@
             groupBoxPerformance.PerformLayout();
             tlpnlPerformance.ResumeLayout(false);
             tlpnlPerformance.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(_NO_TRANSLATE_MaxCommits)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)_NO_TRANSLATE_MaxCommits).EndInit();
             groupBoxBehaviour.ResumeLayout(false);
             groupBoxBehaviour.PerformLayout();
             tlpnlBehaviour.ResumeLayout(false);
             tlpnlBehaviour.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(RevisionGridQuickSearchTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)RevisionGridQuickSearchTimeout).EndInit();
             ResumeLayout(false);
             PerformLayout();
 
