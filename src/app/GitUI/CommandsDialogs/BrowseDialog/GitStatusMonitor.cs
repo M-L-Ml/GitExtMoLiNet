@@ -1,4 +1,5 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Windows.Forms;
 using GitCommands;
 using GitCommands.Git;
 using GitExtensions.Extensibility;
@@ -223,17 +224,31 @@ namespace GitUI.CommandsDialogs.BrowseDialog
                 return;
             }
 
-            try
-            {
-                _workTreeWatcher.EnableRaisingEvents = Directory.Exists(_workTreeWatcher.Path);
-                _gitDirWatcher.EnableRaisingEvents = Directory.Exists(_gitDirWatcher.Path)
-                        && !_gitDirWatcher.Path.StartsWith(_workTreeWatcher.Path);
-            }
-            catch
-            {
-                _workTreeWatcher.EnableRaisingEvents = false;
-                _gitDirWatcher.EnableRaisingEvents = false;
-            }
+            ThreadHelper.JoinableTaskContext.Factory.RunAsync(async () =>
+                {
+                    await Task.Yield();
+                    try
+                    {
+                        _workTreeWatcher.EnableRaisingEvents = Directory.Exists(_workTreeWatcher.Path);
+                    }
+                    catch
+                    {
+                        _workTreeWatcher.EnableRaisingEvents = false;
+                    }
+                });
+            ThreadHelper.JoinableTaskContext.Factory.RunAsync(async () =>
+                {
+                    await Task.Yield();
+                    try
+                    {
+                        _gitDirWatcher.EnableRaisingEvents = Directory.Exists(_gitDirWatcher.Path)
+                                && !_gitDirWatcher.Path.StartsWith(_workTreeWatcher.Path);
+                    }
+                    catch
+                    {
+                        _gitDirWatcher.EnableRaisingEvents = false;
+                    }
+                }).JoinAsync().Wait(10);
         }
 
         private GitStatusMonitorState CurrentStatus
