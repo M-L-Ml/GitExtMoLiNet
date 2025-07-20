@@ -22,7 +22,7 @@ namespace ResourceManager
                 return;
             }
 #if __MonoCS__ || !WINDOWS_OWN
-
+            // AllowDrop is not implemented in Mono
             if (form.AllowDrop == true)
                 form.AllowDrop = false;
 #endif
@@ -39,7 +39,7 @@ namespace ResourceManager
             }
 #if __MonoCS__ || !WINDOWS_OWN
 
-            // not implemented in Mono
+            // AllowDrop is not implemented in Mono
             if (control.AllowDrop == true)
                 control.AllowDrop = false;
 #endif
