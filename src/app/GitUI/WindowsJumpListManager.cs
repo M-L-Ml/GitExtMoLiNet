@@ -13,6 +13,7 @@ namespace GitUI
     public interface IWindowsJumpListManager : IDisposable
     {
         bool NeedsJumpListCreation { get; }
+        bool JumpListCreated { get; }
 
         void AddToRecent(string workingDir);
         void CreateJumpList(IntPtr windowHandle, WindowsThumbnailToolbarButtons buttons);
@@ -152,6 +153,24 @@ namespace GitUI
         /// </summary>
         public bool NeedsJumpListCreation => IsSupported && !ToolbarButtonsCreated;
 
+        public bool JumpListCreated
+        {
+            get
+            {
+                if (ToolbarButtonsCreated || !IsSupported)
+                {
+                    return false;
+                }
+
+                return _lastWindowHandleUsedForJumpList != 0;
+            }
+        }
+
+        /// <summary>
+        ///  this field is only for information.
+        /// </summary>
+        private nint _lastWindowHandleUsedForJumpList = 0;
+
         /// <summary>
         /// Creates a JumpList for the given application instance.
         /// It also adds thumbnail toolbars, which are a set of up to seven buttons at the bottom of the taskbar’s icon thumbnail preview.
@@ -174,6 +193,7 @@ namespace GitUI
                 jumpList.Refresh();
 
                 CreateTaskbarButtons(windowHandle, buttons);
+                _lastWindowHandleUsedForJumpList = windowHandle;
             }, nameof(CreateJumpList));
 
             if (ToolbarButtonsCreated && _deferredAddToRecent is not null)

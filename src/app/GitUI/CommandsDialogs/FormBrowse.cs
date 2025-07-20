@@ -570,24 +570,50 @@ namespace GitUI.CommandsDialogs
             // wait for windows to really be displayed, which isn't necessarily the case in OnLoad()
             if (_windowsJumpListManager.NeedsJumpListCreation)
             {
-                _windowsJumpListManager.CreateJumpList(
-                    Handle,
-                    new WindowsThumbnailToolbarButtons(
-                        new WindowsThumbnailToolbarButton(toolStripButtonCommit.Text, toolStripButtonCommit.Image, CommitToolStripMenuItemClick),
-                        new WindowsThumbnailToolbarButton(toolStripButtonPush.Text, toolStripButtonPush.Image, PushToolStripMenuItemClick),
-                        new WindowsThumbnailToolbarButton(toolStripButtonPull.Text, toolStripButtonPull.Image, PullToolStripMenuItemClick),
-                        new WindowsThumbnailToolbarButton(_closeAll.Text, Images.DeleteFile, (s, e) =>
-                        {
-                            if (EnvUtils.RunningOnWindows())
-                                NativeMethods.PostMessageW(NativeMethods.HWND_BROADCAST, _closeAllMessage);
 
-                        })));
+                var currentProcess = Process.GetCurrentProcess();
+
+                if (currentProcess != null && currentProcess.MainWindowHandle != IntPtr.Zero)
+                {
+                    InitializeWindowsJumpList();
+                }
             }
 
             _windowsJumpListManager.EnableThumbnailToolbar(_dashboard?.Visible is not true && Module.IsValidGitWorkingDir());
 
             this.InvokeAndForget(OnActivate);
             base.OnActivated(e);
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            if (_windowsJumpListManager.NeedsJumpListCreation)
+            {
+
+                var currentProcess = Process.GetCurrentProcess();
+
+                if (!_windowsJumpListManager.JumpListCreated && currentProcess != null && currentProcess.MainWindowHandle != IntPtr.Zero)
+                {
+                    InitializeWindowsJumpList();
+                }
+
+            }
+            base.OnShown(e);
+        }
+        private void InitializeWindowsJumpList()
+        {
+            _windowsJumpListManager.CreateJumpList(
+                Handle,
+                new WindowsThumbnailToolbarButtons(
+                    new WindowsThumbnailToolbarButton(toolStripButtonCommit.Text, toolStripButtonCommit.Image, CommitToolStripMenuItemClick),
+                    new WindowsThumbnailToolbarButton(toolStripButtonPush.Text, toolStripButtonPush.Image, PushToolStripMenuItemClick),
+                    new WindowsThumbnailToolbarButton(toolStripButtonPull.Text, toolStripButtonPull.Image, PullToolStripMenuItemClick),
+                    new WindowsThumbnailToolbarButton(_closeAll.Text, Images.DeleteFile, (s, e) =>
+                    {
+                        if (EnvUtils.RunningOnWindows())
+                            NativeMethods.PostMessageW(NativeMethods.HWND_BROADCAST, _closeAllMessage);
+
+                    })));
         }
 
         protected override void OnDeactivate(EventArgs e)
@@ -3087,5 +3113,6 @@ namespace GitUI.CommandsDialogs
         {
             _dashboard?.RefreshContent();
         }
+
     }
 }
