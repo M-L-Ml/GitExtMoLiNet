@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Microsoft.VisualStudio.Threading;
 
 namespace GitUI
@@ -60,6 +60,11 @@ namespace GitUI
             }
         }
 
+        /// <summary>
+        /// TODO: This name is misleading - it's not Async. This method is used to convert an <see cref="Action"/> to a <see cref="Func{Task}"/> that can be used with the asynchronous methods.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         internal static Func<Task> AsyncAction(Action action)
         {
             return () =>
@@ -91,7 +96,7 @@ namespace GitUI
         /// </summary>
         public void FileAndForget(Action action)
         {
-            FileAndForget(AsyncAction(action));
+            FileAndForget(action.AsAsyncFunc());
         }
 
         /// <summary>
@@ -126,7 +131,7 @@ namespace GitUI
         /// </summary>
         public void InvokeAndForget(Control control, Action action, CancellationToken cancellationToken = default)
         {
-            InvokeAndForget(control, AsyncAction(action), cancellationToken);
+            InvokeAndForget(control, action.AsAsyncFunc(), cancellationToken);
         }
 
         public async Task JoinPendingOperationsAsync(CancellationToken cancellationToken)

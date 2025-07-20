@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -100,7 +100,23 @@ namespace GitUI
         /// Asynchronously run <paramref name="action"/> on the UI thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
         public static void InvokeAndForget(this Control control, Action action, TaskManager? taskManager = null, CancellationToken cancellationToken = default)
-            => InvokeAndForget(control, TaskManager.AsyncAction(action), taskManager, cancellationToken);
+            => InvokeAndForget(control, action.AsAsyncFunc(), taskManager, cancellationToken);
+
+        /// <summary>
+        /// Converts an <see cref="Action"/> to a <see cref="Func{Task}"/> that can be used with asynchronous methods.
+        /// This is a more fluent alternative to <see cref="TaskManager.AsyncAction"/>
+        /// </summary>
+        /// <param name="action">The action to convert to an asynchronous function.</param>
+        /// <returns>A function that wraps the action and returns a completed task.</returns>
+        internal static Func<Task> AsAsyncFunc(this Action action)
+        {
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            return TaskManager.AsyncAction(action);
+        }
 
         public static async Task JoinPendingOperationsAsync(CancellationToken cancellationToken)
             => await _taskManager.JoinPendingOperationsAsync(cancellationToken);
