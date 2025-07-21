@@ -77,6 +77,7 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.AutoSize = true;
+            tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
