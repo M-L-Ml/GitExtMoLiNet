@@ -1,4 +1,5 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using GitCommands;
 using Microsoft.VisualStudio.Threading;
 
 namespace GitUI
@@ -37,7 +38,7 @@ namespace GitUI
             }
             catch (Exception ex)
             {
-                await handleExceptionAsync(ex);
+                await handleExceptionAsync(ex.PreserveStackDetails());
             }
         }
 

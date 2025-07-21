@@ -1,4 +1,5 @@
-using System.Collections;
+﻿using System.Collections;
+using System.Runtime.ExceptionServices;
 using System.Text;
 
 namespace GitCommands
@@ -39,6 +40,29 @@ namespace GitCommands
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// ExceptionDispatchInfo.Capture
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns>same input exception</returns>
+        public static Exception PreserveStackDetails(this Exception e)
+        {
+            ExceptionDispatchInfo.Capture(e);
+            if (e is AggregateException ae)
+            {
+                foreach (var inner in ae.InnerExceptions)
+                {
+                    inner.PreserveStackDetails();
+                }
+            }
+            else if (e is System.Reflection.TargetInvocationException tie)
+            {
+                tie.InnerException?.PreserveStackDetails();
+            }
+
+            return e;
         }
     }
 }
