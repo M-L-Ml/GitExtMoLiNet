@@ -6,6 +6,7 @@ using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
 using GitUI.NBugReports;
 using Microsoft;
+using Microsoft.VisualStudio.Threading;
 
 namespace GitUI.CommandsDialogs.BrowseDialog
 {
@@ -226,7 +227,7 @@ namespace GitUI.CommandsDialogs.BrowseDialog
 
             ThreadHelper.JoinableTaskContext.Factory.RunAsync(async () =>
                 {
-                    await Task.Yield();
+                    await Task.Run(() => { }).ConfigureAwait(false);
                     try
                     {
                         _workTreeWatcher.EnableRaisingEvents = Directory.Exists(_workTreeWatcher.Path);
@@ -235,10 +236,10 @@ namespace GitUI.CommandsDialogs.BrowseDialog
                     {
                         _workTreeWatcher.EnableRaisingEvents = false;
                     }
-                });
+                }, JoinableTaskCreationOptions.LongRunning);
             ThreadHelper.JoinableTaskContext.Factory.RunAsync(async () =>
                 {
-                    await Task.Yield();
+                    await Task.Run(() => { }).ConfigureAwait(false);
                     try
                     {
                         _gitDirWatcher.EnableRaisingEvents = Directory.Exists(_gitDirWatcher.Path)
@@ -248,7 +249,7 @@ namespace GitUI.CommandsDialogs.BrowseDialog
                     {
                         _gitDirWatcher.EnableRaisingEvents = false;
                     }
-                }).JoinAsync().Wait(10);
+                }, JoinableTaskCreationOptions.LongRunning).JoinAsync().Wait(10);
         }
 
         private GitStatusMonitorState CurrentStatus
