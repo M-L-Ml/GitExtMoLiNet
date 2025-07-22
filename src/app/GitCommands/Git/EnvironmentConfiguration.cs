@@ -197,7 +197,8 @@ namespace GitCommands
                             ?? Env.GetEnvironmentVariable("USERNAME");
                         if (!string.IsNullOrEmpty(user))
                         {
-                            hom = Path.Combine("/home", user);
+                            var homc = new string[] { Path.Combine("/home", user), $"/{user}" }.Where(Directory.Exists).FirstOrDefault();
+                            hom = homc;
                             if (Directory.Exists(hom))
                             {
                                 Env.SetEnvironmentVariable("HOME", hom);
