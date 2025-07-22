@@ -32,13 +32,24 @@ namespace GitExtensions
         [STAThread]
         private static void Main()
         {
-            DialogResult doBugReporter = DialogResult.Yes;
-#if DEBUG
-            doBugReporter = MessageBox.Show("Hello. Enable BugReport?", "Git Extensions", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            bool doBugReporter = true;
+            if (EnvUtils.IsMonoRuntimeOrMForms() && !EnvUtils.RunningOnWindows())
+            {
+                var fDllMap = typeof(MessageBox).Assembly.GetType("System.Windows.Forms.LibraryResolver")?.GetField("DllMap", BindingFlags.NonPublic | BindingFlags.Static);
+                var dllMap = fDllMap?.GetValue(null) as Dictionary<string, string>;
+                if (dllMap != null)
+                {
+                    dllMap.Add("libXinerama", "libXinerama.so.1");
+                }
+#if false && DEBUG
+                NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), FileUtility.DllImportResolver);
+
+                var dlgResult = MessageBox.Show("Hello. Enable BugReport?", "Git Extensions", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                doBugReporter = dlgResult == DialogResult.OK || dlgResult == DialogResult.Yes;
 #endif
-            NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), FileUtility.DllImportResolver);
-            // TODO: enable bug report. If you want to suppress the BugReportInvoker when debugging and exit quickly, uncomment the condition:
-            if (!Debugger.IsAttached || doBugReporter == DialogResult.Yes)
+            }
+            //  enable bug report. If you want to suppress the BugReportInvoker when debugging and exit quickly, set doBugReporter off:
+            if (doBugReporter)
             {
                 AppDomain.CurrentDomain.UnhandledException += (s, e) => BugReportInvoker.Report((Exception)e.ExceptionObject, e.IsTerminating);
                 Application.ThreadException += (s, e) => BugReportInvoker.Report(e.Exception, isTerminating: false);
