@@ -8,11 +8,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Git Extensions")]
+[assembly: AssemblyTitle("Git Ext MoLiNet")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Git Extensions")]
-[assembly: AssemblyProduct("Git Extensions")]
-[assembly: AssemblyCopyright("Copyright © 2008-2025 Git Extensions Team")]
+[assembly: AssemblyCompany("Git Ext MoLiNet")]
+[assembly: AssemblyProduct("Git Ext MoLiNet")]
+[assembly: AssemblyCopyright("Copyright © 2008-2025 Git Extensions Team (and by M-L-Ml for edits of this fork MoLiNet)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

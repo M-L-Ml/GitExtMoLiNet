@@ -169,7 +169,7 @@ Send report?");
 
             Validates.NotNull(_lastException);
 
-            string? url = UrlBuilder.Build("https://github.com/gitextensions/gitextensions/issues/new", _lastException, _exceptionInfo, _environmentInfo, descriptionTextBox.Text);
+            string? url = UrlBuilder.Build("https://github.com/M-L-Ml/gitextensions/issues/new", _lastException, _exceptionInfo, _environmentInfo, descriptionTextBox.Text);
             new Executable(url!).Start(useShellExecute: true, throwOnErrorExit: false);
 
             DialogResult = DialogResult.Abort;

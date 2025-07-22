@@ -1,4 +1,8 @@
-﻿# Contributing to Git Extensions
+﻿# Contributing Git Extensions
+This is a fork of Git Extensions project. https://github.com/M-L-Ml/gitextensions. Feel more freely to contribute to this project.
+Below is original content of this file.
+
+# Contributing to Git Extensions
 
 :exclamation: As of 23 January 2019 all submissions to this project must be done under [The Developer Certificate of Origin](contributors.txt). You must sign it with your pull request, if you've not done so before.
 

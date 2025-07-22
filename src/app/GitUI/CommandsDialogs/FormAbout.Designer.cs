@@ -107,7 +107,7 @@
             _NO_TRANSLATE_labelProductName.Size = new Size(420, 19);
             _NO_TRANSLATE_labelProductName.TabIndex = 0;
             _NO_TRANSLATE_labelProductName.TabStop = true;
-            _NO_TRANSLATE_labelProductName.Text = "Git Extensions";
+            _NO_TRANSLATE_labelProductName.Text = "Git Ext MoLiNet";
             _NO_TRANSLATE_labelProductName.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // linkLabelIcons
@@ -133,7 +133,7 @@
             _NO_TRANSLATE_labelCopyright.Name = "_NO_TRANSLATE_labelCopyright";
             _NO_TRANSLATE_labelCopyright.Size = new Size(420, 15);
             _NO_TRANSLATE_labelCopyright.TabIndex = 2;
-            _NO_TRANSLATE_labelCopyright.Text = "Proudly presented by Git Extensions team";
+            _NO_TRANSLATE_labelCopyright.Text = "Proudly presented by Git Extensions team (and by M-L-Ml for edits of this fork MoLiNet)";
             _NO_TRANSLATE_labelCopyright.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // thanksTo
@@ -214,7 +214,7 @@
             label2.Name = "label2";
             label2.Size = new Size(133, 30);
             label2.TabIndex = 0;
-            label2.Text = "Git Extensions is open source. Get involved!";
+            label2.Text = "Git Ext MoLiNet is open source. Get involved!";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             label2.AutoSize = true;
             label2.MaximumSize = new Size(133, 0);

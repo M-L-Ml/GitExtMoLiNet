@@ -44,7 +44,7 @@ namespace GitExtensions
 #if false && DEBUG
                 NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), FileUtility.DllImportResolver);
 
-                var dlgResult = MessageBox.Show("Hello. Enable BugReport?", "Git Extensions", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                var dlgResult = MessageBox.Show("Hello. Enable BugReport?", "Git Ext MoLiNet", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 doBugReporter = dlgResult == DialogResult.OK || dlgResult == DialogResult.Yes;
 #endif
             }

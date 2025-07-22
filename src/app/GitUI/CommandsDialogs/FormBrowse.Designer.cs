@@ -1409,7 +1409,7 @@ namespace GitUI.CommandsDialogs
             Controls.Add(toolPanel);
             Controls.Add(mainMenuStrip);
             Name = "FormBrowse";
-            Text = "Git Extensions";
+            Text = "Git Ext MoLiNet";
             ToolStripMain.ResumeLayout(false);
             ToolStripMain.PerformLayout();
             MainSplitContainer.Panel1.ResumeLayout(false);

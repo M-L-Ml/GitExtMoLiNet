@@ -1,9 +1,11 @@
-This is a fork of the Git Extensions project, aiming to make it compatible with Linux, using the package
+# Git Ext MoLiNet
+
+This is a fork "Git Ext MoLiNet" of the Git Extensions project, aiming to make it compatible with Linux, using the package
 https://github.com/DanielVanNoord/System.Windows.Forms.git
 https://www.nuget.org/packages/Core.System.Windows.Forms/
-This allows it to be run on Linux theoretially.
+This allows it to be run on Linux .
 
-Status: The application runs on Linux, but with many layout issues. There may be undetected bugs, as thorough testing has been minimal. All plugins and the built-in terminal are currently disabled, making this an alpha version. Despite these issues, it can still be useful. There is no plan for extensive maintenance unless someone volunteers to collaborate. Fixing it for Linux is challenging. The code was compiled on Windows and smoke-tested on WSL Ubuntu.
+Status: The application runs on Linux, but with many layout issues. There may be undetected bugs, as thorough testing has been minimal. This an alpha version. All plugins and the built-in terminal are currently disabled. Despite these issues, it can still be useful. Although NO WARRANTY ‼🛑 is given. There is no plan for extensive maintenance unless someone volunteers to collaborate. Fixing it for Linux is challenging. The code was compiled on Windows and smoke-tested on WSL Ubuntu.
 
 
 So the goal is to make the whole project a library to a cross-platform ready project, while preserving the ability to merge changes from the upstream project.

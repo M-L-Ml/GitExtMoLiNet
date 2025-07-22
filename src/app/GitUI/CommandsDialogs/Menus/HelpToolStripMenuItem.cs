@@ -45,7 +45,7 @@ namespace GitUI.CommandsDialogs.Menus
         private void reportAnIssueToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserEnvironmentInformation.CopyInformation();
-            OsShellUtil.OpenUrlInDefaultBrowser(@"https://github.com/gitextensions/gitextensions/issues");
+            OsShellUtil.OpenUrlInDefaultBrowser(@"https://github.com/M-L-Ml/gitextensions/issues");
         }
 
         private void TranslateToolStripMenuItemClick(object sender, EventArgs e)
