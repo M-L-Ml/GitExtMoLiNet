@@ -74,6 +74,7 @@
             // 
             // tlpnlMain
             // 
+            tlpnlMain.AutoScroll = true;
             tlpnlMain.AutoSize = true;
             tlpnlMain.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tlpnlMain.ColumnCount = 1;
@@ -100,7 +101,7 @@
             groupBoxTelemetry.Location = new Point(3, 634);
             groupBoxTelemetry.Name = "groupBoxTelemetry";
             groupBoxTelemetry.Padding = new Padding(8);
-            groupBoxTelemetry.Size = new Size(1257, 57);
+            groupBoxTelemetry.Size = new Size(1257, 62);
             groupBoxTelemetry.TabIndex = 3;
             groupBoxTelemetry.TabStop = false;
             groupBoxTelemetry.Text = "Telemetry";
@@ -119,7 +120,7 @@
             tlpnlTelemetry.Name = "tlpnlTelemetry";
             tlpnlTelemetry.RowCount = 1;
             tlpnlTelemetry.RowStyles.Add(new RowStyle());
-            tlpnlTelemetry.Size = new Size(1241, 25);
+            tlpnlTelemetry.Size = new Size(1241, 30);
             tlpnlTelemetry.TabIndex = 0;
             // 
             // chkTelemetry
@@ -128,17 +129,18 @@
             chkTelemetry.Dock = DockStyle.Fill;
             chkTelemetry.Location = new Point(3, 3);
             chkTelemetry.Name = "chkTelemetry";
-            chkTelemetry.Size = new Size(139, 19);
+            chkTelemetry.Size = new Size(139, 24);
             chkTelemetry.TabIndex = 0;
             chkTelemetry.Text = "Yes, I allow telemetry!";
             chkTelemetry.UseVisualStyleBackColor = true;
             // 
             // llblTelemetryPrivacyLink
             // 
-            llblTelemetryPrivacyLink.Dock = DockStyle.Fill;
+            llblTelemetryPrivacyLink.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             llblTelemetryPrivacyLink.Location = new Point(148, 0);
+            llblTelemetryPrivacyLink.MinimumSize = new Size(55, 25);
             llblTelemetryPrivacyLink.Name = "llblTelemetryPrivacyLink";
-            llblTelemetryPrivacyLink.Size = new Size(1357, 25);
+            llblTelemetryPrivacyLink.Size = new Size(1357, 30);
             llblTelemetryPrivacyLink.TabIndex = 1;
             llblTelemetryPrivacyLink.TabStop = true;
             llblTelemetryPrivacyLink.Text = "Why and what is captured?";

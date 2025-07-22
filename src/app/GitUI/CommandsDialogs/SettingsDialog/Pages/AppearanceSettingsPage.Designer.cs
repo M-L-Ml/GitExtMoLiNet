@@ -211,8 +211,8 @@
             gbLanguages.Dock = DockStyle.Fill;
             gbLanguages.Location = new Point(3, 405);
             gbLanguages.Name = "gbLanguages";
-            gbLanguages.Padding = new Padding(8);
-            gbLanguages.Size = new Size(1480, 90);
+            gbLanguages.Padding = new Padding(8, 8, 8, 40);
+            gbLanguages.Size = new Size(1480, 149);
             gbLanguages.TabIndex = 2;
             gbLanguages.TabStop = false;
             gbLanguages.Text = "&Language";
@@ -232,13 +232,12 @@
             tlpnlLanguage.Controls.Add(lblLanguage, 0, 0);
             tlpnlLanguage.Controls.Add(Language, 1, 0);
             tlpnlLanguage.Controls.Add(helpTranslate, 2, 0);
-            tlpnlLanguage.Dock = DockStyle.Fill;
             tlpnlLanguage.Location = new Point(8, 24);
             tlpnlLanguage.Name = "tlpnlLanguage";
             tlpnlLanguage.RowCount = 2;
             tlpnlLanguage.RowStyles.Add(new RowStyle());
             tlpnlLanguage.RowStyles.Add(new RowStyle());
-            tlpnlLanguage.Size = new Size(1464, 58);
+            tlpnlLanguage.Size = new Size(388, 66);
             tlpnlLanguage.TabIndex = 0;
             // 
             // Dictionary
@@ -258,7 +257,7 @@
             downloadDictionary.Dock = DockStyle.Fill;
             downloadDictionary.Location = new Point(268, 29);
             downloadDictionary.Name = "downloadDictionary";
-            downloadDictionary.Size = new Size(117, 29);
+            downloadDictionary.Size = new Size(117, 37);
             downloadDictionary.TabIndex = 3;
             downloadDictionary.TabStop = true;
             downloadDictionary.Text = "Download dictionary";
@@ -268,10 +267,10 @@
             // lblSpellingDictionary
             // 
             lblSpellingDictionary.AutoSize = true;
-            lblSpellingDictionary.Dock = DockStyle.Fill;
             lblSpellingDictionary.Location = new Point(3, 29);
             lblSpellingDictionary.Name = "lblSpellingDictionary";
-            lblSpellingDictionary.Size = new Size(167, 29);
+            lblSpellingDictionary.Padding = new Padding(0, 0, 0, 22);
+            lblSpellingDictionary.Size = new Size(167, 37);
             lblSpellingDictionary.TabIndex = 2;
             lblSpellingDictionary.Text = "Dictionary for spelling checker";
             lblSpellingDictionary.TextAlign = ContentAlignment.MiddleLeft;
@@ -523,7 +522,6 @@
             Name = "AppearanceSettingsPage";
             Padding = new Padding(8);
             Size = new Size(1502, 599);
-            Text = "Appearance";
             tlpnlMain.ResumeLayout(false);
             tlpnlMain.PerformLayout();
             gbGeneral.ResumeLayout(false);
