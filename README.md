@@ -1,15 +1,30 @@
 # Git Ext MoLiNet
 
-This is a fork "Git Ext MoLiNet" of the Git Extensions project, aiming to make it compatible with Linux, using the package
-https://github.com/DanielVanNoord/System.Windows.Forms.git
-https://www.nuget.org/packages/Core.System.Windows.Forms/
-This allows it to be run on Linux .
+This is a fork of Git Extensions called "Git Ext MoLiNet", modified for Linux compatibility using the [System.Windows.Forms](https://github.com/DanielVanNoord/System.Windows.Forms) package.
 
-Status: The application runs on Linux, but with many layout issues. There may be undetected bugs, as thorough testing has been minimal. This an alpha version. All plugins and the built-in terminal are currently disabled. Despite these issues, it can still be useful. Although NO WARRANTY ‼🛑 is given. There is no plan for extensive maintenance unless someone volunteers to collaborate. Fixing it for Linux is challenging. The code was compiled on Windows and smoke-tested on WSL Ubuntu.
+## Linux Support Status
+
+- **Current State**: Alpha version
+- **Compatibility**: Runs on Linux with known layout issues
+- **Testing**: Limited testing performed (smoke-tested on WSL Ubuntu)
+- **Known Limitations**:
+  - Many layout issues present
+  - All plugins are currently disabled
+  - Built-in terminal is disabled
+  - May contain undetected bugs
+
+⚠️ **Important**: This is an alpha release with NO WARRANTY. The code was compiled on Windows and has only undergone basic testing. While it may be useful, please be aware of its limitations.
+
+### Maintenance
+
+There are currently no plans for extensive maintenance unless community contributors step forward. Fixing Linux compatibility issues is challenging and requires significant effort.
 
 
 So the goal is to make the whole project a library to a cross-platform ready project, while preserving the ability to merge changes from the upstream project.
 
+# Below is original README.md from Git Extensions project
+
+👇
 ![Git Extensions logo](https://cdn.rawgit.com/gitextensions/gitextensions/master/setup/assets/Logo/git-extensions-logo.svg)
 
 # Git Extensions
