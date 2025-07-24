@@ -27,7 +27,7 @@ namespace GitCommands
         public static string ProductVersion => Application.ProductVersion;
         public static readonly string ApplicationName = "Git Ext MoLiNet";
         public static readonly string ApplicationId = ApplicationName.Replace(" ", "");
-        public static readonly string SettingsFileName = ApplicationId + ".settings";
+        public static readonly string SettingsFileName = "GitExtensions" + ".settings";
         public static readonly string UserPluginsDirectoryName = "UserPlugins";
 
         private static readonly Lazy<SettingsSourceBase> _registrySettings =
@@ -77,7 +77,8 @@ namespace GitCommands
 
                 // Make ApplicationDataPath version independent
                 return Application.UserAppDataPath.Replace(Application.ProductVersion, string.Empty)
-                                                  .Replace(ApplicationName, ApplicationId); // 'GitExtensions' has been changed to 'Git Extensions' in v3.0
+                                                  .Replace(Application.CompanyName + Path.DirectorySeparatorChar + Application.ProductName,
+                                                  "GitExtensions" + Path.DirectorySeparatorChar + "GitExtensions"); // 'GitExtensions' has been changed to 'Git Extensions' in v3.0
             });
 
             LocalApplicationDataPath = new Lazy<string?>(() =>
