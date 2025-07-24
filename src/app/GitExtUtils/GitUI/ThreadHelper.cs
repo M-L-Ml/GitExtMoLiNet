@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -69,20 +69,20 @@ namespace GitUI
         /// <summary>
         /// Asynchronously run <paramref name="asyncAction"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
-        public static void FileAndForget(Func<Task> asyncAction)
-            => _taskManager.FileAndForget(asyncAction);
+        public static void RunAndFileAndForget(Func<Task> asyncAction)
+            => _taskManager.RunAndFileAndForget(asyncAction);
 
         /// <summary>
         /// Asynchronously run <paramref name="action"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
         public static void FileAndForget(Action action)
-            => _taskManager.FileAndForget(action);
+            => _taskManager.RunAndFileAndForget(action);
 
         /// <summary>
         /// Asynchronously run <paramref name="joinableTask"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
         public static void FileAndForget(this JoinableTask joinableTask)
-            => _taskManager.FileAndForget(joinableTask.Task);
+            => _taskManager.FileAndForget(joinableTask);
 
         /// <summary>
         /// Asynchronously run <paramref name="task"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.

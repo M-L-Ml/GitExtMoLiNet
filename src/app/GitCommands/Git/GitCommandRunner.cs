@@ -40,7 +40,7 @@ namespace GitCommands
             bool redirectOutput = false,
             Encoding? outputEncoding = null)
         {
-            ThreadHelper.FileAndForget(async () =>
+            ThreadHelper.RunAndFileAndForget(async () =>
                 {
                     using IProcess process = RunDetached(CancellationToken.None, arguments, createWindow, redirectInput, redirectOutput, outputEncoding);
                     await process.WaitForExitAsync();

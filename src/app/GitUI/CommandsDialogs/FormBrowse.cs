@@ -393,7 +393,7 @@ namespace GitUI.CommandsDialogs
                         {
                             Validates.NotNull(_submoduleStatusProvider);
 
-                            ThreadHelper.FileAndForget(async () =>
+                            ThreadHelper.RunAndFileAndForget(async () =>
                             {
                                 try
                                 {
@@ -1105,7 +1105,7 @@ namespace GitUI.CommandsDialogs
                     if (AppSettings.ShowAheadBehindData)
                     {
                         string currentBranch = RevisionGrid.CurrentBranch.Value;
-                        ThreadHelper.FileAndForget(async () =>
+                        ThreadHelper.RunAndFileAndForget(async () =>
                         {
                             // Always query only current branch here
                             // because, due to race condition with left panel async refresh:
@@ -1227,7 +1227,7 @@ namespace GitUI.CommandsDialogs
         {
             if (AppSettings.ShowStashCount && !Module.IsBareRepository())
             {
-                ThreadHelper.FileAndForget(async () =>
+                ThreadHelper.RunAndFileAndForget(async () =>
                 {
                     // Add a delay to not interfere with GUI updates when switching repository
                     await Task.Delay(500);
@@ -1522,8 +1522,8 @@ namespace GitUI.CommandsDialogs
             AvatarService.UpdateAvatarInitialFontsSettings();
 
             // Clear the separate caches for diff/merge tools
-            ThreadHelper.FileAndForget(() => new CustomDiffMergeToolProvider().ClearAsync(isDiff: false));
-            ThreadHelper.FileAndForget(async () =>
+            ThreadHelper.RunAndFileAndForget(() => new CustomDiffMergeToolProvider().ClearAsync(isDiff: false));
+            ThreadHelper.RunAndFileAndForget(async () =>
             {
                 revisionDiff.CancelLoadCustomDifftools();
                 RevisionGrid.CancelLoadCustomDifftools();
@@ -2584,7 +2584,7 @@ namespace GitUI.CommandsDialogs
 
             toolStripButtonLevelUp.ToolTipText = "";
 
-            ThreadHelper.FileAndForget(async () =>
+            ThreadHelper.RunAndFileAndForget(async () =>
             {
                 try
                 {

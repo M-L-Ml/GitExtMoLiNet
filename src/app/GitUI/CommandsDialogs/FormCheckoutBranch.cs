@@ -478,7 +478,7 @@ namespace GitUI.CommandsDialogs
             }
             else
             {
-                ThreadHelper.FileAndForget(async () =>
+                ThreadHelper.RunAndFileAndForget(async () =>
                 {
                     // not applicable if there is no checkout yet
                     string aheadBehindInfo = "";

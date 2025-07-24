@@ -507,7 +507,7 @@ namespace GitUI.CommandsDialogs.BrowseDialog
                 _isFirstPostRepoChanged = false;
             }
 
-            ThreadHelper.FileAndForget(async () =>
+            ThreadHelper.RunAndFileAndForget(async () =>
                     {
                         try
                         {

@@ -187,7 +187,7 @@ namespace GitUI.CommitInfo
                 return;
             }
 
-            ThreadHelper.FileAndForget(LoadSortedTagsAsync);
+            ThreadHelper.RunAndFileAndForget(LoadSortedTagsAsync);
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -388,7 +388,7 @@ namespace GitUI.CommitInfo
             {
                 GitRevision initialRevision = _revision;
 
-                ThreadHelper.FileAndForget(async () =>
+                ThreadHelper.RunAndFileAndForget(async () =>
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 

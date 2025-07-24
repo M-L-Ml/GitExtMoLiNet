@@ -1009,7 +1009,7 @@ namespace GitUI
                 bool showStashes = AppSettings.ShowStashes;
 
                 // Evaluate GitRefs and current commit
-                ThreadHelper.FileAndForget(async () =>
+                ThreadHelper.RunAndFileAndForget(async () =>
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
@@ -1387,7 +1387,7 @@ namespace GitUI
             {
                 if (!firstRevisionReceived && !FilterIsApplied())
                 {
-                    ThreadHelper.FileAndForget(async () =>
+                    ThreadHelper.RunAndFileAndForget(async () =>
                     {
                         // No revisions at all received without any filter
                         await semaphoreUpdateGrid.WaitAsync(cancellationToken);
@@ -1412,7 +1412,7 @@ namespace GitUI
                     return;
                 }
 
-                ThreadHelper.FileAndForget(async () =>
+                ThreadHelper.RunAndFileAndForget(async () =>
                 {
                     if (!firstRevisionReceived)
                     {

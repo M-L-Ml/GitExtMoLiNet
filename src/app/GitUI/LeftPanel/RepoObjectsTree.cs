@@ -303,7 +303,7 @@ namespace GitUI.LeftPanel
                 selectedGuid = selectedRevision.IsArtificial ? "HEAD" : selectedRevision.Guid;
             }
 
-            ThreadHelper.FileAndForget(async () =>
+            ThreadHelper.RunAndFileAndForget(async () =>
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 HashSet<string> mergedBranches = selectedGuid is null

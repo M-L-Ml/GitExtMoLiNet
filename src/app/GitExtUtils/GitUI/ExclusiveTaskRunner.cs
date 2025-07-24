@@ -43,7 +43,7 @@ namespace GitUI
                             await previousTask.JoinAsync();
                         }
 
-                        await TaskManager.HandleExceptionsAsync(() => asyncAction(cancellationToken).WithCancellation(cancellationToken), _taskManager.ReportExceptionOnMainThreadAsync);
+                        await TaskManager.RunAndHandleExceptionsAsync(() => asyncAction(cancellationToken).WithCancellation(cancellationToken), _taskManager.ReportExceptionOnMainThreadAsync);
                     });
                 return _runningTask;
             }

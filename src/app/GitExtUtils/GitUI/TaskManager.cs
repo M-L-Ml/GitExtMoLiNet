@@ -26,7 +26,7 @@ namespace GitUI
         /// <summary>
         /// Handle all exceptions from asynchronous execution of <paramref name="asyncAction"/> by calling <paramref name="handleExceptionAsync"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
-        internal static async Task HandleExceptionsAsync(Func<Task> asyncAction, Func<Exception, Task> handleExceptionAsync)
+        internal static async Task RunAndHandleExceptionsAsync(Func<Task> asyncAction, Func<Exception, Task> handleExceptionAsync)
         {
             try
             {
@@ -85,21 +85,21 @@ namespace GitUI
         /// TODO: rename, maybe Fire ,not File?
         /// Asynchronously run <paramref name="asyncAction"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
-        public void FileAndForget(Func<Task> asyncAction)
+        public void RunAndFileAndForget(Func<Task> asyncAction)
         {
             _ = JoinableTaskFactory.RunAsync(async () =>
                 {
                     await TaskScheduler.Default;
-                    await HandleExceptionsAsync(asyncAction, ReportExceptionOnMainThreadAsync);
+                    await RunAndHandleExceptionsAsync(asyncAction, ReportExceptionOnMainThreadAsync);
                 });
         }
 
         /// <summary>
         /// Asynchronously run <paramref name="action"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
-        public void FileAndForget(Action action)
+        public void RunAndFileAndForget(Action action)
         {
-            FileAndForget(action.AsAsyncFunc());
+            RunAndFileAndForget(action.AsAsyncFunc());
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace GitUI
         {
             TimeSpan infiniteTimeout = new(-TimeSpan.TicksPerMillisecond);
             //TODO: that's stupid. refactor this
-            FileAndForget(() => task.WaitAsync(infiniteTimeout));
+            RunAndFileAndForget(() => task.WaitAsync(infiniteTimeout));
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace GitUI
         public void InvokeAndForget(Control control, Func<Task> asyncAction, CancellationToken cancellationToken = default)
         {
             _ = JoinableTaskFactory.RunAsync(() =>
-                HandleExceptionsAsync(async () =>
+                RunAndHandleExceptionsAsync(async () =>
                     {
                         if (!JoinableTaskContext.IsOnMainThread)
                         {

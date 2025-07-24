@@ -30,7 +30,7 @@
                     {
                         // if not running, start it
                         _executing = true;
-                        _taskManager.FileAndForget(WrappedOperationAsync);
+                        _taskManager.RunAndFileAndForget(RunWrappedOperationAsync);
                     }
                     else
                     {
@@ -40,7 +40,7 @@
                 }
             }
 
-            private async Task WrappedOperationAsync()
+            private async Task RunWrappedOperationAsync()
             {
                 try
                 {
@@ -54,7 +54,7 @@
                     {
                         if (_rerunRequested)
                         {
-                            _taskManager.FileAndForget(WrappedOperationAsync);
+                            _taskManager.RunAndFileAndForget(RunWrappedOperationAsync);
                             _rerunRequested = false;
                         }
                         else

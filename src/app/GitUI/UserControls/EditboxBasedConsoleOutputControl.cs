@@ -154,7 +154,7 @@ namespace GitUI.UserControls
 
                 _process.Exited += delegate
                 {
-                    ThreadHelper.FileAndForget(async () =>
+                    ThreadHelper.RunAndFileAndForget(async () =>
                         {
                             if (_process is null)
                             {

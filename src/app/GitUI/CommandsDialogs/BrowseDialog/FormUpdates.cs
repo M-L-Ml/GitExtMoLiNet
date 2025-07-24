@@ -249,7 +249,7 @@ public partial class FormUpdates : GitExtensionsDialog
         btnUpdateNow.Enabled = false;
         UpdateLabel.Text = _downloadingUpdate.Text;
 
-        ThreadHelper.FileAndForget(async () =>
+        ThreadHelper.RunAndFileAndForget(async () =>
         {
             string fileName = Path.GetFileName(_updateUrl);
             try

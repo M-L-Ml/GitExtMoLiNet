@@ -408,7 +408,7 @@ namespace GitUI.SpellChecker
             Validates.NotNull(_autoCompleteListTask);
             Validates.NotNull(_spelling);
 
-            ThreadHelper.FileAndForget(async () =>
+            ThreadHelper.RunAndFileAndForget(async () =>
                 {
                     IEnumerable<AutoCompleteWord> words = await _autoCompleteListTask.GetValueAsync(cancellationToken);
                     await this.SwitchToMainThreadAsync(cancellationToken);

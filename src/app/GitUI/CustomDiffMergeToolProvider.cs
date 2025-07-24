@@ -46,7 +46,7 @@ namespace GitUI
                 return;
             }
 
-            ThreadHelper.FileAndForget(async () =>
+            ThreadHelper.RunAndFileAndForget(async () =>
             {
                 // get the tools, possibly with a delay as requesting requires considerable time
                 // cache is shared

@@ -649,7 +649,7 @@ partial class FileStatusList
         }
 
         CancellationToken token = _interactiveAddResetChunkSequence.Next();
-        ThreadHelper.FileAndForget(async () =>
+        ThreadHelper.RunAndFileAndForget(async () =>
         {
             await Module.AddInteractiveAsync(item);
             await this.SwitchToMainThreadAsync(token);
@@ -923,7 +923,7 @@ partial class FileStatusList
         }
 
         CancellationToken token = _interactiveAddResetChunkSequence.Next();
-        ThreadHelper.FileAndForget(async () =>
+        ThreadHelper.RunAndFileAndForget(async () =>
         {
             await Module.ResetInteractiveAsync(item);
             await this.SwitchToMainThreadAsync(token);
@@ -1092,7 +1092,7 @@ partial class FileStatusList
             return;
         }
 
-        ThreadHelper.FileAndForget(async () =>
+        ThreadHelper.RunAndFileAndForget(async () =>
         {
             ObjectId? blob = Module.GetFileBlobHash(item.Item.Name, item.SecondRevision.ObjectId);
 

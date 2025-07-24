@@ -289,7 +289,7 @@ namespace GitUI.UserControls
             }
 
             Enabled = true;
-            ThreadHelper.FileAndForget(async () =>
+            ThreadHelper.RunAndFileAndForget(async () =>
             {
                 if (_getRefs is null)
                 {
