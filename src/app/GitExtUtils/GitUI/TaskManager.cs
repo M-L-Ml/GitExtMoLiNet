@@ -80,7 +80,9 @@ namespace GitUI
             _switchToMainThreadCancellationToken = _switchToMainThreadCancellationTokenSequence.Next();
         }
 
+
         /// <summary>
+        /// TODO: rename, maybe Fire ,not File?
         /// Asynchronously run <paramref name="asyncAction"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
         public void FileAndForget(Func<Task> asyncAction)
@@ -106,6 +108,7 @@ namespace GitUI
         public void FileAndForget(Task task)
         {
             TimeSpan infiniteTimeout = new(-TimeSpan.TicksPerMillisecond);
+            //TODO: that's stupid. refactor this
             FileAndForget(() => task.WaitAsync(infiniteTimeout));
         }
 
