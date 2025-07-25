@@ -96,22 +96,20 @@ namespace GitUI.UserControls.RevisionGrid.Columns
 
             if (!imageTask.IsCompleted)
             {
-                // Register the continuation with the JoinableTaskFactory
-                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
-                {
-                    try
+                // Once the image has loaded, invalidate only the avatar area for repaint
+                TaskScheduler scheduler = EnvUtils.IsMonoRuntimeOrMForms() ? TaskScheduler.Default : // at least in this case trying getting Handle leads to
+                                                                                                     // an exception about not being on the right thread
+                    TaskScheduler.Current;
+                imageTask.ContinueWith(
+                    t =>
                     {
-                        // Wait for the task to complete
-                        await imageTask.JoinAsync().ConfigureAwait(false);
-
-                        // Invalidate the control to trigger a redraw
-                        _revisionGridView.InvokeAsync(() => _revisionGridView.Invalidate(rect)).FileAndForget();
-                    }
-                    catch
-                    {
-                        // If there's an error, draw the placeholder
-                        _revisionGridView.InvokeAsync(() =>
+                        if (t.Status == TaskStatus.RanToCompletion)
                         {
+                            _revisionGridView.Invalidate(rect);
+                    }
+                        else
+                        {
+                            // draw the placeholder
                             // First time, draw at the good size the placeholder image and cache it
                             if (_placeholderImage is null)
                             {
@@ -122,12 +120,15 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                             }
 
                             e.Graphics.DrawImageUnscaled(_placeholderImage, rect);
-                        }).FileAndForget();
                     }
-                }).FileAndForget();
+
+                        imageTask.Dispose();
+                    },
+                    scheduler);
 
                 return;
             }
+
 //TODO
             // If we get here, the task is already completed
             Image? image = imageTask.GetAwaiter().GetResult();
