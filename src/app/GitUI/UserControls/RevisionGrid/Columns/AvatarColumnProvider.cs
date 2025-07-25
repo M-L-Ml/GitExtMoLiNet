@@ -1,6 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Drawing2D;
 using GitCommands;
+using GitExtUtils;
 using GitExtUtils.GitUI;
 using GitUI.Avatars;
 using GitUI.Properties;
@@ -96,6 +97,9 @@ namespace GitUI.UserControls.RevisionGrid.Columns
             if (imageTask.Status != TaskStatus.RanToCompletion)
             {
                 // Once the image has loaded, invalidate only the avatar area for repaint
+                TaskScheduler scheduler = EnvUtils.IsMonoRuntimeOrMForms() ? TaskScheduler.Default : // at least in this case trying getting Handle leads to
+                                                                                                     // an exception about not being on the right thread
+                    TaskScheduler.Current;
                 imageTask.ContinueWith(
                     t =>
                     {
@@ -119,7 +123,8 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                         }
 
                         imageTask.Dispose();
-                    }, TaskScheduler.Current)
+                    },
+                    scheduler)
                     .FileAndForget();
                 return;
             }
