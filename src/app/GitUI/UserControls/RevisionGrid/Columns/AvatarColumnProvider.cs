@@ -103,19 +103,16 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                 imageSize,
                 imageSize);
 
-            bool imageTaskUnfinishedOrUnsuccessfulDetected = !(imageTask.IsCompleted && imageTask.Task.Status == TaskStatus.RanToCompletion);
-
-            // Once the image has loaded, invalidate only the avatar area for repaint
-            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            if (!imageTask.IsCompleted || imageTask.Task.Status != TaskStatus.RanToCompletion)
             {
-                try
+                // Once the image has loaded, invalidate only the avatar area for repaint
+                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                 {
-                    image = await imageTask;
-
-                }
-                catch (Exception ex)
-                {
-                    if (imageTaskUnfinishedOrUnsuccessfulDetected) //that was original behaviour, so we keep it
+                    try
+                    {
+                        image = await imageTask;
+                    }
+                    catch (Exception ex)
                     {
                         // draw the placeholder
                         // First time, draw at the good size the placeholder image and cache it
@@ -128,18 +125,14 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                         }
 
                         e.Graphics.DrawImageUnscaled(_placeholderImage, rect);
-                    }
-                }
 
-                if (imageTaskUnfinishedOrUnsuccessfulDetected) //that was original behaviour, so we keep it
-                {
+                    }
 
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     _revisionGridView.Invalidate(rect);
-                }
-            }).FileAndForget();
-
-
+                }).FileAndForget();
+                return;
+            }
 
             // If we get here, the task is already completed
             ThreadHelper.JoinableTaskFactory.Run(async delegate
