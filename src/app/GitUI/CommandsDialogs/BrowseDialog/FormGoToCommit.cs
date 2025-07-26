@@ -1,4 +1,4 @@
-﻿using GitCommands;
+using GitCommands;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
 
@@ -35,8 +35,8 @@ namespace GitUI.CommandsDialogs.BrowseDialog
 
         private void FormGoToCommit_Load(object sender, EventArgs e)
         {
-            LoadTagsAsync().FileAndForget();
-            LoadBranchesAsync().FileAndForget();
+            ThreadHelper.JoinableTaskFactory.RunAsync(() => LoadTagsAsync()).FileAndForget();
+            ThreadHelper.JoinableTaskFactory.RunAsync(() => LoadBranchesAsync()).FileAndForget();
             SetCommitExpressionFromClipboard();
         }
 

@@ -120,11 +120,22 @@ namespace GitUI
         /// <summary>
         /// Asynchronously await <paramref name="task"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
+        [Obsolete("Use ThreadHelper.JoinableTaskFactory.RunAsync(() => YourAsyncMethod()).RunAndFileAndForget() instead to avoid VSTHRD003 warnings")]
         public void FileAndForget(Task task)
         {
-            TimeSpan infiniteTimeout = new(-TimeSpan.TicksPerMillisecond);
-            //TODO: that's stupid. refactor this
-            RunAndFileAndForget(() => task.WaitAsync(infiniteTimeout));
+            var joinableTask = JoinableTaskFactory.RunAsync(async () =>
+            {
+                await TaskScheduler.Default;
+#pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
+                await task.ConfigureAwait(false);
+#pragma warning restore VSTHRD003 // Avoid awaiting foreign Tasks
+            });
+
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            HandleExceptionsAsync(joinableTask, ReportExceptionOnMainThreadAsync);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
 
         /// <summary>
         /// Asynchronously await <paramref name="joinableTask"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.

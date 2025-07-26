@@ -27,7 +27,7 @@ namespace GitUITests
             using ThreadExceptionHelper helper = new();
             Exception ex = new();
 
-            ThrowExceptionAsync(ex).FileAndForget();
+            ThreadHelper.RunAndFileAndForget(() => ThrowExceptionAsync(ex));
 
             await AsyncTestHelper.JoinPendingOperationsAsync(AsyncTestHelper.UnexpectedTimeout);
             ClassicAssert.AreSame(ex, helper.Exception);
@@ -40,7 +40,7 @@ namespace GitUITests
             Form form = new();
             form.Dispose();
 
-            YieldOntoControlMainThreadAsync(form).FileAndForget();
+            ThreadHelper.RunAndFileAndForget(() => YieldOntoControlMainThreadAsync(form));
 
             await AsyncTestHelper.JoinPendingOperationsAsync(AsyncTestHelper.UnexpectedTimeout);
             ClassicAssert.Null(helper.Exception, helper.Message);

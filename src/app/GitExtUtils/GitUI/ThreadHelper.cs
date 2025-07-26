@@ -91,6 +91,7 @@ namespace GitUI
         /// Prefer using <c>ThreadHelper.JoinableTaskFactory.RunAsync(() => YourAsyncMethod()).RunAndFileAndForget()</c> instead
         /// to ensure proper threading context and avoid VSTHRD003 warnings.
         /// </remarks>
+        [Obsolete("Use ThreadHelper.JoinableTaskFactory.RunAsync(() => YourAsyncMethod()).RunAndFileAndForget() instead to avoid VSTHRD003 warnings")]
         public static void FileAndForget(this Task task)
             => _taskManager.FileAndForget(task);
 
