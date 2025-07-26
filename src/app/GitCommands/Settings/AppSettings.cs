@@ -25,9 +25,11 @@ namespace GitCommands
         // semi-constants
         public static Version AppVersion => Assembly.GetCallingAssembly().GetName().Version;
         public static string ProductVersion => Application.ProductVersion;
+
+        private const string GitExtensionsName = "GitExtensions";
         public static readonly string ApplicationName = "Git Ext MoLiNet";
         public static readonly string ApplicationId = ApplicationName.Replace(" ", "");
-        public static readonly string SettingsFileName = "GitExtensions" + ".settings";
+        public static readonly string SettingsFileName = GitExtensionsName + ".settings";
         public static readonly string UserPluginsDirectoryName = "UserPlugins";
 
         private static readonly Lazy<SettingsSourceBase> _registrySettings =
@@ -78,7 +80,7 @@ namespace GitCommands
                 // Make ApplicationDataPath version independent
                 return Application.UserAppDataPath.Replace(Application.ProductVersion, string.Empty)
                                                   .Replace(Application.CompanyName + Path.DirectorySeparatorChar + Application.ProductName,
-                                                  "GitExtensions" + Path.DirectorySeparatorChar + "GitExtensions"); // 'GitExtensions' has been changed to 'Git Extensions' in v3.0
+                                                  GitExtensionsName + Path.DirectorySeparatorChar + GitExtensionsName); // 'GitExtensions' has been changed to 'Git Extensions' in v3.0
             });
 
             LocalApplicationDataPath = new Lazy<string?>(() =>
@@ -88,7 +90,7 @@ namespace GitCommands
                     return GetGitExtensionsDirectory();
                 }
 
-                string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ApplicationId);
+                string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GitExtensionsName);
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -2119,7 +2121,7 @@ namespace GitCommands
             {
                 // The original code opened HKEY_CURRENT_USER\Software\GitExtensions\GitExtensions
                 // GitExtensionsRegistry.GetAllSettings("GitExtensions") is designed for this.
-                foreach (var setting in gitExtensionsRegistry.GetAllSettings("GitExtensions"))
+                foreach (var setting in gitExtensionsRegistry.GetAllSettings(GitExtensionsName))
                 {
                     yield return setting;
                 }
