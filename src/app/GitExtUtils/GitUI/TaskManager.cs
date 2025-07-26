@@ -42,6 +42,21 @@ namespace GitUI
             }
         }
 
+        internal static async Task HandleExceptionsAsync(JoinableTask asyncAction, Func<Exception, Task> handleExceptionAsync)
+        {
+            try
+            {
+                await asyncAction;
+            }
+            catch (OperationCanceledException)
+            {
+                // Do not rethrow these
+            }
+            catch (Exception ex)
+            {
+                await handleExceptionAsync(ex.PreserveStackDetails());
+            }
+        }
         /// <summary>
         /// Handle all exceptions from synchronous execution of <paramref name="action"/> by calling <paramref name="handleException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
@@ -103,13 +118,24 @@ namespace GitUI
         }
 
         /// <summary>
-        /// Asynchronously run <paramref name="task"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
+        /// Asynchronously await <paramref name="task"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
         public void FileAndForget(Task task)
         {
             TimeSpan infiniteTimeout = new(-TimeSpan.TicksPerMillisecond);
             //TODO: that's stupid. refactor this
             RunAndFileAndForget(() => task.WaitAsync(infiniteTimeout));
+
+        /// <summary>
+        /// Asynchronously await <paramref name="joinableTask"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
+        /// </summary>
+        public void FileAndForget(JoinableTask joinableTask)
+        {
+            _ = JoinableTaskFactory.RunAsync(async () =>
+            {
+                await TaskScheduler.Default;
+                await HandleExceptionsAsync(joinableTask, ReportExceptionOnMainThreadAsync).ConfigureAwait(false);
+            });
         }
 
         /// <summary>

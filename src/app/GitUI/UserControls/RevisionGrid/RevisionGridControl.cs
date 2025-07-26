@@ -1062,7 +1062,7 @@ namespace GitUI
                 }
                 else
                 {
-                    ThreadHelper.FileAndForget(() =>
+                    ThreadHelper.RunAndFileAndForget(() =>
                     {
                         try
                         {
@@ -1113,7 +1113,7 @@ namespace GitUI
                 }
 
                 // Get info about all Git commits, update the grid
-                ThreadHelper.FileAndForget(() =>
+                ThreadHelper.RunAndFileAndForget(() =>
                 {
                     TaskManager.HandleExceptions(() =>
                     {
@@ -1380,7 +1380,7 @@ namespace GitUI
                 _isRefreshingRevisions = false;
 
                 // Rethrow the exception on the UI thread
-                ThreadHelper.FileAndForget(() => ExceptionDispatchInfo.Throw(exception));
+                ThreadHelper.RunAndFileAndForget(() => ExceptionDispatchInfo.Throw(exception));
             }
 
             void OnRevisionReadCompleted()

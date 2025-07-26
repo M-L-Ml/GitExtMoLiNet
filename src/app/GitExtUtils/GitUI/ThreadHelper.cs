@@ -75,18 +75,22 @@ namespace GitUI
         /// <summary>
         /// Asynchronously run <paramref name="action"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
-        public static void FileAndForget(Action action)
+        public static void RunAndFileAndForget(Action action)
             => _taskManager.RunAndFileAndForget(action);
 
         /// <summary>
-        /// Asynchronously run <paramref name="joinableTask"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
+        /// Asynchronously await <paramref name="joinableTask"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
         public static void FileAndForget(this JoinableTask joinableTask)
             => _taskManager.FileAndForget(joinableTask);
 
         /// <summary>
-        /// Asynchronously run <paramref name="task"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
+        /// Asynchronously await <paramref name="task"/> on a background thread and forward all exceptions to <see cref="Application.OnThreadException"/> except for <see cref="OperationCanceledException"/>, which is ignored.
         /// </summary>
+        /// <remarks>
+        /// Prefer using <c>ThreadHelper.JoinableTaskFactory.RunAsync(() => YourAsyncMethod()).RunAndFileAndForget()</c> instead
+        /// to ensure proper threading context and avoid VSTHRD003 warnings.
+        /// </remarks>
         public static void FileAndForget(this Task task)
             => _taskManager.FileAndForget(task);
 
