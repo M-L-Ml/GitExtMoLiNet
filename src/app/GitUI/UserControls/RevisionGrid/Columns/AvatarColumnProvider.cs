@@ -8,7 +8,6 @@ using GitUI.Avatars;
 using GitUI.Properties;
 using GitUIPluginInterfaces;
 using Microsoft.VisualStudio.Threading;
-using Newtonsoft.Json.Linq;
 
 namespace GitUI.UserControls.RevisionGrid.Columns
 {
@@ -68,7 +67,7 @@ namespace GitUI.UserControls.RevisionGrid.Columns
             {
                 imageTask = _getLastAvatarTask;
 
-                if (imageTask.IsCompleted && imageTask.Task.Status == TaskStatus.RanToCompletion)
+                if (imageTask != null && imageTask.IsCompleted && imageTask.Task.Status == TaskStatus.RanToCompletion)
                 {
                     ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                         {
@@ -96,7 +95,6 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                 _author = revision.Author;
             }
 
-
             Rectangle rect = new(
                 e.CellBounds.Left + _padding,
                 e.CellBounds.Top + _padding,
@@ -112,7 +110,7 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                     {
                         image = await imageTask;
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         // draw the placeholder
                         // First time, draw at the good size the placeholder image and cache it
@@ -163,7 +161,6 @@ namespace GitUI.UserControls.RevisionGrid.Columns
             // Bottom right corner
             e.Graphics.FillRectangle(style.BackBrush, rect.Right - 2, rect.Bottom - 1, 2, 1);
             e.Graphics.FillRectangle(style.BackBrush, rect.Right - 1, rect.Bottom - 2, 1, 2);
-
 
             return;
 
