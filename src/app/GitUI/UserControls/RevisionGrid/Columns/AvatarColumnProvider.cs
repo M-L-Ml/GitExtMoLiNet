@@ -1,11 +1,14 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
 using GitCommands;
 using GitExtUtils;
 using GitExtUtils.GitUI;
 using GitUI.Avatars;
 using GitUI.Properties;
 using GitUIPluginInterfaces;
+using Microsoft.VisualStudio.Threading;
+using Newtonsoft.Json.Linq;
 
 namespace GitUI.UserControls.RevisionGrid.Columns
 {
@@ -58,27 +61,32 @@ namespace GitUI.UserControls.RevisionGrid.Columns
 
             int imageSize = e.CellBounds.Height - _padding - _padding;
 
-            JoinableTask<Image?> imageTask;
 
+            Image? image = null;
+            JoinableTask<Image?> imageTask;
             if (_email == revision.AuthorEmail && _author == revision.Author)
             {
                 imageTask = _getLastAvatarTask;
-                if (imageTask.Status == TaskStatus.RanToCompletion)
+
+                if (imageTask.IsCompleted && imageTask.Task.Status == TaskStatus.RanToCompletion)
                 {
-                    // Manage exceptional case where cached image have been cleaned by user
-                    try
-                    {
-#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-                        if (imageTask.Result.PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare)
-#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+                    ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                         {
-                            GetAvatar();
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        GetAvatar();
-                    }
+                            image = await imageTask;
+
+                            // Manage exceptional case where cached image have been cleaned by user
+                            try
+                            {
+                                if (image.PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare)
+                                {
+                                    GetAvatar();
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                GetAvatar();
+                            }
+                        }).FileAndForget();
                 }
             }
             else
@@ -88,51 +96,59 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                 _author = revision.Author;
             }
 
+
             Rectangle rect = new(
                 e.CellBounds.Left + _padding,
                 e.CellBounds.Top + _padding,
                 imageSize,
                 imageSize);
 
-            if (!imageTask.IsCompleted)
+            bool imageTaskUnfinishedOrUnsuccessfulDetected = !(imageTask.IsCompleted && imageTask.Task.Status == TaskStatus.RanToCompletion);
+
+            // Once the image has loaded, invalidate only the avatar area for repaint
+            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
             {
-                // Once the image has loaded, invalidate only the avatar area for repaint
-                TaskScheduler scheduler = EnvUtils.IsMonoRuntimeOrMForms() ? TaskScheduler.Default : // at least in this case trying getting Handle leads to
-                                                                                                     // an exception about not being on the right thread
-                    TaskScheduler.Current;
-                imageTask.ContinueWith(
-                    t =>
+                try
+                {
+                    image = await imageTask;
+
+                }
+                catch (Exception ex)
+                {
+                    if (imageTaskUnfinishedOrUnsuccessfulDetected) //that was original behaviour, so we keep it
                     {
-                        if (t.Status == TaskStatus.RanToCompletion)
+                        // draw the placeholder
+                        // First time, draw at the good size the placeholder image and cache it
+                        if (_placeholderImage is null)
                         {
-                            _revisionGridView.Invalidate(rect);
+                            _placeholderImage = new Bitmap(imageSize, imageSize);
+                            using Graphics g = Graphics.FromImage(_placeholderImage);
+                            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            g.DrawImage(Images.User80, 0, 0, imageSize, imageSize);
+                        }
+
+                        e.Graphics.DrawImageUnscaled(_placeholderImage, rect);
                     }
-                        else
-                        {
-                            // draw the placeholder
-                            // First time, draw at the good size the placeholder image and cache it
-                            if (_placeholderImage is null)
-                            {
-                                _placeholderImage = new Bitmap(imageSize, imageSize);
-                                using Graphics g = Graphics.FromImage(_placeholderImage);
-                                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                                g.DrawImage(Images.User80, 0, 0, imageSize, imageSize);
-                            }
+                }
 
-                            e.Graphics.DrawImageUnscaled(_placeholderImage, rect);
-                    }
+                if (imageTaskUnfinishedOrUnsuccessfulDetected) //that was original behaviour, so we keep it
+                {
 
-                        imageTask.Dispose();
-                    },
-                    scheduler);
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    _revisionGridView.Invalidate(rect);
+                }
+            }).FileAndForget();
 
-                return;
-            }
 
-//TODO
+
             // If we get here, the task is already completed
-            Image? image = imageTask.GetAwaiter().GetResult();
-
+            ThreadHelper.JoinableTaskFactory.Run(async delegate
+                {
+                    if (image == null)
+                    {
+                        image = await imageTask;
+                    }
+                });
             GraphicsContainer container = e.Graphics.BeginContainer();
             e.Graphics.DrawImage(image, rect);
             e.Graphics.EndContainer(container);
@@ -154,6 +170,7 @@ namespace GitUI.UserControls.RevisionGrid.Columns
             // Bottom right corner
             e.Graphics.FillRectangle(style.BackBrush, rect.Right - 2, rect.Bottom - 1, 2, 1);
             e.Graphics.FillRectangle(style.BackBrush, rect.Right - 1, rect.Bottom - 2, 1, 2);
+
 
             return;
 
