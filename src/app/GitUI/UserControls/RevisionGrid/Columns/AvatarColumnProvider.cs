@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Drawing2D;
 using GitCommands;
 using GitExtUtils;
@@ -45,7 +45,7 @@ namespace GitUI.UserControls.RevisionGrid.Columns
 
         private string _email = null;
         private string _author = null;
-        private Task<Image?> _getLastAvatarTask = null;
+        private JoinableTask<Image?> _getLastAvatarTask = null;
 
         public override void OnCellPainting(DataGridViewCellPaintingEventArgs e, GitRevision revision, int rowHeight, in CellStyle style)
         {
@@ -58,7 +58,7 @@ namespace GitUI.UserControls.RevisionGrid.Columns
 
             int imageSize = e.CellBounds.Height - _padding - _padding;
 
-            Task<Image?> imageTask;
+            JoinableTask<Image?> imageTask;
 
             if (_email == revision.AuthorEmail && _author == revision.Author)
             {
@@ -94,22 +94,24 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                 imageSize,
                 imageSize);
 
-            if (imageTask.Status != TaskStatus.RanToCompletion)
+            if (!imageTask.IsCompleted)
             {
-                // Once the image has loaded, invalidate only the avatar area for repaint
-                TaskScheduler scheduler = EnvUtils.IsMonoRuntimeOrMForms() ? TaskScheduler.Default : // at least in this case trying getting Handle leads to
-                                                                                                     // an exception about not being on the right thread
-                    TaskScheduler.Current;
-                imageTask.ContinueWith(
-                    t =>
+                // Register the continuation with the JoinableTaskFactory
+                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                {
+                    try
                     {
-                        if (t.Status == TaskStatus.RanToCompletion)
+                        // Wait for the task to complete
+                        await imageTask.JoinAsync().ConfigureAwait(false);
+
+                        // Invalidate the control to trigger a redraw
+                        _revisionGridView.InvokeAsync(() => _revisionGridView.Invalidate(rect)).FileAndForget();
+                    }
+                    catch
+                    {
+                        // If there's an error, draw the placeholder
+                        _revisionGridView.InvokeAsync(() =>
                         {
-                            _revisionGridView.Invalidate(rect);
-                        }
-                        else
-                        {
-                            // draw the placeholder
                             // First time, draw at the good size the placeholder image and cache it
                             if (_placeholderImage is null)
                             {
@@ -120,18 +122,15 @@ namespace GitUI.UserControls.RevisionGrid.Columns
                             }
 
                             e.Graphics.DrawImageUnscaled(_placeholderImage, rect);
-                        }
+                        }).FileAndForget();
+                    }
+                }).FileAndForget();
 
-                        imageTask.Dispose();
-                    },
-                    scheduler)
-                    .FileAndForget();
                 return;
             }
-
-#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-            Image? image = imageTask.Result;
-#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+//TODO
+            // If we get here, the task is already completed
+            Image? image = imageTask.GetAwaiter().GetResult();
 
             GraphicsContainer container = e.Graphics.BeginContainer();
             e.Graphics.DrawImage(image, rect);
@@ -158,7 +157,8 @@ namespace GitUI.UserControls.RevisionGrid.Columns
             return;
 
             void GetAvatar() =>
-                _getLastAvatarTask = imageTask = _avatarProvider.GetAvatarAsync(revision.AuthorEmail, revision.Author, imageSize);
+                _getLastAvatarTask = imageTask = ThreadHelper.JoinableTaskFactory.RunAsync(
+                    () => _avatarProvider.GetAvatarAsync(revision.AuthorEmail, revision.Author, imageSize));
         }
 
         public override bool TryGetToolTip(DataGridViewCellMouseEventArgs e, GitRevision revision, [NotNullWhen(returnValue: true)] out string? toolTip)
