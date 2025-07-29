@@ -1,4 +1,5 @@
-﻿using Castle.Core.Internal;
+﻿using System.Diagnostics;
+using Castle.Core.Internal;
 using FluentAssertions;
 using GitCommands;
 using GitCommands.Git;
@@ -46,7 +47,7 @@ namespace GitUITests.UserControls
             _sut.ToolTipText.Should().Be("Push");
             _sut.Image.RawFormat.GetHashCode().Should().Be(PushImageHashCode);
         }
-
+        [Test(Description = "Display default text and image if ahead/behind data is null")]
         [TestCaseSource(nameof(GetInvalidAheadBehindData))]
         public void DisplayAheadBehindInformation_should_display_default_text_image_if_ahead_behind_data_null(IDictionary<string, AheadBehindData> data)
         {
@@ -64,14 +65,12 @@ namespace GitUITests.UserControls
             get
             {
                 int index = 0;
-                yield return new TestCaseData(null)
-                    .SetName($"{++index}. AheadBehindData is null");
-
+                var name = "DisplayAheadBehind ";// typeof(ToolStripPushButtonTests).FullName;SetName
+                yield return new TestCaseData(null).SetArgDisplayNames($"{++index}", "AheadBehindData is null");
                 yield return new TestCaseData(new Dictionary<string, AheadBehindData>())
-                    .SetName($"{++index}. AheadBehindData is empty");
-
+                    .SetArgDisplayNames($"{++index}", "AheadBehindData is empty");
                 yield return new TestCaseData(new Dictionary<string, AheadBehindData> { { "some_branch", new AheadBehindData() } })
-                    .SetName($"{++index}. AheadBehindData doesn't contain desired branch");
+                    .SetArgDisplayNames($"{++index}", "AheadBehindData doesn't contain desired branch");
             }
         }
 
