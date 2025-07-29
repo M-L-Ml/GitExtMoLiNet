@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Imaging;
+using GitExtUtils;
 using GitUI.Avatars;
 using NSubstitute;
 
@@ -43,6 +44,17 @@ namespace GitUITests.Avatars
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
+            if (_img1 == null)
+            {
+                System.Diagnostics.Debug.Assert(_img2 == null && _img3 == null && _img4 == null && _imgGenerated == null);
+                return;
+            }
+
+            //if (!EnvUtils.RunningOnWindows())
+            //{
+            //    return;
+            //}
+
             _img1.Dispose();
             _img2.Dispose();
             _img3.Dispose();
@@ -63,7 +75,7 @@ namespace GitUITests.Avatars
             _inner.GetAvatarAsync(_emailMissing, _nameMissing, _size).Returns(Task.FromResult((Image)null));
         }
 
-        protected async Task MissAsync(string email, string name,  Image expected = null)
+        protected async Task MissAsync(string email, string name, Image expected = null)
         {
             _inner.ClearReceivedCalls();
 
