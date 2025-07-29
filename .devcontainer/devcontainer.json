@@ -39,8 +39,11 @@
     "ghcr.io/devcontainer-community/devcontainer-features/btop": {},
     "ghcr.io/devcontainers-extra/features/apt-get-packages": {
       "packages": [
-        "aptitude",
-        "less"
+		"aptitude",
+        "less",
+		"most",
+		"xxd",
+		"bsdmainutils"
       ]
     }
   },
