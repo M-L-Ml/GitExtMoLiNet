@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using GitExtensions.Extensibility;
 using GitExtensions.Extensibility.Git;
 using GitExtensions.Extensibility.Plugins;
@@ -51,10 +51,10 @@ namespace GitUI
 
         private static void LoadPlugins<T>() where T : IGitPlugin
         {
-            if (EnvUtils.IsMonoRuntimeOrMForms())
-            {
-                return;
-            }
+            //if (EnvUtils.IsMonoRuntimeOrMForms())
+            //{
+            //    return;
+            //}
             try
             {
                 IGitPlugin[] plugins = ManagedExtensibility.GetExports<T>()

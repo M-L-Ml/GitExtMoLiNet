@@ -1,4 +1,4 @@
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Net.Http.Headers;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -10,6 +10,7 @@ using GitUI;
 using GitUIPluginInterfaces.BuildServerIntegration;
 using Microsoft;
 using Newtonsoft.Json.Linq;
+using GitExtUtils;
 
 namespace AppVeyorIntegration
 {
@@ -445,20 +446,21 @@ namespace AppVeyorIntegration
 
         private Task<Stream?> GetStreamFromHttpResponseAsync(HttpClient httpClient, Task<HttpResponseMessage> task, string restServicePath, CancellationToken cancellationToken)
         {
-#if !__MonoCS__
-            var retry = task.IsCanceled && !cancellationToken.IsCancellationRequested;
-
-            if (retry)
+            if (!EnvUtils.IsMonoRuntimeOrMForms())
             {
-                return GetStreamAsync(httpClient, restServicePath, cancellationToken);
-            }
+                var retry = task.IsCanceled && !cancellationToken.IsCancellationRequested;
 
-            if (task.Status == TaskStatus.RanToCompletion && task.CompletedResult().IsSuccessStatusCode)
-            {
-                return task.CompletedResult().Content.ReadAsStreamAsync();
-            }
+                if (retry)
+                {
+                    return GetStreamAsync(httpClient, restServicePath, cancellationToken);
+                }
 
-#endif
+                if (task.Status == TaskStatus.RanToCompletion && task.CompletedResult().IsSuccessStatusCode)
+                {
+                    return task.CompletedResult().Content.ReadAsStreamAsync();
+                }
+
+            }
             return Task.FromResult<Stream?>(null);
         }
 

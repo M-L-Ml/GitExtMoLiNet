@@ -1,4 +1,4 @@
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Net;
 using System.Net.Http.Headers;
@@ -17,6 +17,7 @@ using GitUI;
 using GitUIPluginInterfaces.BuildServerIntegration;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
+using GitExtUtils;
 
 namespace TeamCityIntegration
 {

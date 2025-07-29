@@ -1,4 +1,4 @@
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Reactive.Concurrency;
@@ -15,6 +15,8 @@ using GitUIPluginInterfaces.BuildServerIntegration;
 using Microsoft;
 using Microsoft.VisualStudio.Threading;
 using Newtonsoft.Json.Linq;
+using GitUI;
+using GitExtUtils;
 
 namespace JenkinsIntegration
 {
@@ -468,7 +470,7 @@ namespace JenkinsIntegration
             {
                 "SUCCESS" => BuildStatus.Success,
                 "FAILURE" => BuildStatus.Failure,
-                "UNSTABLE"=> BuildStatus.Unstable,
+                "UNSTABLE" => BuildStatus.Unstable,
                 "ABORTED" => BuildStatus.Stopped,
 
                 // Jenkins status "NOT_BUILT"
@@ -488,8 +490,10 @@ namespace JenkinsIntegration
 
             async Task<Stream?> GetStreamFromHttpResponseAsync(HttpResponseMessage resp)
             {
-#if !__MonoCS__
-
+                if (EnvUtils.IsMonoRuntimeOrMForms())
+                {
+                    return null;
+                }
                 bool unauthorized = resp.StatusCode == HttpStatusCode.Unauthorized;
 
                 if (resp.IsSuccessStatusCode)
@@ -533,9 +537,6 @@ namespace JenkinsIntegration
                 UpdateHttpClientOptions(buildServerCredentials);
 
                 return await GetStreamAsync(restServicePath, cancellationToken);
-#else
-            return null;
-#endif
             }
         }
 

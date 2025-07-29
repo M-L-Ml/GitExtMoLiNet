@@ -542,10 +542,10 @@ namespace GitUI.CommandsDialogs
 
             async Task InitializeAndRegisterAllPluginsAsync()
             {
-                if (EnvUtils.IsMonoRuntimeOrMForms())
-                {
-                    return;
-                }
+                //if (EnvUtils.IsMonoRuntimeOrMForms())
+                //{
+                //    return;
+                //}
                 PluginRegistry.InitializeAll();
                 await this.SwitchToMainThreadAsync();
                 RegisterPlugins();
@@ -892,10 +892,10 @@ namespace GitUI.CommandsDialogs
 
         private void RegisterPlugins()
         {
-            if (EnvUtils.IsMonoRuntimeOrMForms())
-            {
-                return;
-            }
+            //if (EnvUtils.IsMonoRuntimeOrMForms())
+            //{
+            //    return;
+            //}
 
             const string PluginManagerName = "Plugin Manager";
             ILookup<object, ToolStripMenuItem> existingPluginMenus = pluginsToolStripMenuItem.DropDownItems.OfType<ToolStripMenuItem>().ToLookup(c => c.Tag);

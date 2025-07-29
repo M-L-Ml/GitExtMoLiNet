@@ -54,7 +54,9 @@ namespace GitUIPluginInterfaces
             IEnumerable<FileInfo> pluginFiles = PluginsPathScanner.GetFiles(defaultPluginsPath).Where(f => f.Name.StartsWith("GitExtensions.Plugins."));
 
             // Custom plugins must follow this naming convention: GitExtensions.*.dll
-            IEnumerable<FileInfo> userPluginFiles = PluginsPathScanner.GetFiles(userPluginsPath).Where(f => f.Name.StartsWith("GitExtensions."));
+            IEnumerable<FileInfo> userPluginFiles = EnvUtils.IsMonoRuntimeOrMForms() ?
+                Enumerable.Empty<FileInfo>()
+                : PluginsPathScanner.GetFiles(userPluginsPath).Where(f => f.Name.StartsWith("GitExtensions."));
 
             string cacheFile = Path.Combine(applicationDataFolder ?? "ignored", "Plugins", "composition.cache");
             IExportProviderFactory exportProviderFactory;
@@ -65,7 +67,13 @@ namespace GitUIPluginInterfaces
             }
             else
             {
-                Assembly[] assemblies = pluginFiles.Union(userPluginFiles)
+                IEnumerable<FileInfo> pluginPaths = pluginFiles.Union(userPluginFiles).Where(fi =>
+                {
+                    //TODO: fix, Currently there are errors with jira and impact plugins
+                    return !fi.Name.Contains("jira", StringComparison.OrdinalIgnoreCase) &&
+                               !fi.Name.Contains("impact", StringComparison.OrdinalIgnoreCase);
+                });
+                Assembly[] assemblies = pluginPaths
                                                    .Select(assemblyFile => TryLoadAssembly(assemblyFile))
                                                    .WhereNotNull()
                                                    .ToArray();
@@ -109,10 +117,10 @@ namespace GitUIPluginInterfaces
 
         public static void Initialise(IReadOnlyCollection<Assembly>? assemblies = null, string userPluginsPath = null)
         {
-            if (EnvUtils.IsMonoRuntimeOrMForms())
-            {
-                return;
-            }
+            //if (EnvUtils.IsMonoRuntimeOrMForms())
+            //{
+            //    return;
+            //}
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             SetUserPluginsPath(userPluginsPath);
@@ -143,11 +151,11 @@ namespace GitUIPluginInterfaces
 
         public static IEnumerable<Lazy<T, TMetadataView>> GetExports<T, TMetadataView>()
         {
-            if (EnvUtils.IsMonoRuntimeOrMForms())
-            { 
-                //disable Plugins on linux for now
-                return Enumerable.Empty<Lazy<T, TMetadataView>>(); 
-            }
+            //if (EnvUtils.IsMonoRuntimeOrMForms())
+            //{
+            //    //disable Plugins on linux for now
+            //    return Enumerable.Empty<Lazy<T, TMetadataView>>();
+            //}
             return GetOrCreateLazyExportProvider(null).Value.GetExports<T, TMetadataView>();
         }
 
