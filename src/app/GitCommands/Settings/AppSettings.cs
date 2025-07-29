@@ -1922,23 +1922,21 @@ namespace GitCommands
 #if DEBUG
             if (!IsDesignMode)
             {
-                bool isExpectedExe =
+                var validExecutables = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+                {
+                    $"{GitExtensionsName}.exe",   // Main application , The app's entry
+                    $"{GitExtensionsName}.dll",   // .NET 9+ dll executable
+                    "testhost.exe",        // Test runner
+                    "testhost.x86.exe",    // x86 test runner
+                    "testhost.dll",        // Test runner
+                    "testhost.x86.dll",    // x86 test runner
+                    "ReSharperTestRunner.exe", // ReSharper test runner
+                    "dotnet.exe",          // .NET CLI
+                    "TranslationApp.exe"   // Translation tool
+                };
 
-                    // The app's entry point is GitExtensions.exe
-                    _applicationExecutablePath.EndsWith("GitExtensions.exe", StringComparison.InvariantCultureIgnoreCase) ||
-                   //.net 9 is dll executable, TODO check GitExtensions.dll
-                   _applicationExecutablePath.EndsWith("GitExtensions.dll", StringComparison.InvariantCultureIgnoreCase) ||
-
-                    // Tests are run by testhost.exe
-                    _applicationExecutablePath.EndsWith("testhost.exe", StringComparison.InvariantCultureIgnoreCase) ||
-                    _applicationExecutablePath.EndsWith("testhost.x86.exe", StringComparison.InvariantCultureIgnoreCase) ||
-
-                    _applicationExecutablePath.EndsWith("ReSharperTestRunner.exe", StringComparison.InvariantCultureIgnoreCase) ||
-                    _applicationExecutablePath.EndsWith("dotnet.exe", StringComparison.InvariantCultureIgnoreCase) ||
-
-                    // Translations
-                    _applicationExecutablePath.EndsWith("TranslationApp.exe", StringComparison.InvariantCultureIgnoreCase);
-
+                bool isExpectedExe = validExecutables.Any(exec => _applicationExecutablePath.EndsWith(exec, StringComparison.InvariantCultureIgnoreCase));
+                isExpectedExe = isExpectedExe || _applicationExecutablePath.Contains("nunit", StringComparison.InvariantCultureIgnoreCase);
                 DebugHelpers.Assert(isExpectedExe, $"{_applicationExecutablePath} must point to GitExtensions.exe");
             }
 #endif

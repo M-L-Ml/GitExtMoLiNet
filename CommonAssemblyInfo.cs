@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 #if NET6_0_OR_GREATER
-[assembly: System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
+//[assembly: System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
 #endif
 
 // General Information about an assembly is controlled through the following
