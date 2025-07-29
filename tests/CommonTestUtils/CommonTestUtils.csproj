@@ -12,6 +12,14 @@
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="LibGit2Sharp" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" />
