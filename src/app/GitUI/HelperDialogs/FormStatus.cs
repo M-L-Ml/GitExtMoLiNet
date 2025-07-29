@@ -7,9 +7,6 @@ using GitUI.Models;
 using GitUI.Properties;
 using GitUI.UserControls;
 using Microsoft.WindowsAPICodePack.Taskbar;
-#if WINDOWS && WINDOWSAPICODEPACK
-#endif
-
 
 namespace GitUI.HelperDialogs
 {

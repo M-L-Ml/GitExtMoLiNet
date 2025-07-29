@@ -49,7 +49,7 @@ namespace CommonTestUtils
             ClassicAssert.AreEqual(ApartmentState.STA, Thread.CurrentThread.GetApartmentState());
 
             // This form is created to obtain a UI synchronization context only.
-            using (new Form())
+            using (new Form() { Visible = false })
             {
                 // Store the shared JoinableTaskContext
                 ThreadHelper.JoinableTaskContext = new JoinableTaskContext();
