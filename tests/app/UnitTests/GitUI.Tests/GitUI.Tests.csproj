@@ -9,11 +9,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>embedded</DebugType>
   </PropertyGroup>
-
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.Drawing.EnableUnixSupport" Value="true" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NUnit.Extension.Net90PluggableAgent" />
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" />
     <PackageReference Include="JetBrains.Annotations" />
   </ItemGroup>

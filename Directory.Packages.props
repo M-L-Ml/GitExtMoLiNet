@@ -26,6 +26,7 @@
     <PackageVersion Include="Microsoft.VisualStudio.Threading" Version="17.14.15" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NString" Version="2.1.1" />
+    <PackageVersion Include="NUnit.Extension.Net90PluggableAgent" Version="4.0.0" />
     <PackageVersion Include="RestSharp" Version="106.12.0" />
     <PackageVersion Include="SmartFormat" Version="3.0.0" />
     <PackageVersion Include="StrongOf" Version="1.2.4" />
