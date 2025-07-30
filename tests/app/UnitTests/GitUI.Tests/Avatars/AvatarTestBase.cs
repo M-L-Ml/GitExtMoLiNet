@@ -31,6 +31,7 @@ namespace GitUITests.Avatars
         protected IAvatarProvider _cache;
         protected IAvatarCacheCleaner _cacheCleaner => _cache as IAvatarCacheCleaner;
 
+#pragma warning disable CA1416 // Validate platform compatibility
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
@@ -46,14 +47,11 @@ namespace GitUITests.Avatars
         {
             if (_img1 == null)
             {
-                System.Diagnostics.Debug.Assert(_img2 == null && _img3 == null && _img4 == null && _imgGenerated == null);
+                System.Diagnostics.Debug.Assert(_img2 == null
+                && _img3 == null && _img4 == null
+                && _imgGenerated == null);
                 return;
             }
-
-            //if (!EnvUtils.RunningOnWindows())
-            //{
-            //    return;
-            //}
 
             _img1.Dispose();
             _img2.Dispose();
