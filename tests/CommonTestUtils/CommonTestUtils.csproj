@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\externals\Git.hub\NotGithub\BuildXL\CoreUtils.csproj" />
     <ProjectReference Include="..\..\src\app\GitCommands\GitCommands.csproj" />
     <ProjectReference Include="..\..\src\app\GitExtUtils\GitExtUtils.csproj" />
     <ProjectReference Include="..\..\src\plugins\GitUIPluginInterfaces\GitUIPluginInterfaces.csproj" />
