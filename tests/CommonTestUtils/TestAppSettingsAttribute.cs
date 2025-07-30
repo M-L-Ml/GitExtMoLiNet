@@ -1,14 +1,39 @@
-﻿using GitCommands;
+﻿using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.Loader;
+using BuildXL.Utilities.Core;
+using GitCommands;
+using GitExtUtils;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using BuildXL.Utilities.Core;
-using GitExtUtils;
 namespace CommonTestUtils
 {
     [AttributeUsage(AttributeTargets.Assembly)]
     public sealed class TestAppSettingsAttribute : Attribute, ITestAction
     {
         private readonly INamedSemaphore _semaphore = GetSemaphore();
+
+        public TestAppSettingsAttribute()
+        { 
+            // 1. Get the currently executing assembly
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+
+            // 2. Get its load context
+            AssemblyLoadContext currentContext = AssemblyLoadContext.GetLoadContext(currentAssembly);
+
+            if (currentContext is not null)
+            {
+                Console.WriteLine($"The current assembly '{currentAssembly.GetName().Name}' is running in the '{currentContext.Name}' context.");
+                Console.WriteLine($"Is this context collectible? {currentContext.IsCollectible}");
+            }
+
+            currentContext.Unloading += (a) =>
+            {
+                Console.WriteLine($"Dispose semaphore.  {_semaphore?.Name ?? " it is null"}");
+                Trace.WriteLine($"Dispose semaphore.  {_semaphore?.Name ?? " it is null"}");
+                _semaphore?.Dispose();
+            };
+        }
 
         private static INamedSemaphore GetSemaphore()
         {
