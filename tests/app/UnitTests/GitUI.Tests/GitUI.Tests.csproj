@@ -11,6 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Drawing.EnableUnixSupport" Value="true" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" />
     <PackageReference Include="JetBrains.Annotations" />
   </ItemGroup>
