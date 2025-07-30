@@ -14,23 +14,11 @@ namespace CommonTestUtils
         private readonly INamedSemaphore _semaphore = GetSemaphore();
 
         public TestAppSettingsAttribute()
-        { 
-            // 1. Get the currently executing assembly
+        {
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
-
-            // 2. Get its load context
             AssemblyLoadContext currentContext = AssemblyLoadContext.GetLoadContext(currentAssembly);
-
-            if (currentContext is not null)
-            {
-                Console.WriteLine($"The current assembly '{currentAssembly.GetName().Name}' is running in the '{currentContext.Name}' context.");
-                Console.WriteLine($"Is this context collectible? {currentContext.IsCollectible}");
-            }
-
             currentContext.Unloading += (a) =>
             {
-                Console.WriteLine($"Dispose semaphore.  {_semaphore?.Name ?? " it is null"}");
-                Trace.WriteLine($"Dispose semaphore.  {_semaphore?.Name ?? " it is null"}");
                 _semaphore?.Dispose();
             };
         }
