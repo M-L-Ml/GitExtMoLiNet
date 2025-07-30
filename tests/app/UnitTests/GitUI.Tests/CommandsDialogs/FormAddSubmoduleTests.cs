@@ -1,4 +1,4 @@
-﻿using CommonTestUtils;
+using CommonTestUtils;
 using FluentAssertions;
 using GitExtUtils;
 using GitUI.CommandsDialogs.SubmodulesDialog;
@@ -36,9 +36,26 @@ namespace GitUITests.CommandsDialogs
                 .Should().BeEmpty();
         }
 
-        [TestCase("git@github.com:gitextensions/gitextensions.git", "\"git@github.com:gitextensions/gitextensions.git\"")]
-        [TestCase("https://github.com/gitextensions/gitextensions.git", "\"https://github.com/gitextensions/gitextensions.git\"")]
-        [TestCase("C:\\Repo", "\"C:/Repo\"")]
+        public static IEnumerable<TestCaseData> LoadRemoteRepoBranchesCases
+        {
+            get
+            {
+                yield return new TestCaseData("git@github.com:gitextensions/gitextensions.git", "\"git@github.com:gitextensions/gitextensions.git\"");
+                yield return new TestCaseData("https://github.com/gitextensions/gitextensions.git", "\"https://github.com/gitextensions/gitextensions.git\"");
+
+                if (EnvUtils.RunningOnWindows())
+                {
+                    yield return new TestCaseData("C:\\Repo", "\"C:/Repo\"");
+                }
+                else
+                {
+                    yield return new TestCaseData("/home/repo", "\"/home/repo\"");
+                }
+            }
+        }
+
+        [Test]
+        [TestCaseSource(nameof(LoadRemoteRepoBranchesCases))]
         public void LoadRemoteRepoBranches_Url(string url, string encodedUrl)
         {
             using IDisposable _ = MockupGitOutput(Heads, encodedUrl);
