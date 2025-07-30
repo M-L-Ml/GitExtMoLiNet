@@ -17,10 +17,19 @@ namespace CommonTestUtils
         {
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             AssemblyLoadContext currentContext = AssemblyLoadContext.GetLoadContext(currentAssembly);
+            var weak = new WeakReference<TestAppSettingsAttribute>(this);
             currentContext.Unloading += (a) =>
             {
-                _semaphore?.Dispose();
+                if (weak.TryGetTarget(out var target))
+                {
+                    target._semaphore.Dispose();
+                }
             };
+        }
+
+        ~TestAppSettingsAttribute()
+        {
+            _semaphore?.Dispose();
         }
 
         private static INamedSemaphore GetSemaphore()
