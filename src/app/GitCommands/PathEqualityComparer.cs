@@ -1,5 +1,6 @@
 ﻿using GitCommands.Utils;
 using GitExtUtils;
+using GitExtUtils.PathUtilsX;
 
 namespace GitCommands
 {
@@ -7,8 +8,8 @@ namespace GitCommands
     {
         public bool Equals(string path1, string path2)
         {
-            path1 = Path.GetFullPath(path1).TrimEnd('\\');
-            path2 = Path.GetFullPath(path2).TrimEnd('\\');
+            path1 =  Path.GetFullPath(path1).TrimEndPathSlashes();
+            path2 = Path.GetFullPath(path2).TrimEndPathSlashes();
             StringComparison comparison = !EnvUtils.RunningOnWindows()
                 ? StringComparison.InvariantCulture
                 : StringComparison.InvariantCultureIgnoreCase;
@@ -16,9 +17,11 @@ namespace GitCommands
             return string.Compare(path1, path2, comparison) == 0;
         }
 
+
+
         public int GetHashCode(string path)
         {
-            path = Path.GetFullPath(path).TrimEnd('\\');
+            path = Path.GetFullPath(path).TrimEndPathSlashes();
             if (EnvUtils.RunningOnWindows())
             {
                 path = path.ToLower();

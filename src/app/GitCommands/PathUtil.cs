@@ -18,7 +18,7 @@ namespace GitCommands
         private const string WslPrefix = @"\\wsl$\";
         private const string WslLocalhostPrefix = @"\\wsl.localhost\";
         private const string ProgramW6432EnvVar = "ProgramW6432";
-        public static readonly char PosixDirectorySeparatorChar = '/';
+        public const char PosixDirectorySeparatorChar = '/';
         public static readonly char NativeDirectorySeparatorChar = Path.DirectorySeparatorChar;
 
         /// <summary>The user's profile folder path.</summary>
@@ -733,6 +733,7 @@ namespace GitCommands
                     break;
                 }
             }
+
             if (selectedTerminalPath == null)
                 return null;
 
@@ -773,4 +774,15 @@ namespace GitCommands
 
 
 
+}
+
+namespace GitExtUtils.PathUtilsX
+{
+    public static class PathUtils
+    {
+        public static string TrimEndPathSlashes(this string path1)
+        {
+            return path1.TrimEnd('\\', GitCommands.PathUtil.PosixDirectorySeparatorChar);
+        }
+    }
 }
