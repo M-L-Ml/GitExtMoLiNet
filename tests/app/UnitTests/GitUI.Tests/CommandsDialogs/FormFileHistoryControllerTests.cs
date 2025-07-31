@@ -1,4 +1,4 @@
-﻿using CommonTestUtils;
+using CommonTestUtils;
 using GitUI.CommandsDialogs;
 
 namespace GitUITests.CommandsDialogs
@@ -39,16 +39,16 @@ namespace GitUITests.CommandsDialogs
             ClassicAssert.AreEqual(path, exactPath);
         }
 
-        [TestCase("Folder1\\file1.txt", true, true)]
-        [TestCase("FOLDER1\\file1.txt", true, false)]
-        [TestCase("fOLDER1\\file1.txt", true, false)]
-        [TestCase("Folder2\\file1.txt", false, false)]
+        [TestCase("Folder1/file1.txt", true, true)]
+        [TestCase("FOLDER1/file1.txt", true, false)]
+        [TestCase("fOLDER1/file1.txt", true, false)]
+        [TestCase("Folder2/file1.txt", false, false)]
         public void TryGetExactPathName_should_check_if_path_matches_case(string relativePath, bool isResolved, bool doesMatch)
         {
             using GitModuleTestHelper repo = new();
 
             // Create a file
-            string notUsed = repo.CreateFile(Path.Combine(repo.TemporaryPath, "Folder1"), "file1.txt", "bla");
+            string _ = repo.CreateFile(Path.Combine(repo.TemporaryPath, "Folder1"), "file1.txt", "bla");
 
             string expected = Path.Combine(repo.TemporaryPath, relativePath);
 
