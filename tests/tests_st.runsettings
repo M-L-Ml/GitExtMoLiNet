@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <NUnit>
+    <DumpXmlTestDiscovery>true</DumpXmlTestDiscovery>
+    <DumpXmlTestResults>true</DumpXmlTestResults>
+    <Verbosity>5</Verbosity>
+  </NUnit>
+  <RunConfiguration>
+   <ResultsDirectory>.\TestResults</ResultsDirectory> 
+   <TargetFrameworkVersion>net9.0</TargetFrameworkVersion>   <!-- your .NET Version -->
+    <MaxCpuCount>4</MaxCpuCount>
+   <TestSessionTimeout>600000</TestSessionTimeout>
+  </RunConfiguration>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="Blame" enabled="True">
+        <Configuration>
+          <CollectDump/>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+  <LoggerRunSettings>
+    <Loggers>
+	<!-- The "TRX logger" refers to a component within the Microsoft testing framework, primarily used with vstest.console.exe and dotnet test, that generates test results in the Visual Studio Test Results File (TRX) format. -->
+      <Logger friendlyName="trx" />  <!-- if you dont have any other logger -->
+    </Loggers>
+  </LoggerRunSettings>
+</RunSettings>
