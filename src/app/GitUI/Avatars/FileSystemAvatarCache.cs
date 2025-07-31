@@ -137,9 +137,19 @@ namespace GitUI.Avatars
 
         /// <inheritdoc />
         public async Task ClearCacheAsync()
+        { 
+            string cachePathS = AppSettings.AvatarImageCachePath;
+            await ClearCacheAsync(_cacheDir);
+            if (_cacheDir != cachePathS)
+            {
+                Trace.WriteLine($"Clearing the caches, but settings cache path {cachePathS} changed, != {_cacheDir}. Now clearing new one too");
+                await ClearCacheAsync(cachePathS);
+            }
+        }
+ 
+        /// <inheritdoc />
+        private async Task ClearCacheAsync(string cachePath)
         {
-            string cachePath = AppSettings.AvatarImageCachePath;
-
             if (_fileSystem.Directory.Exists(cachePath))
             {
                 try
