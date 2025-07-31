@@ -125,7 +125,7 @@ namespace GitUITests
                 .ToList();
 
             ClassicAssert.True(
-                countdown.Wait(TimeSpan.FromSeconds(10)),
+                countdown.Wait(TimeSpan.FromSeconds(10)) || (System.Diagnostics.Debugger.IsAttached && countdown.Wait(TimeSpan.FromDays(1))),
                 "Test should have completed within a reasonable amount of time");
 
             await Task.WhenAll(tasks);
