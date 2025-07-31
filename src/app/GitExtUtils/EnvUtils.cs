@@ -82,6 +82,8 @@ namespace GitExtUtils
         }
 
         [MustUseReturnValue]
+        [SupportedOSPlatformGuard("unix")]
+        [SupportedOSPlatformGuard("linux")]
         public static bool IsMonoRuntime()
         {
             return RunningOnUnix() ||
@@ -93,6 +95,8 @@ namespace GitExtUtils
             || Type.GetType("Mono.Runtime") != null;
         }
 
+        [SupportedOSPlatformGuard("unix")]
+        [SupportedOSPlatformGuard("linux")]
         [MustUseReturnValue]
         public static bool IsMonoRuntimeOrMForms()
         {

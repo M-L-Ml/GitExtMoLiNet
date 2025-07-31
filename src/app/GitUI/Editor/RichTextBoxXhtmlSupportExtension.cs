@@ -31,6 +31,7 @@ namespace GitUI.Editor.RichTextBoxExtension
         /// control so that no events are sent.
         /// </para>
         /// </remarks>
+        [SupportedOSPlatform("windows")]
         private static IntPtr BeginUpdate(HandleRef handleRef)
         {
             // Prevent the control from raising any events.
@@ -46,6 +47,12 @@ namespace GitUI.Editor.RichTextBoxExtension
 
         public static IntPtr BeginUpdate(this RichTextBox rtb)
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                rtb.SuspendLayout();
+                return IntPtr.Zero;
+            }
+
             HandleRef handleRef = new(rtb, rtb.Handle);
             return BeginUpdate(handleRef);
         }
@@ -58,6 +65,7 @@ namespace GitUI.Editor.RichTextBoxExtension
         /// made to BeginUpdate. It resets the event mask to it's
         /// original value and enables redrawing of the control.
         /// </remarks>
+        [SupportedOSPlatform("windows")]
         private static void EndUpdate(HandleRef handleRef, IntPtr oldEventMask)
         {
             // Allow the control to redraw itself.
@@ -71,6 +79,13 @@ namespace GitUI.Editor.RichTextBoxExtension
 
         public static void EndUpdate(this RichTextBox rtb, IntPtr oldEventMask)
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+
+                rtb.ResumeLayout(true);
+                rtb.Refresh();
+                return;
+            }
             HandleRef handleRef = new(rtb, rtb.Handle);
             EndUpdate(handleRef, oldEventMask);
         }
@@ -331,24 +346,28 @@ namespace GitUI.Editor.RichTextBoxExtension
 
             internal const int LF_FACESIZE = 32;
 
+            [SupportedOSPlatform("windows")]
             [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
             internal static extern IntPtr SendMessage(HandleRef hWnd,
                 int msg,
                 IntPtr wParam,
                 IntPtr lParam);
 
+            [SupportedOSPlatform("windows")]
             [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
             internal static extern IntPtr SendMessage(HandleRef hWnd,
                 int msg,
                 IntPtr wParam,
                 ref Point lParam);
 
+            [SupportedOSPlatform("windows")]
             [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
             internal static extern IntPtr SendMessage(HandleRef hWnd,
                 int msg,
                 IntPtr wParam,
                 ref PARAFORMAT lp);
 
+            [SupportedOSPlatform("windows")]
             [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
             internal static extern IntPtr SendMessage(HandleRef hWnd,
                 int msg,
@@ -1043,14 +1062,14 @@ namespace GitUI.Editor.RichTextBoxExtension
             }
         }
 
-        public static string GetPlainText(this RichTextBox rtb)
-        {
-            return GetPlainText(rtb, 0, rtb.TextLength);
-        }
-
         public static string GetSelectionPlainText(this RichTextBox rtb)
         {
             return GetPlainText(rtb, rtb.SelectionStart, rtb.SelectionStart + rtb.SelectionLength);
+        }
+
+        public static string GetPlainText(this RichTextBox rtb)
+        {
+            return GetPlainText(rtb, 0, rtb.TextLength);
         }
 
         public static string GetPlainText(this RichTextBox rtb, int from, int to)
@@ -1252,7 +1271,7 @@ namespace GitUI.Editor.RichTextBoxExtension
         public static void SetXHTMLText(this RichTextBox rtb, string xhtmlText)
         {
             rtb.DetectUrls = false;
-            if (EnvUtils.IsMonoRuntime())
+            if (EnvUtils.IsMonoRuntimeOrMForms())
             {
                 SetXHTMLTextAsPlainText(rtb, xhtmlText);
                 return;

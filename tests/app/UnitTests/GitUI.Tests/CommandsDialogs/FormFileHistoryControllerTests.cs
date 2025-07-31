@@ -27,6 +27,7 @@ namespace GitUITests.CommandsDialogs
         }
 
         [Test]
+        [Platform(Include = "Win")]
         public void TryGetExactPathName_Should_handle_network_path()
         {
             string path = @"\\" + Environment.MachineName.ToLower() + @"\c$\Windows\System32";

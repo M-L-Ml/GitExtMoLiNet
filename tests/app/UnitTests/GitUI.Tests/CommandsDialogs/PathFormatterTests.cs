@@ -10,13 +10,17 @@ namespace GitUITests.CommandsDialogs
         [TestCase("path/new.ext", null, "new.ext", null)]
         [TestCase("/path/new.ext", null, "new.ext", null)]
         [TestCase("C:/path/new.ext", null, "new.ext", null)]
+#if !__MonoCS__
         [TestCase("path\\new.ext", null, "new.ext", null)]
         [TestCase("C:\\path\\new.ext", null, "new.ext", null)]
+#endif
         [TestCase("path/new.ext", "old.ext", "new.ext", " (old.ext)")]
         [TestCase("path/new.ext", "oldPath/old.ext", "new.ext", " (old.ext)")]
         [TestCase("path/new.ext", "/oldPath/old.ext", "new.ext", " (old.ext)")]
         [TestCase("path/new.ext", "C:/oldPath/old.ext", "new.ext", " (old.ext)")]
+#if !__MonoCS__
         [TestCase("path/new.ext", "C:\\oldPath\\old.ext", "new.ext", " (old.ext)")]
+#endif
         [TestCase("path/new.ext", "oldPath\\old.ext", "new.ext", " (old.ext)")]
         public void Test_FormatTextForFileNameOnly(string name, string oldName, string expectedText, string expectedSuffix)
         {
@@ -30,7 +34,9 @@ namespace GitUITests.CommandsDialogs
         [TestCase("path/filename.ext", " (path/filename.ext)")]
         [TestCase("nested/path/filename.ext", " (nested/path/filename.ext)")]
         [TestCase("/nested/path/filename.ext", " (/nested/path/filename.ext)")]
+#if !__MonoCS__
         [TestCase("path\\filename.ext", " (path\\filename.ext)")]
+#endif
         public void Test_FormatOldName(string oldName, string expectedSuffix)
         {
             PathFormatter.TestAccessor.FormatOldName(oldName).Should().Be(expectedSuffix);
