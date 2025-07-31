@@ -27,14 +27,23 @@ namespace CommonTestUtils
             };
         }
 
+        static TestAppSettingsAttribute()
+        {
+            if (!EnvUtils.RunningOnWindows())
+            {
+                SemaphoreFactory.DeleteIfExists(SemaphoreName);
+            }
+        }
         ~TestAppSettingsAttribute()
         {
             _semaphore?.Dispose();
         }
 
+        public static readonly string SemaphoreName = (EnvUtils.RunningOnWindows() ? "" : "/") + "GitExtensionsTestAssemblySerializer";
+
         private static INamedSemaphore GetSemaphore()
         {
-            return SemaphoreFactory.CreateOrOpen(initialCount: 1, maximumCount: 1, name: (EnvUtils.RunningOnWindows() ? "" : "/") + "GitExtensionsTestAssemblySerializer").ThrowIfFailure().Result;
+            return SemaphoreFactory.CreateOrOpen(initialCount: 1, maximumCount: 1, name: SemaphoreName).ThrowIfFailure().Result;
         }
 
         public ActionTargets Targets => ActionTargets.Suite;
