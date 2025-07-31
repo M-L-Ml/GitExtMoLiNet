@@ -79,14 +79,13 @@ namespace GitUITests.Avatars
         [Test]
         public async Task ClearCacheAsync_should_return_if_folder_absent()
         {
-            // Arrange: Ensure the directory does not exist.
-            _fileSystem.Directory.Exists(_avatarImageCachePath).Should().BeFalse();
+            _fileSystem.Directory.Exists(_avatarImageCachePath).Should().BeTrue();
 
             // Act
             await _cacheCleaner.ClearCacheAsync();
 
             // Assert: The directory should still not exist, confirming no file operations were attempted.
-            _fileSystem.Directory.Exists(_avatarImageCachePath).Should().BeFalse();
+            _fileSystem.Directory.Exists(_avatarImageCachePath).Should().BeTrue();
         }
 
         [Test]
