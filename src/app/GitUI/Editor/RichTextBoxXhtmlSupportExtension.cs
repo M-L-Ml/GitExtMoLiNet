@@ -393,18 +393,34 @@ namespace GitUI.Editor.RichTextBoxExtension
 
         public static bool IsSuperScript(this RichTextBox rtb)
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                //TODO:
+                return false;
+            }
             CHARFORMAT cf = rtb.GetCharFormat();
             return (cf.dwEffects & CFE.SUPERSCRIPT) == CFE.SUPERSCRIPT;
         }
 
         public static bool IsSubScript(this RichTextBox rtb)
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                //TODO:
+                return false;
+            }
             CHARFORMAT cf = rtb.GetCharFormat();
             return (cf.dwEffects & CFE.SUBSCRIPT) == CFE.SUBSCRIPT;
         }
 
         public static bool IsLink(this RichTextBox rtb)
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                //TODO:
+                return false;
+            }
+
             CHARFORMAT cf = rtb.GetCharFormat();
             return (cf.dwEffects & CFE.LINK) == CFE.LINK;
         }
@@ -446,6 +462,7 @@ namespace GitUI.Editor.RichTextBoxExtension
             }
         }
 
+        [SupportedOSPlatform("windows")]
         private static PARAFORMAT GetParaFormat(HandleRef handleRef)
         {
             PARAFORMAT pf = new();
@@ -461,12 +478,22 @@ namespace GitUI.Editor.RichTextBoxExtension
 
         public static PARAFORMAT GetParaFormat(this RichTextBox rtb)
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                //TODO:
+                return default(PARAFORMAT);
+            }
             HandleRef handleRef = new(rtb, rtb.Handle);
             return GetParaFormat(handleRef);
         }
 
         private static void SetParaFormat(HandleRef handleRef, PARAFORMAT value)
         {
+            if (EnvUtils.IsMonoRuntimeOrMForms())
+            {
+                //TODO:
+                return;
+            }
             DebugHelpers.Assert(value.cbSize == Marshal.SizeOf(value), "value.cbSize == Marshal.SizeOf(value)");
 
             // Set the alignment.
@@ -516,6 +543,7 @@ namespace GitUI.Editor.RichTextBoxExtension
             SetDefaultParaFormat(handleRef, value);
         }
 
+        [SupportedOSPlatform("windows")]
         private static CHARFORMAT GetCharFormat(HandleRef handleRef)
         {
             CHARFORMAT cf = new();
@@ -529,7 +557,8 @@ namespace GitUI.Editor.RichTextBoxExtension
             return cf;
         }
 
-        public static CHARFORMAT GetCharFormat(this RichTextBox rtb)
+        [SupportedOSPlatform("windows")]
+        private static CHARFORMAT GetCharFormat(this RichTextBox rtb)
         {
             HandleRef handleRef = new(rtb, rtb.Handle);
             return GetCharFormat(handleRef);

@@ -32,7 +32,7 @@ namespace GitCommandsTests
             _fileSystem.File.Returns(_file);
             _manager = new CommitTemplateManager(() => _module, _fullPathResolver, _fileSystem);
 
-            if (EnvUtils.RunningOnUnix())
+            if (!EnvUtils.RunningOnWindows())
             {
                 _workingDir = "/home/user/repo";
             }

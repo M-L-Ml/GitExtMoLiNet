@@ -1,12 +1,15 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using GitCommands;
+using GitExtUtils;
 
 namespace GitCommandsTests
 {
     [TestFixture]
     public class FullPathResolverTests
     {
-        private readonly string _workingDir = @"c:\dev\repo";
+        private readonly string _workingDir = EnvUtils.RunningOnWindows() ?
+            @"c:\dev\repo" :
+            "/home/user/repo";
         private FullPathResolver _resolver;
 
         [SetUp]
@@ -51,6 +54,7 @@ namespace GitCommandsTests
             _resolver.Resolve(path).Should().Be($"{_workingDir}\\{path.Replace("/", "\\")}");
         }
 
+        [Platform(Exclude = "Unix")]
         [TestCase(@"C:\dev\repo")]
         [TestCase(@"C:\dev\repo\")]
         [TestCase(@"C:\dev\repo/")]

@@ -3,6 +3,7 @@ using CommonTestUtils;
 using FluentAssertions;
 using GitCommands;
 using GitCommands.Git;
+using GitExtUtils;
 using NSubstitute;
 
 namespace GitCommandsTests.Git
@@ -10,7 +11,9 @@ namespace GitCommandsTests.Git
     [TestFixture]
     public class GitDirectoryResolverTests
     {
-        private string _workingDir = @"c:\dev\repo";
+        private string _workingDir = EnvUtils.RunningOnWindows()?
+            @"c:\dev\repo" :
+            "/home/user/repo";
         private string _gitWorkingDir;
         private string _gitFile;
         private FileBase _file;

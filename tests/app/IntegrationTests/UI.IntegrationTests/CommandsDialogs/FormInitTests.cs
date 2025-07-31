@@ -65,6 +65,8 @@ namespace GitExtensions.UITests.CommandsDialogs
                 currentDir);
         }
 
+        //TODO: enable those test for Unix platforms
+        [Platform(Include = "Win")]
         [TestCase(@"c:\foo\bar")]
         [TestCase(@"c:\foo\bar\")]
         [TestCase(@"c:")]

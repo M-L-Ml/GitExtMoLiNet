@@ -1,9 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.IO.Abstractions;
 using System.Text;
 using CommonTestUtils;
 using FluentAssertions;
 using GitCommands;
+using GitExtUtils;
 using NSubstitute;
 
 namespace GitCommandsTests
@@ -19,7 +20,10 @@ namespace GitCommandsTests
         // Created once for the fixture
         private ReferenceRepository _referenceRepository;
 
-        private readonly string _workingDirGitDir = @"c:\dev\repo\.git";
+        private readonly string _workingDirGitDir = EnvUtils.RunningOnWindows() ?
+            @"c:\dev\repo\.git" :
+            "/home/user/repo/.git";
+
         private readonly Encoding _encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
         private readonly string _amendSaveStatePath;

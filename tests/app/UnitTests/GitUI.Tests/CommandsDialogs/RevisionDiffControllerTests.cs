@@ -8,6 +8,7 @@ using NSubstitute;
 
 namespace GitUITests.CommandsDialogs
 {
+    //TODO: enable those test for Unix platforms
     [SetCulture("en-US")]
     [SetUICulture("en-US")]
     [TestFixture]
@@ -72,6 +73,7 @@ namespace GitUITests.CommandsDialogs
             _module.Received(0).SaveBlobAs(Arg.Any<string>(), Arg.Any<string>());
         }
 
+        [Platform(Include = "Win")]
         [Test]
         public void SaveFiles_should_save_single_file()
         {
@@ -110,6 +112,7 @@ namespace GitUITests.CommandsDialogs
             _module.Received(0).SaveBlobAs(Arg.Any<string>(), Arg.Any<string>());
         }
 
+        [Platform(Include = "Win")]
         [TestCase("c:\\temp")]
         [TestCase("c:\\temp\\")]
         public void SaveFiles_should_save_multi_files_same_folder(string targetFolder)
@@ -141,6 +144,7 @@ namespace GitUITests.CommandsDialogs
             _module.Received(1).SaveBlobAs("c:\\temp\\folder1\\folder2\\item3.txt", Arg.Any<string>());
         }
 
+        [Platform(Include = "Win")]
         [TestCase("c:\\myproject\\src")]
         [TestCase("c:\\myproject\\src\\")]
         public void SaveFiles_should_save_multi_files_different_folder(string targetFolder)

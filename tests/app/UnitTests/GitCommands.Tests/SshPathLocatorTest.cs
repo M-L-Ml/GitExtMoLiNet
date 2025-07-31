@@ -47,6 +47,8 @@ namespace GitCommandsTests
             sshPathLocator.GetSshFromGitDir(path).Should().BeNull();
         }
 
+        //TODO: enable those test for Unix platforms
+        [Platform(Include = "Win")]
         [Theory]
         public void GetSshFromGitDir_on_gitBinDir_should_work_with_or_without_trailing_separator(bool withTrailingSeparator)
         {

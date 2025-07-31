@@ -3,6 +3,7 @@ using FluentAssertions;
 using GitCommands;
 using GitExtensions.Extensibility.Git;
 using GitExtensions.UITests;
+using GitExtUtils;
 using GitUI;
 using GitUI.CommandsDialogs;
 
@@ -26,7 +27,8 @@ namespace GitUITests.GitUICommandsTests
 
             if (first)
             {
-                string cmdPath = (Environment.GetEnvironmentVariable("COMSPEC") ?? "C:/WINDOWS/system32/cmd.exe").ToPosixPath().QuoteNE();
+                string cmdPath = EnvUtils.RunningOnWindows()?
+                   ( (Environment.GetEnvironmentVariable("COMSPEC") ?? "C:/WINDOWS/system32/cmd.exe").ToPosixPath().QuoteNE()) : "sh";
                 _referenceRepository.Module.GitExecutable.RunCommand($"config --local difftool.cmd.path {cmdPath}").Should().BeTrue();
                 _referenceRepository.Module.GitExecutable.RunCommand($"config --local mergetool.cmd.path {cmdPath}").Should().BeTrue();
                 _referenceRepository.Module.GitExecutable.RunCommand("config --local diff.guitool cmd").Should().BeTrue();

@@ -48,6 +48,7 @@ namespace GitCommandsTests
 
         [Test]
         [Platform(Exclude = "Mono")]
+        [Platform(Exclude = "Unix")]
         public void Get_if_file_does_not_exist_create_temp()
         {
             const string folder = @"c:\non_existent_folder";
@@ -62,6 +63,7 @@ namespace GitCommandsTests
 
         [Test]
         [Platform(Exclude = "Mono")]
+        [Platform(Exclude = "Unix")]
         public void Get_if_temp_file_cant_be_delete_ignore()
         {
             const string folder = @"c:\non_existent_folder";
