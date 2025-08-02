@@ -50,10 +50,13 @@ indent_size = 2
 insert_final_newline = false
 
 # C# and VB files
-[*.{cs,vb}]
+[*.cs]
 charset = utf-8-bom
+
+[*.{cs,vb}]
 insert_final_newline = true
 trim_trailing_whitespace = true
+dotnet_diagnostic.CA1416.severity = suggestion
 
 # Xml config files
 [*.{props,targets,config,nuspec}]
@@ -360,4 +363,9 @@ csharp_style_prefer_switch_expression = true:suggestion
 # Disable S6602 globally
 # S6602: "Array.Find" static method should be used instead of the "FirstOrDefault" extension method.
 dotnet_diagnostic.S6602.severity = none
+dotnet_diagnostic.SA1005.severity = suggestion
+dotnet_diagnostic.SA1515.severity = suggestion
+dotnet_diagnostic.SA1508.severity = suggestion
+dotnet_diagnostic.SA1505.severity = suggestion
+dotnet_diagnostic.SA1507.severity = suggestion
 
