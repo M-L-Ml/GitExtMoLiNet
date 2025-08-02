@@ -1,0 +1,8 @@
+# Placeholder for Git Extensions icon files
+# 
+# This directory should contain:
+# - gitextensions.png (48x48 pixels)
+#
+# Icon files should be copied from the main Git Extensions assets:
+# - Source: setup/assets/Logo/git-extensions-logo-48.png
+# - Target: gitextensions.png

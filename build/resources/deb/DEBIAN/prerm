@@ -1,0 +1,7 @@
+#!/bin/bash
+# Pre-removal script for Git Extensions
+
+set -e
+
+# Nothing special needed for pre-removal
+exit 0

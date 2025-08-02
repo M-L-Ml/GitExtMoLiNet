@@ -1,0 +1,12 @@
+#!/bin/bash
+# Pre-installation script for Git Extensions
+
+set -e
+
+# Check if git is available
+if ! command -v git &> /dev/null; then
+    echo "Warning: Git is not installed. Git Extensions requires Git to function properly."
+    echo "Please install git using: sudo apt-get install git"
+fi
+
+exit 0

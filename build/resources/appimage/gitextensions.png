@@ -1,0 +1,7 @@
+# Placeholder for Git Extensions AppImage icon
+# 
+# This file should be replaced with the actual Git Extensions icon (PNG format)
+# Source: setup/assets/Logo/git-extensions-logo.png
+# 
+# For now, this is a placeholder file that should be replaced with the actual icon
+# before building the AppImage package.
