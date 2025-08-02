@@ -12,6 +12,3 @@ Description: Git Extensions is a standalone UI tool for managing git repositorie
  control Git without using the command line. It comes with a comprehensive
  manual to get you started with Git and Git Extensions quickly.
  .
- Features include:
-   * Feature rich user interface for Git
-  * Single installer installsGit Extensions and the mergetool KDiff3
