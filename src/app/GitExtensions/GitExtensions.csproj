@@ -3,9 +3,12 @@
   <Import Project="$(MSBuildProjectDirectory)\Project.Build.targets" />
   <Import Project="$(MSBuildProjectDirectory)\Project.Publish.targets" />
   <Import Project="$(MSBuildProjectDirectory)\Project.Loc.targets" />
+  <PropertyGroup>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+  </PropertyGroup>
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>..\..\..\setup\assets\Logo\git-extensions-logo.ico</ApplicationIcon>
     <StartupObject />

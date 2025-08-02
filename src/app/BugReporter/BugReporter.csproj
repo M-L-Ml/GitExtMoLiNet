@@ -1,15 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>Resources\git-extensions-logo.ico</ApplicationIcon>
 
     <!-- To be removed when NRT annotations are complete -->
     <Nullable>annotations</Nullable>
   </PropertyGroup>
+  <PropertyGroup>
+      <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+  </PropertyGroup>
 
-  <ItemGroup>
+    <ItemGroup>
     <ProjectReference Include="..\GitExtUtils\GitExtUtils.csproj" />
     <ProjectReference Include="..\ResourceManager\ResourceManager.csproj" />
   </ItemGroup>

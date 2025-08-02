@@ -3,7 +3,7 @@ Param(
     [Parameter(Mandatory=$True, Position=1)]
     [string] $Files
 )
-
+Write-Host "RuntimeConfigJsonFiles :"
 $Files.Split(';') | `
     ForEach-Object { 
         $fileContent = Get-Content $_ | ConvertFrom-Json;
