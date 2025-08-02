@@ -26,6 +26,29 @@ APPIMAGETOOL_URL=https://github.com/AppImage/appimagetool/releases/download/cont
 
 cd build
 
+# Copy icons from source if they don't exist
+if [[ ! -f "resources/_common/icons/hicolor/48x48/apps/gitextensions.png" ]]; then
+    echo "Copying icons from source..."
+    mkdir -p resources/_common/icons/hicolor/48x48/apps
+    mkdir -p resources/appimage
+    
+    # Copy 48px icon for desktop integration
+    if [[ -f "../setup/assets/Logo/git-extensions-logo-48px.png" ]]; then
+        cp "../setup/assets/Logo/git-extensions-logo-48px.png" "resources/_common/icons/hicolor/48x48/apps/gitextensions.png"
+        echo "✓ Copied 48px icon for desktop integration"
+    else
+        echo "⚠ Warning: 48px icon not found at ../setup/assets/Logo/git-extensions-logo-48px.png"
+    fi
+    
+    # Copy larger icon for AppImage
+    if [[ -f "../setup/assets/Logo/git-extensions-logo-256px.png" ]]; then
+        cp "../setup/assets/Logo/git-extensions-logo-256px.png" "resources/appimage/gitextensions.png"
+        echo "✓ Copied 256px icon for AppImage"
+    else
+        echo "⚠ Warning: 256px icon not found at ../setup/assets/Logo/git-extensions-logo-256px.png"
+    fi
+fi
+
 if [[ ! -f "appimagetool" ]]; then
     curl -o appimagetool -L "$APPIMAGETOOL_URL"
     chmod +x appimagetool

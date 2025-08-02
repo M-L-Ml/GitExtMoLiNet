@@ -16,8 +16,8 @@ fi
 
 # Source icon path (relative to project root)
 ICON_SOURCE="../setup/assets/Logo"
-ICON_48_SOURCE="$ICON_SOURCE/git-extensions-logo-48.png"
-ICON_MAIN_SOURCE="$ICON_SOURCE/git-extensions-logo.png"
+ICON_48_SOURCE="$ICON_SOURCE/git-extensions-logo-48px.png"
+ICON_MAIN_SOURCE="$ICON_SOURCE/git-extensions-logo-256px.png"
 
 # Target directories
 COMMON_ICONS_DIR="resources/_common/icons/hicolor/48x48/apps"
