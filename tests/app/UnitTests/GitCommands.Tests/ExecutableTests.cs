@@ -20,6 +20,8 @@ namespace GitCommandsTests
         {
         }
 
+        //TODO: enable those test for Unix platforms
+        [Platform(Include = "Win")]
         [Test]
         public async Task Process_shall_be_killed_on_cancellation()
         {

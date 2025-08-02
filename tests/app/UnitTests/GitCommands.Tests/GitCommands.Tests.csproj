@@ -6,7 +6,9 @@
     <PackageReference Include="JetBrains.Annotations" />
     <PackageReference Include="System.IO.Packaging" />
   </ItemGroup>
-
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Drawing.EnableUnixSupport" Value="true" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\app\GitCommands\GitCommands.csproj" />
     <ProjectReference Include="..\..\..\..\src\app\GitExtUtils\GitExtUtils.csproj" />

@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 
 namespace GitCommands
 {
+    //TODO: refactor this , prefer composition
     [XmlRoot("dictionary")]
     [Serializable]
     public class XmlSerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IXmlSerializable
