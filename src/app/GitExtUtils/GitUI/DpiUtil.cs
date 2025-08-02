@@ -201,8 +201,6 @@ namespace GitExtUtils.GitUI
 
     public static class DpiUtil
     {
-
-
         private static readonly DpiUtilImpl Instance;
 
         [SupportedOSPlatform("windows")]

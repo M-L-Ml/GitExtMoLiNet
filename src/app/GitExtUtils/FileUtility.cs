@@ -43,10 +43,13 @@ namespace GitExtUtils
         public static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
         {
 
-            /// or fix using
-            /// sudo ln -s /usr/lib/x86_64-linux-gnu/libXinerama.so.1 /usr/lib/x86_64-linux-gnu/libXinerama.so
+            // or fix using
+            // sudo ln -s /usr/lib/x86_64-linux-gnu/libXinerama.so.1 /usr/lib/x86_64-linux-gnu/libXinerama.so
             switch (libraryName.ToLowerInvariant())
             {
+                case "System.Windows.Forms":
+
+                    break;
                 case "xinerama":
                 case "libxinerama":
                 case "libxinerama.so":

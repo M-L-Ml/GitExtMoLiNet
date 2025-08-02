@@ -41,6 +41,7 @@ public abstract class SettingsSourceBase : IConfigValueStore
         SetValue(name, stringValue);
     }
 }
+
 public abstract class SettingsSource : SettingsSourceBase
 {
     public virtual SettingLevel SettingLevel { get; init; } = SettingLevel.Unknown;

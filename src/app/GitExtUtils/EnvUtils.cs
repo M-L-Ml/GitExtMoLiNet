@@ -68,7 +68,6 @@ namespace GitExtUtils
                    && Environment.OSVersion.Version.CompareTo(new Version(6, 3)) >= 0;
         }
 
-
         [SupportedOSPlatformGuard("linux")]
         public static bool RunningOnUnix()
         {
@@ -161,7 +160,5 @@ namespace GitExtUtils
         }
 
         public static char EnvVariableSeparator => Path.PathSeparator;
-
-
     }
 }
