@@ -4,7 +4,7 @@ Section: vcs
 Priority: optional
 Architecture: amd64
 Installed-Size: 50000
-Depends: libgtk2.0-0, libglib2.0-0, libgdiplus, libx11-6, libxinerama1 | libXinerama1, libicu | libicu76 | libicu74 | libicu72 | libicu71 | libicu70 | libicu69 | libicu68 | libicu67 | libicu66 | libicu65 | libicu63 | libicu60 | libicu57 | libicu55 | libicu52, libgdk-pixbuf2.0-0, libxcursor1 | libXcursor1, libcairo2, libpango-1.0-0, libatk1.0-0, libfreetype6, libfontconfig1, libxext6, libxrender1, libxrandr2, libxi6, libxfixes3, libxdamage1, libxcomposite1, libjpeg8, libpng16-16, libtiff6, libwebp7, libgif7, libexif12, libc6, libgcc-s1, libstdc++6, git
+Depends: libgtk2.0-0, libglib2.0-0, libgdiplus, libx11-6, libxinerama1 | libXinerama1, libicu | libicu76 | libicu74 | libicu72 | libicu71 | libicu70 | libicu69 | libicu68 | libicu67 | libicu66 | libicu65 | libicu63 | libicu60 | libicu57 | libicu55 | libicu52
 Maintainer: Git Extensions Team <gitextensions@gmail.com>
 Homepage: https://gitextensions.github.io/
 Description: Git Extensions is a standalone UI tool for managing git repositories
