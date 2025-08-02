@@ -5,7 +5,7 @@ Summary: Git Extensions is a standalone UI tool for managing git repositories
 License: GPL-3.0+
 URL: https://gitextensions.github.io/
 BuildArch: x86_64
-Requires: git, gtk3, glib2, cairo-gobject, pango, atk, cairo, gdk-pixbuf2, glibc, libgcc, libstdc++
+Requires: git, gtk2-devel, glib2, cairo, pango, atk, gdk-pixbuf2, libgdiplus, freetype, fontconfig, libX11, libXext, libXrender, libXrandr2, libXi, libXinerama, libXfixes, libXdamage, libXcomposite, libXcursor, libicu, libjpeg-turbo, libpng, libtiff, libwebp, giflib, libexif, glibc, libgcc, libstdc++
 
 %description
 Git Extensions is a graphical user interface for Git that allows you to
