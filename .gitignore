@@ -78,3 +78,5 @@ artifacts/
 .tools/vswhere/
 .dotnet/
 *.svclog
+
+/build/GitExtensions/
