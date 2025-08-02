@@ -41,7 +41,7 @@ sudo yum install rpm-build desktop-file-utils curl dpkg
 ```bash
 # Set environment variables for custom build
 export RUNTIME=linux-x64        # or linux-arm64
-export VERSION=4.0.0           # version number
+export VERSION=5.9.1           # version number
 export CONFIGURATION=Release   # or Debug
 
 ./build.sh
@@ -52,7 +52,7 @@ export CONFIGURATION=Release   # or Debug
 # Build only specific package types by running the packaging script directly
 cd build
 export RUNTIME=linux-x64
-export VERSION=4.0.0
+export VERSION=5.9.1
 bash scripts/package.linux.sh
 ```
 
@@ -122,7 +122,7 @@ Before building packages, you need to copy the actual Git Extensions icon files:
 ### Version Information
 The build script automatically detects the version from the project, but you can override it:
 ```bash
-export VERSION=4.0.0
+export VERSION=5.9.1
 ./build.sh
 ```
 
@@ -130,21 +130,21 @@ export VERSION=4.0.0
 
 ### DEB Package
 ```bash
-sudo dpkg -i gitextensions_4.0.0-1_amd64.deb
+sudo dpkg -i gitextensions_5.9.1-1_amd64.deb
 sudo apt-get install -f  # Fix any dependency issues
 ```
 
 ### RPM Package
 ```bash
-sudo rpm -i gitextensions-4.0.0-1.x86_64.rpm
+sudo rpm -i gitextensions-5.9.1-1.x86_64.rpm
 # or
-sudo dnf install gitextensions-4.0.0-1.x86_64.rpm
+sudo dnf install gitextensions-5.9.1-1.x86_64.rpm
 ```
 
 ### AppImage
 ```bash
-chmod +x gitextensions-4.0.0.linux.amd64.AppImage
-./gitextensions-4.0.0.linux.amd64.AppImage
+chmod +x gitextensions-5.9.1.linux.amd64.AppImage
+./gitextensions-5.9.1.linux.amd64.AppImage
 ```
 
 ## Troubleshooting

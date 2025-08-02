@@ -52,5 +52,5 @@ cp ../../../resources/_common/icons/hicolor/48x48/apps/gitextensions.png %{build
 /usr/share/pixmaps/gitextensions.png
 
 %changelog
-* Thu Aug 02 2024 Git Extensions Team <gitextensions@gmail.com> - 4.0.0-1
+* Thu Aug 02 2024 Git Extensions Team <gitextensions@gmail.com> - 5.9.1-1
 - Initial RPM package for Git Extensions

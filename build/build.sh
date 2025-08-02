@@ -6,7 +6,7 @@ set -u
 
 # Default values
 RUNTIME=${RUNTIME:-linux-x64}
-VERSION=${VERSION:-4.0.0}
+VERSION=${VERSION:-5.9.1}
 CONFIGURATION=${CONFIGURATION:-Release}
 
 echo "Building Git Extensions for Linux"
