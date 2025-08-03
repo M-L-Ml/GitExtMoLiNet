@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         ⚠️ Review existing issues to see whether someone else has already requested this feature or created a similar issue.
-        📖 Please also read [CONTRIBUTING.md](https://github.com/gitextensions/gitextensions/blob/master/CONTRIBUTING.md).
+        📖 Please also read [CONTRIBUTING.md](https://github.com/M-L-Ml/gitextensions/blob/master/CONTRIBUTING.md).
   - type: textarea
     id: description
     attributes:
