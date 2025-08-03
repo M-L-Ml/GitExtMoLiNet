@@ -9,7 +9,7 @@ set -u
 # Initialize build variables and display configuration
 initialize_build_vars() {
     # Source common configuration
-    source "$(dirname "$0")/common.conf"
+    source "$(dirname "$0")/common.sh"
     initialize_common
     
     # Generate packaging templates with current configuration
@@ -29,7 +29,7 @@ cd "$(dirname "$0")/.."
 # rm -rf build/GitExtensions
 # rm -rf build/*.deb
 # rm -rf build/*.rpm
-# rm -rf build/*.AppImage
+rm -rf build/*.AppImage
 
 #   --self-contained true 
 # Build the application
@@ -51,9 +51,12 @@ chmod +x build/GitExtensions/GitExtensions
 export RUNTIME
 export VERSION
 
+cd build
+generate_templates_main
+
 # Run the packaging script
 echo "Running packaging script..."
-cd build
+
 . "$PWD/scripts/package.linux.sh"
 
     echo "Build completed successfully!"

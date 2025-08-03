@@ -7,7 +7,7 @@ set -o pipefail
 set -u
 
 # Source common configuration
-source "$(dirname "$0")/common.conf"
+source "$(dirname "$0")/common.sh"
 initialize_common
 
 # Function to substitute variables in template files
@@ -177,7 +177,7 @@ EOF
 }
 
 # Main execution
-main() {
+generate_templates_main() {
     echo "Generating packaging templates..."
     
     # Create necessary directories
@@ -203,5 +203,5 @@ main() {
 
 # Only run main function if script is executed directly (not sourced)
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    main "$@"
+    generate_templates_main "$@"
 fi

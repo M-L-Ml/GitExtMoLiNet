@@ -7,8 +7,8 @@ set pipefail
 cd "$(dirname "$0")/.."
 
 # Source common configuration
-# source "$(dirname "$0")/common.conf"
-# initialize_common
+source "$(dirname "$0")/common.sh"
+initialize_common
 
 # Variables are now set by common.conf:
 # - ARCH (arch)
@@ -20,8 +20,8 @@ cd "$(dirname "$0")/.."
 APPIMAGETOOL_URL=https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
 
 # Ensure we're in the project root
-# cd "$(dirname "$0")/.."
-# cd build
+cd "$(dirname "$0")/.."
+cd build
 
 # Copy icons from source if they don't exist
 if [[ ! -f "resources/_common/icons/hicolor/48x48/apps/gitextensions.png" ]]; then
@@ -65,7 +65,8 @@ mkdir -p $APPNAME.AppDir/usr/share/metainfo
 mkdir -p $APPNAME.AppDir/usr/share/applications
 
 cp -r $BUILDSRC $APPNAME.AppDir/opt/$APPNAMEopt
-desktop-file-install resources/_common/applications/$APPNAMEkey.desktop --dir $APPNAME.AppDir/usr/share/applications \
+desktop-file-install resources/_common/applications/$APPNAMEkey.desktop \
+     --dir $APPNAME.AppDir/usr/share/applications \
     --set-icon com.$APPNAMEkey_scm.$APPNAME --set-key=Exec --set-value=AppRun
 mv $APPNAME.AppDir/usr/share/applications/{$APPNAMEkey,com.$APPNAMEkey_scm.$APPNAME}.desktop
 
