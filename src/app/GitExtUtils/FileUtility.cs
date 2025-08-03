@@ -34,7 +34,7 @@ namespace GitExtUtils
         /// <summary>
         /// Register the import resolver before calling the imported function.
         /// Only one import resolver can be set for a given assembly.
-        /// <code> NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), DllImportResolver);  </code> 
+        /// <code> NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), DllImportResolver);  </code>
         /// </summary>
         /// <param name="libraryName"></param>
         /// <param name="assembly"></param>
@@ -55,20 +55,15 @@ namespace GitExtUtils
                 case "libxinerama.so":
                 case "libxinerama.so.1":
                     {
-
                         string[] paths = ["/usr/lib/x86_64-linux-gnu/libXinerama.so", "/usr/lib/x86_64-linux-gnu/libXinerama.so.1"];
-                        // Define the custom path where the .so file is located
-                        string customPath = "/opt/my-app/lib/libnativelib.so";
-                        foreach (string path in paths)
+                                              foreach (string path in paths)
                         {
                             // Attempt to load the library from the custom path
-                            if (NativeLibrary.TryLoad(customPath, out IntPtr handle))
+                            if (NativeLibrary.TryLoad(path, out IntPtr handle))
                             {
                                 return handle;
                             }
                         }
-
-                        //  return NativeLibrary.Load("nativedep_avx2", assembly, searchPath
                     }
                     break;
 
