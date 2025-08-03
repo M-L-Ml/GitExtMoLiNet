@@ -54,7 +54,7 @@ export VERSION
 # Run the packaging script
 echo "Running packaging script..."
 cd build
-. scripts/package.linux.sh
+. "$PWD/scripts/package.linux.sh"
 
     echo "Build completed successfully!"
     echo "Generated packages:"

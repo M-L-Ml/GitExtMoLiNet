@@ -7,8 +7,8 @@ set pipefail
 cd "$(dirname "$0")/.."
 
 # Source common configuration
-source "$(dirname "$0")/common.conf"
-initialize_common
+# source "$(dirname "$0")/common.conf"
+# initialize_common
 
 # Variables are now set by common.conf:
 # - ARCH (arch)
