@@ -161,7 +161,10 @@ if [[ "$DEB_BUILD_DIR" != "resources/deb" ]]; then
     rm -rf "$DEB_BUILD_DIR"
 fi
 
-# Build RPM package
+generate_rpm() {
+    echo Build RPM package
+echo need rpm-build
 generate_rpm_spec
 rpmbuild -bb --target="$RPM_TARGET" resources/rpm/SPECS/build.spec --define "_topdir $(pwd)/resources/rpm" --define "_version $APP_VERSION"
 mv "resources/rpm/RPMS/$RPM_TARGET/$APPNAMEkey-$APP_VERSION-1.$RPM_TARGET.rpm" ./
+}

@@ -3,7 +3,7 @@
 set -e
 set -o pipefail
 set -u
-
+echo This scripts not fully tested yet
 #set -x  # Start printing commands
 
 # Initialize build variables and display configuration
@@ -36,6 +36,9 @@ rm -v -rf build/*.AppImage
 #   --self-contained true 
 # Build the application
 echo "Building Git Extensions..."
+echo  Build the solution yourself
+echo dotnet publish can fail in the end . 
+echo Or use src/app/GitExtensions/Properties/PublishProfiles/FolderProfile.pubxml
 # dotnet publish src/app/GitExtensions/GitExtensions.csproj \
 #     --configuration $CONFIGURATION \
 #     --runtime $RUNTIME \
