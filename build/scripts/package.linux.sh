@@ -106,8 +106,47 @@ installed_size=$(du -sk resources/deb | cut -f1)
 
 generate_deb_control
 
+# Function to ensure DEBIAN directory has correct permissions
+ensure_debian_permissions() {
+    local deb_dir="$1"
+    local debian_dir="$deb_dir/DEBIAN"
+    
+    # Try to set permissions on the DEBIAN directory
+    if ! chmod u=rwx,go=rx "$debian_dir" 2>/dev/null; then
+        echo "Warning: Cannot set permissions on $debian_dir (likely NTFS filesystem)"
+        echo "Relocating DEB build to temporary location..."
+        
+        # Create a temporary directory in /tmp (which supports Unix permissions)
+        local temp_deb_dir=$(mktemp -d -t gitextensions-deb-XXXXXX)
+        echo "Using temporary directory: $temp_deb_dir"
+        
+        # Copy the entire deb structure to temp location
+        cp -r "$deb_dir"/* "$temp_deb_dir/"
+        
+        # Set proper permissions in the temp location
+        chmod u=rwx,go=rx "$temp_deb_dir/DEBIAN"
+        
+        # Return the new location
+        echo "$temp_deb_dir"
+        return 0
+    else
+        echo "DEBIAN directory permissions set successfully"
+        echo "$deb_dir"
+        return 0
+    fi
+}
+
+# Ensure DEBIAN directory has correct permissions, relocate if needed
+actual_deb_dir=$(ensure_debian_permissions "resources/deb")
+
 # Build deb package with gzip compression
-dpkg-deb -Zgzip --root-owner-group --build resources/deb "${APPNAMEkey}_$APP_VERSION-1_$ARCH.deb"
+dpkg-deb -Zgzip --root-owner-group --build "$actual_deb_dir" "${APPNAMEkey}_$APP_VERSION-1_$ARCH.deb"
+
+# Clean up temporary directory if we created one
+if [[ "$actual_deb_dir" != "resources/deb" ]]; then
+    echo "Cleaning up temporary directory: $actual_deb_dir"
+    rm -rf "$actual_deb_dir"
+fi
 
 # Build RPM package
 generate_rpm_spec

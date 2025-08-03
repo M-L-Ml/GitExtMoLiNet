@@ -27,6 +27,10 @@ substitute_template() {
 generate_deb_control() {
     # Create necessary directoriy
     mkdir -p resources/deb/DEBIAN
+ 
+  # Set DEBIAN control directory permissions:(is exactly
+  # equivalent to chmod 0755 required by dpkg-deb)
+  chmod u=rwx,go=rx resources/deb/DEBIAN
     
     cat > "resources/deb/DEBIAN/control" << EOF
 Package: $APP_NAME_KEY
