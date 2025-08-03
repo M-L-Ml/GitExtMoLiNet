@@ -6,6 +6,7 @@
             "VisualStudioExptTeam.vscodeintellicode",
             "shd101wyy.markdown-preview-enhanced",
             "ms-vscode.Theme-MarkdownKit",
-            "DavidAnson.vscode-markdownlint"
+            "DavidAnson.vscode-markdownlint",
+            "rogalmic.bash-debug"
     ]
 }
