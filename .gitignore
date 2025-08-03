@@ -90,3 +90,4 @@ artifacts/
 /build/resources/deb/DEBIAN/control
 /build/resources/rpm/SPECS/build.spec
 /build/resources/deb/
+*.AppImage
