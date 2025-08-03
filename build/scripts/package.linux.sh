@@ -5,10 +5,12 @@ set -o
 set -u
 set pipefail
 
-
 # Source common configuration
 source "$(dirname "$0")/common.sh"
 initialize_common
+
+# Source template generation functions
+source "$(dirname "$0")/../generate-templates.sh"
 
 # Ensure we're in the project root
 cd "$(dirname "$0")/.."
@@ -85,67 +87,72 @@ cp resources/appimage/gitextensions.appdata.xml $APPNAME.AppDir/usr/share/metain
 echo Build AppImage
 ARCH="$APPIMAGE_ARCH" ./appimagetool -v $APPNAME.AppDir "$APPNAMEkey-$APP_VERSION.linux.$ARCH.AppImage"
 
-echo Prepare DEB package structure
-mkdir -p resources/deb/opt/$APPNAMEkey/
-mkdir -p resources/deb/usr/bin
-mkdir -p resources/deb/usr/share/applications
-mkdir -p resources/deb/usr/share/icons
-mkdir -p resources/deb/usr/share/pixmaps
-
-# Copy application files
-cp -fr $BUILDSRC/* resources/deb/opt/$APPNAMEkey/
-ln -rsf resources/deb/opt/$APPNAMEkey/$APPNAMEkey resources/deb/usr/bin/
-
-# Copy desktop files and icons
-cp -r resources/_common/applications resources/deb/usr/share/
-cp -r resources/_common/icons resources/deb/usr/share/
-cp resources/_common/icons/hicolor/48x48/apps/gitextensions.png resources/deb/usr/share/pixmaps/
-
-# Calculate installed size in KB
-installed_size=$(du -sk resources/deb | cut -f1)
-
-generate_deb_control
-
-# Function to ensure DEBIAN directory has correct permissions
-ensure_debian_permissions() {
-    local deb_dir="$1"
-    local debian_dir="$deb_dir/DEBIAN"
+# Function to determine appropriate DEB build location
+determine_deb_location() {
+    local base_deb_dir="resources/deb"
+    
+    # Create test directory structure
+    mkdir -p "$base_deb_dir/DEBIAN"
     
     # Try to set permissions on the DEBIAN directory
-    if ! chmod u=rwx,go=rx "$debian_dir" 2>/dev/null; then
-        echo "Warning: Cannot set permissions on $debian_dir (likely NTFS filesystem)"
-        echo "Relocating DEB build to temporary location..."
+    chmod u=rwx,go=rx "$base_deb_dir/DEBIAN" 2>/dev/null
+    
+    # Verify that permissions were actually set correctly
+    local actual_perms=$(stat -c "%a" "$base_deb_dir/DEBIAN" 2>/dev/null)
+    if [[ "$actual_perms" != "755" ]]; then
+        echo "Warning: Cannot set correct permissions on $base_deb_dir/DEBIAN (got $actual_perms, need 755)"
+        echo "This typically happens on NTFS filesystems. Using temporary location for DEB build..."
         
         # Create a temporary directory in /tmp (which supports Unix permissions)
         local temp_deb_dir=$(mktemp -d -t gitextensions-deb-XXXXXX)
-        echo "Using temporary directory: $temp_deb_dir"
+        echo "DEB build location: $temp_deb_dir"
         
-        # Copy the entire deb structure to temp location
-        cp -r "$deb_dir"/* "$temp_deb_dir/"
+        # Clean up the failed attempt
+        rm -rf "$base_deb_dir"
         
-        # Set proper permissions in the temp location
-        chmod u=rwx,go=rx "$temp_deb_dir/DEBIAN"
-        
-        # Return the new location
         echo "$temp_deb_dir"
         return 0
     else
-        echo "DEBIAN directory permissions set successfully"
-        echo "$deb_dir"
+        echo "DEB build location: $base_deb_dir (permissions OK: $actual_perms)"
+        echo "$base_deb_dir"
         return 0
     fi
 }
 
-# Ensure DEBIAN directory has correct permissions, relocate if needed
-actual_deb_dir=$(ensure_debian_permissions "resources/deb")
+echo Prepare DEB package structure
+# Determine the appropriate location for DEB build
+DEB_BUILD_DIR=$(determine_deb_location)
+
+# Create DEB package structure in the determined location
+mkdir -p "$DEB_BUILD_DIR/opt/$APPNAMEkey/"
+mkdir -p "$DEB_BUILD_DIR/usr/bin"
+mkdir -p "$DEB_BUILD_DIR/usr/share/applications"
+mkdir -p "$DEB_BUILD_DIR/usr/share/icons"
+mkdir -p "$DEB_BUILD_DIR/usr/share/pixmaps"
+mkdir -p "$DEB_BUILD_DIR/DEBIAN"
+
+# Copy application files
+cp -fr $BUILDSRC/* "$DEB_BUILD_DIR/opt/$APPNAMEkey/"
+ln -rsf "$DEB_BUILD_DIR/opt/$APPNAMEkey/$APPNAMEkey" "$DEB_BUILD_DIR/usr/bin/"
+
+# Copy desktop files and icons
+cp -r resources/_common/applications "$DEB_BUILD_DIR/usr/share/"
+cp -r resources/_common/icons "$DEB_BUILD_DIR/usr/share/"
+cp resources/_common/icons/hicolor/48x48/apps/gitextensions.png "$DEB_BUILD_DIR/usr/share/pixmaps/"
+
+# Calculate installed size in KB
+installed_size=$(du -sk "$DEB_BUILD_DIR" | cut -f1)
+
+# Generate DEB control file in the determined location
+generate_deb_control "$DEB_BUILD_DIR"
 
 # Build deb package with gzip compression
-dpkg-deb -Zgzip --root-owner-group --build "$actual_deb_dir" "${APPNAMEkey}_$APP_VERSION-1_$ARCH.deb"
+dpkg-deb -Zgzip --root-owner-group --build "$DEB_BUILD_DIR" "${APPNAMEkey}_$APP_VERSION-1_$ARCH.deb"
 
-# Clean up temporary directory if we created one
-if [[ "$actual_deb_dir" != "resources/deb" ]]; then
-    echo "Cleaning up temporary directory: $actual_deb_dir"
-    rm -rf "$actual_deb_dir"
+# Clean up temporary directory if we used one
+if [[ "$DEB_BUILD_DIR" != "resources/deb" ]]; then
+    echo "Cleaning up temporary directory: $DEB_BUILD_DIR"
+    rm -rf "$DEB_BUILD_DIR"
 fi
 
 # Build RPM package
