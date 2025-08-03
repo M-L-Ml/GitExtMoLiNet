@@ -157,6 +157,7 @@ generate_appimage_metadata() {
   <url type="help">https://git-extensions-documentation.readthedocs.io/</url>
   <screenshots>
     <screenshot type="default">
+      <image>../pixmaps/gitextensions-screenshot.png</image>
       <caption>Main Git Extensions interface</caption>
     </screenshot>
   </screenshots>
