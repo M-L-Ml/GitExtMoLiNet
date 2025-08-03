@@ -44,7 +44,7 @@ dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_event = false:suggestion
 
-[*.{csproj,vcxproj}]
+[*.{csproj,vcxproj,targets}]
 indent_style = space
 indent_size = 2
 insert_final_newline = false
