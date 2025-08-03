@@ -8,6 +8,8 @@ set -u
 
 # Initialize build variables and display configuration
 initialize_build_vars() {
+    # do in build subfolder - imported scripts
+    # cd "$(dirname "$0")"
     # Source common configuration
     source "$(dirname "$0")/common.sh"
     initialize_common
@@ -29,7 +31,7 @@ echo "Cleaning previous builds..."
 # rm -rf build/GitExtensions
 # rm -rf build/*.deb
 # rm -rf build/*.rpm
-rm -rf build/*.AppImage
+rm -v -rf build/*.AppImage
 
 #   --self-contained true 
 # Build the application
@@ -52,7 +54,6 @@ export RUNTIME
 export VERSION
 
 cd build
-generate_templates_main
 
 # Run the packaging script
 echo "Running packaging script..."

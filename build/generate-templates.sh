@@ -25,6 +25,9 @@ substitute_template() {
 
 # Generate DEB control file
 generate_deb_control() {
+    # Create necessary directoriy
+    mkdir -p resources/deb/DEBIAN
+    
     cat > "resources/deb/DEBIAN/control" << EOF
 Package: $APP_NAME_KEY
 Version: $APP_VERSION
@@ -47,6 +50,7 @@ EOF
 
 # Generate RPM spec file
 generate_rpm_spec() {
+    mkdir -p resources/rpm/SPECS
     cat > "resources/rpm/SPECS/build.spec" << EOF
 Name: $APP_NAME_KEY
 Version: $APP_VERSION
@@ -109,6 +113,8 @@ EOF
 
 # Generate desktop file
 generate_desktop_file() {
+    mkdir -p resources/_common/applications
+
     cat > "resources/_common/applications/$APP_NAME_KEY.desktop" << EOF
 [Desktop Entry]
 Version=1.0
@@ -129,6 +135,7 @@ EOF
 
 # Generate AppImage metadata
 generate_appimage_metadata() {
+    mkdir -p resources/appimage
     cat > "resources/appimage/$APP_NAME_KEY.appdata.xml" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
@@ -180,13 +187,7 @@ EOF
 # Main execution
 generate_templates_main() {
     echo "Generating packaging templates..."
-    
-    # Create necessary directories
-    mkdir -p resources/deb/DEBIAN
-    mkdir -p resources/rpm/SPECS
-    mkdir -p resources/_common/applications
-    mkdir -p resources/appimage
-    
+     
     # Generate all packaging files
     generate_deb_control
     generate_rpm_spec

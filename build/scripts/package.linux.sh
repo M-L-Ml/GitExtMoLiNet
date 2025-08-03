@@ -4,11 +4,17 @@ set -e
 set -o
 set -u
 set pipefail
-cd "$(dirname "$0")/.."
+
 
 # Source common configuration
 source "$(dirname "$0")/common.sh"
 initialize_common
+
+# Ensure we're in the project root
+cd "$(dirname "$0")/.."
+cd build
+
+generate_desktop_file
 
 # Variables are now set by common.conf:
 # - ARCH (arch)
@@ -18,10 +24,6 @@ initialize_common
 # - BUILD_RUNTIME, APP_VERSION, BUILD_SOURCE_DIR
 
 APPIMAGETOOL_URL=https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
-
-# Ensure we're in the project root
-cd "$(dirname "$0")/.."
-cd build
 
 # Copy icons from source if they don't exist
 if [[ ! -f "resources/_common/icons/hicolor/48x48/apps/gitextensions.png" ]]; then
@@ -102,17 +104,12 @@ cp resources/_common/icons/hicolor/48x48/apps/gitextensions.png resources/deb/us
 # Calculate installed size in KB
 installed_size=$(du -sk resources/deb | cut -f1)
 
-# Update the control file (if not using template generation)
-if [[ ! -f "resources/deb/DEBIAN/control.template" ]]; then
-    sed -i -e "s/^Version:.*/Version: $APP_VERSION/" \
-        -e "s/^Architecture:.*/Architecture: $ARCH/" \
-        -e "s/^Installed-Size:.*/Installed-Size: $installed_size/" \
-        resources/deb/DEBIAN/control
-fi
+generate_deb_control
 
 # Build deb package with gzip compression
 dpkg-deb -Zgzip --root-owner-group --build resources/deb "$APPNAMEkey_$APP_VERSION-1_$ARCH.deb"
 
 # Build RPM package
+generate_rpm_spec
 rpmbuild -bb --target="$RPM_TARGET" resources/rpm/SPECS/build.spec --define "_topdir $(pwd)/resources/rpm" --define "_version $APP_VERSION"
 mv "resources/rpm/RPMS/$RPM_TARGET/$APPNAMEkey-$APP_VERSION-1.$RPM_TARGET.rpm" ./
