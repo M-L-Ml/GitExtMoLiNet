@@ -84,3 +84,8 @@ artifacts/
 /build/GitExtensions.AppDir/
 /build/appimagetool
 /build/resources/_common/icons/hicolor/48x48/apps/gitextensions.png
+
+/build/resources/_common/applications/gitextensions.desktop
+/build/resources/appimage/gitextensions.appdata.xml
+/build/resources/deb/DEBIAN/control
+/build/resources/rpm/SPECS/build.spec
