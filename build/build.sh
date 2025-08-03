@@ -8,15 +8,12 @@ set -u
 
 # Initialize build variables and display configuration
 initialize_build_vars() {
-    # Default values
-    RUNTIME=${RUNTIME:-linux-x64}
-    VERSION=${VERSION:-5.9.1}
-    CONFIGURATION=${CONFIGURATION:-Release}
-
-    echo "Building Git Extensions for Linux"
-    echo "Runtime: $RUNTIME"
-    echo "Version: $VERSION"
-    echo "Configuration: $CONFIGURATION"
+    # Source common configuration
+    source "$(dirname "$0")/common.conf"
+    initialize_common
+    
+    # Generate packaging templates with current configuration
+    source "$(dirname "$0")/generate-templates.sh"
 }
 
 # Main execution (only run if script is executed directly, not sourced)

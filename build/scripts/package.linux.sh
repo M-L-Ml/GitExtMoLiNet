@@ -4,27 +4,24 @@ set -e
 set -o
 set -u
 set pipefail
+cd "$(dirname "$0")/.."
 
-arch=
-appimage_arch=
-target=
-case "$RUNTIME" in
-    linux-x64)
-        arch=amd64
-        appimage_arch=x86_64
-        target=x86_64;;
-    linux-arm64)
-        arch=arm64
-        appimage_arch=arm_aarch64
-        target=aarch64;;
-    *)
-        echo "Unknown runtime $RUNTIME"
-        exit 1;;
-esac
+# Source common configuration
+source "$(dirname "$0")/common.conf"
+initialize_common
+
+# Variables are now set by common.conf:
+# - ARCH (arch)
+# - APPIMAGE_ARCH (appimage_arch) 
+# - RPM_TARGET (target)
+# - APP_NAME, APP_NAME_KEY, APP_NAME_SCM
+# - BUILD_RUNTIME, APP_VERSION, BUILD_SOURCE_DIR
 
 APPIMAGETOOL_URL=https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
 
-cd build
+# Ensure we're in the project root
+# cd "$(dirname "$0")/.."
+# cd build
 
 # Copy icons from source if they don't exist
 if [[ ! -f "resources/_common/icons/hicolor/48x48/apps/gitextensions.png" ]]; then
@@ -54,13 +51,14 @@ if [[ ! -f "appimagetool" ]]; then
     chmod +x appimagetool
 fi
 
-APPNAME=GitExtensions
-APPNAMEkey=gitextensions
-APPNAMEkey_scm=gitextensions_scm
-BUILDSRC=GitExtensions
+# Use shared configuration variables
+APPNAME=$APP_NAME
+APPNAMEkey=$APP_NAME_KEY
+APPNAMEkey_scm=$APP_NAME_SCM
+BUILDSRC=$BUILD_SOURCE_DIR
 rm -f $BUILDSRC/*.dbg
 
-# Create AppImage structure
+echo Create AppImage structure
 mkdir -p $APPNAME.AppDir/opt
 mkdir -p $APPNAME.AppDir/usr/share/metainfo
 mkdir -p $APPNAME.AppDir/usr/share/applications
@@ -79,7 +77,7 @@ ln -rsf $APPNAME.AppDir/usr/share/applications/com.$APPNAMEkey_scm.$APPNAME.desk
 cp resources/appimage/gitextensions.appdata.xml $APPNAME.AppDir/usr/share/metainfo/com.$APPNAMEkey_scm.$APPNAME.appdata.xml
 
 # Build AppImage
-ARCH="$appimage_arch" ./appimagetool -v $APPNAME.AppDir "$APPNAMEkey-$VERSION.linux.$arch.AppImage"
+ARCH="$APPIMAGE_ARCH" ./appimagetool -v $APPNAME.AppDir "$APPNAMEkey-$APP_VERSION.linux.$ARCH.AppImage"
 
 # Prepare DEB package structure
 mkdir -p resources/deb/opt/$APPNAMEkey/
@@ -100,15 +98,17 @@ cp resources/_common/icons/hicolor/48x48/apps/gitextensions.png resources/deb/us
 # Calculate installed size in KB
 installed_size=$(du -sk resources/deb | cut -f1)
 
-# Update the control file
-sed -i -e "s/^Version:.*/Version: $VERSION/" \
-    -e "s/^Architecture:.*/Architecture: $arch/" \
-    -e "s/^Installed-Size:.*/Installed-Size: $installed_size/" \
-    resources/deb/DEBIAN/control
+# Update the control file (if not using template generation)
+if [[ ! -f "resources/deb/DEBIAN/control.template" ]]; then
+    sed -i -e "s/^Version:.*/Version: $APP_VERSION/" \
+        -e "s/^Architecture:.*/Architecture: $ARCH/" \
+        -e "s/^Installed-Size:.*/Installed-Size: $installed_size/" \
+        resources/deb/DEBIAN/control
+fi
 
 # Build deb package with gzip compression
-dpkg-deb -Zgzip --root-owner-group --build resources/deb "$APPNAMEkey_$VERSION-1_$arch.deb"
+dpkg-deb -Zgzip --root-owner-group --build resources/deb "$APPNAMEkey_$APP_VERSION-1_$ARCH.deb"
 
 # Build RPM package
-rpmbuild -bb --target="$target" resources/rpm/SPECS/build.spec --define "_topdir $(pwd)/resources/rpm" --define "_version $VERSION"
-mv "resources/rpm/RPMS/$target/$APPNAMEkey-$VERSION-1.$target.rpm" ./
+rpmbuild -bb --target="$RPM_TARGET" resources/rpm/SPECS/build.spec --define "_topdir $(pwd)/resources/rpm" --define "_version $APP_VERSION"
+mv "resources/rpm/RPMS/$RPM_TARGET/$APPNAMEkey-$APP_VERSION-1.$RPM_TARGET.rpm" ./
