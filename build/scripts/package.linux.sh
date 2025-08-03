@@ -93,7 +93,7 @@ mkdir -p resources/deb/usr/share/icons
 mkdir -p resources/deb/usr/share/pixmaps
 
 # Copy application files
-cp -f $BUILDSRC/* resources/deb/opt/$APPNAMEkey/
+cp -fr $BUILDSRC/* resources/deb/opt/$APPNAMEkey/
 ln -rsf resources/deb/opt/$APPNAMEkey/$APPNAMEkey resources/deb/usr/bin/
 
 # Copy desktop files and icons
@@ -107,7 +107,7 @@ installed_size=$(du -sk resources/deb | cut -f1)
 generate_deb_control
 
 # Build deb package with gzip compression
-dpkg-deb -Zgzip --root-owner-group --build resources/deb "$APPNAMEkey_$APP_VERSION-1_$ARCH.deb"
+dpkg-deb -Zgzip --root-owner-group --build resources/deb "${APPNAMEkey}_$APP_VERSION-1_$ARCH.deb"
 
 # Build RPM package
 generate_rpm_spec
