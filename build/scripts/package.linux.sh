@@ -55,6 +55,7 @@ fi
 APPNAME=$APP_NAME
 APPNAMEkey=$APP_NAME_KEY
 APPNAMEkey_scm=$APP_NAME_SCM
+APPNAMEopt="${APPNAMEkey}"
 BUILDSRC=$BUILD_SOURCE_DIR
 rm -f $BUILDSRC/*.dbg
 
@@ -63,14 +64,14 @@ mkdir -p $APPNAME.AppDir/opt
 mkdir -p $APPNAME.AppDir/usr/share/metainfo
 mkdir -p $APPNAME.AppDir/usr/share/applications
 
-cp -r $BUILDSRC $APPNAME.AppDir/opt/$APPNAMEkey
+cp -r $BUILDSRC $APPNAME.AppDir/opt/$APPNAMEopt
 desktop-file-install resources/_common/applications/$APPNAMEkey.desktop --dir $APPNAME.AppDir/usr/share/applications \
     --set-icon com.$APPNAMEkey_scm.$APPNAME --set-key=Exec --set-value=AppRun
 mv $APPNAME.AppDir/usr/share/applications/{$APPNAMEkey,com.$APPNAMEkey_scm.$APPNAME}.desktop
 
 # Copy icon
 cp resources/appimage/gitextensions.png $APPNAME.AppDir/com.$APPNAMEkey_scm.$APPNAME.png
-ln -rsf $APPNAME.AppDir/opt/$APPNAMEkey/$APPNAMEkey $APPNAME.AppDir/AppRun
+ln -rsf $APPNAME.AppDir/opt/$APPNAMEopt/$APPNAMEkey $APPNAME.AppDir/AppRun
 ln -rsf $APPNAME.AppDir/usr/share/applications/com.$APPNAMEkey_scm.$APPNAME.desktop $APPNAME.AppDir
 
 # Copy appdata
