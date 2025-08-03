@@ -25,7 +25,7 @@ main() {
 cd "$(dirname "$0")/.."
 
 # Clean previous builds
-# echo "Cleaning previous builds..."
+echo "Cleaning previous builds..."
 # rm -rf build/GitExtensions
 # rm -rf build/*.deb
 # rm -rf build/*.rpm

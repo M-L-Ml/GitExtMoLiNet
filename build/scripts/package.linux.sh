@@ -64,24 +64,26 @@ mkdir -p $APPNAME.AppDir/opt
 mkdir -p $APPNAME.AppDir/usr/share/metainfo
 mkdir -p $APPNAME.AppDir/usr/share/applications
 
-cp -r $BUILDSRC $APPNAME.AppDir/opt/$APPNAMEopt
+rm -v -rf $APPNAME.AppDir/opt/$APPNAMEopt
+
+cp -v -r $BUILDSRC $APPNAME.AppDir/opt/$APPNAMEopt
 desktop-file-install resources/_common/applications/$APPNAMEkey.desktop \
      --dir $APPNAME.AppDir/usr/share/applications \
     --set-icon com.$APPNAMEkey_scm.$APPNAME --set-key=Exec --set-value=AppRun
-mv $APPNAME.AppDir/usr/share/applications/{$APPNAMEkey,com.$APPNAMEkey_scm.$APPNAME}.desktop
+mv -v $APPNAME.AppDir/usr/share/applications/{$APPNAMEkey,com.$APPNAMEkey_scm.$APPNAME}.desktop
 
 # Copy icon
 cp resources/appimage/gitextensions.png $APPNAME.AppDir/com.$APPNAMEkey_scm.$APPNAME.png
-ln -rsf $APPNAME.AppDir/opt/$APPNAMEopt/$APPNAMEkey $APPNAME.AppDir/AppRun
+ln -v -rsf $APPNAME.AppDir/opt/$APPNAMEopt/$APPNAME $APPNAME.AppDir/AppRun
 ln -rsf $APPNAME.AppDir/usr/share/applications/com.$APPNAMEkey_scm.$APPNAME.desktop $APPNAME.AppDir
 
 # Copy appdata
 cp resources/appimage/gitextensions.appdata.xml $APPNAME.AppDir/usr/share/metainfo/com.$APPNAMEkey_scm.$APPNAME.appdata.xml
 
-# Build AppImage
+echo Build AppImage
 ARCH="$APPIMAGE_ARCH" ./appimagetool -v $APPNAME.AppDir "$APPNAMEkey-$APP_VERSION.linux.$ARCH.AppImage"
 
-# Prepare DEB package structure
+echo Prepare DEB package structure
 mkdir -p resources/deb/opt/$APPNAMEkey/
 mkdir -p resources/deb/usr/bin
 mkdir -p resources/deb/usr/share/applications
