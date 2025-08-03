@@ -7,7 +7,9 @@ set -o pipefail
 set -u
 
 # Source common configuration
-source "$(dirname "$0")/common.sh"
+# source "$(dirname "$0")/common.sh"
+ source "common.sh"
+
 initialize_common
 
 # Function to substitute variables in template files
@@ -25,14 +27,12 @@ substitute_template() {
 
 # Generate DEB control file
 generate_deb_control() {
-    # Create necessary directoriy
-    mkdir -p resources/deb/DEBIAN
- 
-  # Set DEBIAN control directory permissions:(is exactly
-  # equivalent to chmod 0755 required by dpkg-deb)
-  chmod u=rwx,go=rx resources/deb/DEBIAN
+    local deb_dir="${1:-resources/deb}"
     
-    cat > "resources/deb/DEBIAN/control" << EOF
+    # DEBIAN directory should already exist and have correct permissions
+    # (handled by determine_deb_location function)
+    
+    cat > "$deb_dir/DEBIAN/control" << EOF
 Package: $APP_NAME_KEY
 Version: $APP_VERSION
 Section: $PACKAGE_SECTION
@@ -189,11 +189,15 @@ EOF
 }
 
 # Main execution
+main() {
+  echo "main started . choose , dirname $(dirname "$0"). args : $*"
+
+}
 generate_templates_main() {
     echo "Generating packaging templates..."
      
     # Generate all packaging files
-    generate_deb_control
+    # generate_deb_control
     generate_rpm_spec
     generate_desktop_file
     generate_appimage_metadata
@@ -209,5 +213,5 @@ generate_templates_main() {
 
 # Only run main function if script is executed directly (not sourced)
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    generate_templates_main "$@"
+    main "$@"
 fi

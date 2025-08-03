@@ -4,17 +4,23 @@ set -e
 set -o
 set -u
 set pipefail
-
+echo current \$0 = "$0"
+# Only run main function if script is executed directly (not sourced)
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    cd "$(dirname "$0")/.."
+else
+    # Ensure we're in the project root
+    cd "$(dirname "$0")/.."
+    cd build
+fi
 # Source common configuration
-source "$(dirname "$0")/common.sh"
+source "$PWD/common.sh"
 initialize_common
 
 # Source template generation functions
-source "$(dirname "$0")/../generate-templates.sh"
+source "$PWD/generate-templates.sh"
 
-# Ensure we're in the project root
-cd "$(dirname "$0")/.."
-cd build
+
 
 generate_desktop_file
 
@@ -100,12 +106,12 @@ determine_deb_location() {
     # Verify that permissions were actually set correctly
     local actual_perms=$(stat -c "%a" "$base_deb_dir/DEBIAN" 2>/dev/null)
     if [[ "$actual_perms" != "755" ]]; then
-        echo "Warning: Cannot set correct permissions on $base_deb_dir/DEBIAN (got $actual_perms, need 755)"
-        echo "This typically happens on NTFS filesystems. Using temporary location for DEB build..."
+        echo "Warning: Cannot set correct permissions on $base_deb_dir/DEBIAN (got $actual_perms, need 755)" >&2
+        echo "This typically happens on NTFS filesystems. Using temporary location for DEB build..." >&2
         
         # Create a temporary directory in /tmp (which supports Unix permissions)
         local temp_deb_dir=$(mktemp -d -t gitextensions-deb-XXXXXX)
-        echo "DEB build location: $temp_deb_dir"
+        echo "DEB build location: $temp_deb_dir" >&2
         
         # Clean up the failed attempt
         rm -rf "$base_deb_dir"
@@ -113,7 +119,7 @@ determine_deb_location() {
         echo "$temp_deb_dir"
         return 0
     else
-        echo "DEB build location: $base_deb_dir (permissions OK: $actual_perms)"
+        echo "DEB build location: $base_deb_dir (permissions OK: $actual_perms)" >&2
         echo "$base_deb_dir"
         return 0
     fi
