@@ -92,3 +92,5 @@ artifacts/
 /build/resources/deb/
 *.AppImage
 /build/*.deb
+
+/build/resources/rpm/*

@@ -70,9 +70,9 @@ initialize_common() {
 cleanup_build() {
     echo "Cleaning previous builds..."
     rm -rf "$BUILD_SOURCE_DIR"
-    rm -rf *.deb
-    rm -rf *.rpm
-    rm -rf *.AppImage
+    rm -rf ./*.deb
+    rm -rf ./*.rpm
+    rm -rf ./*.AppImage
 }
 
 # Icon setup function
