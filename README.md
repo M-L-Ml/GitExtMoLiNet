@@ -1,6 +1,7 @@
 # Git Ext MoLiNet
 
 This is a fork of Git Extensions called "Git Ext MoLiNet", modified for Linux compatibility using the [System.Windows.Forms](https://github.com/DanielVanNoord/System.Windows.Forms) package.
+![Screenshot](/Setup/assets/gitm-screenshot.png)
 
 ## Linux Support Status
 
@@ -22,9 +23,9 @@ There are currently no plans for extensive maintenance unless community contribu
 
 So the goal is to make the whole project a library to a cross-platform ready project, while preserving the ability to merge changes from the upstream project.
 
-# Below is original README.md from Git Extensions project
+# Below is original README.md from Git Extensions project👇
 
-👇
+
 ![Git Extensions logo](https://cdn.rawgit.com/gitextensions/gitextensions/master/setup/assets/Logo/git-extensions-logo.svg)
 
 # Git Extensions
