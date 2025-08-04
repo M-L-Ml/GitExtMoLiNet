@@ -40,10 +40,11 @@ cd "$(dirname "$0")/.."
 
 # Clean previous builds
 echo "Cleaning previous builds..."
-rm -rf build/GitExtensions
+# rm -rf build/GitExtensions
 rm -rf build/*.deb
 rm -rf build/*.rpm
 rm -v -rf build/*.AppImage
+rm -v -rf build/pdb_files_*.zip
 
 #   --self-contained true 
 # Build the application
@@ -74,7 +75,7 @@ cd build
 
 # Run the packaging script
 echo "Running packaging script..."
-setup_icons
+
 . "$PWD/scripts/package.linux.sh"
 
     echo "Build completed successfully!"

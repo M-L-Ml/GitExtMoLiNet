@@ -74,26 +74,3 @@ cleanup_build() {
     rm -rf ./*.rpm
     rm -rf ./*.AppImage
 }
-
-# Icon setup function
-setup_icons() {
-    echo "Setting up icons..."
-    mkdir -p resources/_common/icons/hicolor/48x48/apps
-    mkdir -p resources/appimage
-    
-    # Copy 48px icon for desktop integration
-    if [[ -f "$ICON_48PX" ]]; then
-        cp "$ICON_48PX" "resources/_common/icons/hicolor/48x48/apps/gitextensions.png"
-        echo "✓ Copied 48px icon for desktop integration"
-    else
-        echo "⚠ Warning: 48px icon not found at $ICON_48PX"
-    fi
-    
-    # Copy larger icon for AppImage
-    if [[ -f "$ICON_256PX" ]]; then
-        cp "$ICON_256PX" "resources/appimage/gitextensions.png"
-        echo "✓ Copied 256px icon for AppImage"
-    else
-        echo "⚠ Warning: 256px icon not found at $ICON_256PX"
-    fi
-}

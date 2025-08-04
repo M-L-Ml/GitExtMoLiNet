@@ -94,3 +94,7 @@ artifacts/
 /build/*.deb
 
 /build/resources/rpm/*
+
+/build/*.AppDir/
+/build/resources/_common/*
+/build/resources/appimage/*

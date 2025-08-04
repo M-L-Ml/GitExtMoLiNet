@@ -29,17 +29,23 @@ generate_desktop_file
 # - APP_NAME, APP_NAME_KEY, APP_NAME_SCM
 # - BUILD_RUNTIME, APP_VERSION, BUILD_SOURCE_DIR
 
-APPIMAGETOOL_URL=https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+generate_rpm() {
+    echo Build RPM package
+echo need rpmbuild , install rpm first
+generate_rpm_spec
+rpmbuild -bb --target="$RPM_TARGET" resources/rpm/SPECS/build.spec --define "_topdir $(pwd)/resources/rpm" --define "_version $APP_VERSION"
+mv "resources/rpm/RPMS/$RPM_TARGET/$APP_NAME_KEY-$APP_VERSION-1.$RPM_TARGET.rpm" ./
+}
 
 # Copy icons from source if they don't exist
-if [[ ! -f "resources/_common/icons/hicolor/48x48/apps/gitextensions.png" ]]; then
+if [[ ! -f "resources/_common/icons/hicolor/48x48/apps/$APP_NAME_KEY.png" ]]; then
     echo "Copying icons from source..."
     mkdir -p resources/_common/icons/hicolor/48x48/apps
     mkdir -p resources/appimage
     
     # Copy 48px icon for desktop integration
     if [[ -f "../setup/assets/Logo/git-extensions-logo-48px.png" ]]; then
-        cp "../setup/assets/Logo/git-extensions-logo-48px.png" "resources/_common/icons/hicolor/48x48/apps/gitextensions.png"
+        cp "../setup/assets/Logo/git-extensions-logo-48px.png" "resources/_common/icons/hicolor/48x48/apps/$APP_NAME_KEY.png"
         echo "✓ Copied 48px icon for desktop integration"
     else
         echo "⚠ Warning: 48px icon not found at ../setup/assets/Logo/git-extensions-logo-48px.png"
@@ -54,13 +60,11 @@ if [[ ! -f "resources/_common/icons/hicolor/48x48/apps/gitextensions.png" ]]; th
     fi
 fi
 
-generate_rpm() {
-    echo Build RPM package
-echo need rpmbuild , install rpm first
-generate_rpm_spec
-rpmbuild -bb --target="$RPM_TARGET" resources/rpm/SPECS/build.spec --define "_topdir $(pwd)/resources/rpm" --define "_version $APP_VERSION"
-mv "resources/rpm/RPMS/$RPM_TARGET/$APP_NAME_KEY-$APP_VERSION-1.$RPM_TARGET.rpm" ./
-}
+
+
+APPIMAGETOOL_URL=https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+
+generate_appimage_metadata
 
 if [[ ! -f "appimagetool" ]]; then
     curl -o appimagetool -L "$APPIMAGETOOL_URL"
@@ -94,7 +98,7 @@ ln -v -rsf $APPNAME.AppDir/opt/$APPNAMEopt/$APPNAME $APPNAME.AppDir/AppRun
 ln -rsf $APPNAME.AppDir/usr/share/applications/com.$APPNAMEkey_scm.$APPNAME.desktop $APPNAME.AppDir
 
 # Copy appdata
-cp resources/appimage/gitextensions.appdata.xml $APPNAME.AppDir/usr/share/metainfo/com.$APPNAMEkey_scm.$APPNAME.appdata.xml
+cp resources/appimage/$APPNAMEkey.appdata.xml $APPNAME.AppDir/usr/share/metainfo/com.$APPNAMEkey_scm.$APPNAME.appdata.xml
 
 echo Build AppImage
 ARCH="$APPIMAGE_ARCH" ./appimagetool -v $APPNAME.AppDir "$APPNAMEkey-$APP_VERSION.linux.$ARCH.AppImage"
@@ -150,7 +154,7 @@ ln -rsf "$DEB_BUILD_DIR/opt/$APPNAMEkey/$APPNAMEkey" "$DEB_BUILD_DIR/usr/bin/"
 # Copy desktop files and icons
 cp -r resources/_common/applications "$DEB_BUILD_DIR/usr/share/"
 cp -r resources/_common/icons "$DEB_BUILD_DIR/usr/share/"
-cp resources/_common/icons/hicolor/48x48/apps/gitextensions.png "$DEB_BUILD_DIR/usr/share/pixmaps/"
+cp resources/_common/icons/hicolor/48x48/apps/$APPNAMEkey.png "$DEB_BUILD_DIR/usr/share/pixmaps/"
 
 # Calculate installed size in KB
 installed_size=$(du -sk "$DEB_BUILD_DIR" | cut -f1)
