@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-REPO="M-L-Ml/gitextensions" # <-- Change this to your GitHub repo (e.g. user/project)
+REPO="M-L-Ml/GitExtMoLiNet" # <-- Change this to your GitHub repo (e.g. user/project)
 TAG="v0.1.0-alpha"
 TITLE="Alpha Release"
 BODY="Alpha release of GitExtensions. Includes Debug build artifacts.

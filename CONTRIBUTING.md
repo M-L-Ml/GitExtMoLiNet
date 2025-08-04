@@ -1,5 +1,5 @@
 ﻿# Contributing Git Extensions
-This is a fork of Git Extensions project. https://github.com/M-L-Ml/gitextensions. Feel more freely to contribute to this project.
+This is a fork of Git Extensions project. https://github.com/M-L-Ml/GitExtMoLiNet. Feel more freely to contribute to this project.
 Below is original content of this file.
 
 # Contributing to Git Extensions

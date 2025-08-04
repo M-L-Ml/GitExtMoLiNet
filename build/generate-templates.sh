@@ -168,7 +168,7 @@ generate_appimage_metadata() {
   <url type="help">https://git-extensions-documentation.readthedocs.io/</url>
   <screenshots>
     <screenshot type="default">
-      <image>https://github.com/M-L-Ml/gitextensions/blob/postmonoforms/Setup/assets/gitm-screenshot.png</image>
+      <image>https://github.com/M-L-Ml/GitExtMoLiNet/blob/postmonoforms/Setup/assets/gitm-screenshot.png</image>
       <caption>Main $APP_NAME interface</caption>
     </screenshot>
   </screenshots>
