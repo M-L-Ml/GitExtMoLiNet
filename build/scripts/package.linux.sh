@@ -4,7 +4,7 @@ set -e
 set -o
 set -u
 set pipefail
-echo current \$0 = "$0"
+#echo current \$0 = "$0"
 # Only run main function if script is executed directly (not sourced)
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     cd "$(dirname "$0")/.."

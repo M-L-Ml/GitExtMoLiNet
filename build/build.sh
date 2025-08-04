@@ -36,13 +36,13 @@ main() {
     initialize_build_vars
     # Ensure we're in the project root
 cd "$(dirname "$0")/.."
-collect_and_zip_pdb
+
 
 # Clean previous builds
 echo "Cleaning previous builds..."
-# rm -rf build/GitExtensions
-# rm -rf build/*.deb
-# rm -rf build/*.rpm
+rm -rf build/GitExtensions
+rm -rf build/*.deb
+rm -rf build/*.rpm
 rm -v -rf build/*.AppImage
 
 #   --self-contained true 
@@ -51,12 +51,14 @@ echo "Building Git Extensions..."
 echo  Build the solution yourself
 echo dotnet publish can fail in the end . 
 echo Or use src/app/GitExtensions/Properties/PublishProfiles/FolderProfile.pubxml
-# dotnet publish src/app/GitExtensions/GitExtensions.csproj \
-#     --configuration $CONFIGURATION \
-#     --runtime $RUNTIME \
-#     --output build/GitExtensions \
-#     -p:PublishSingleFile=false \
-#     -p:PublishTrimmed=false
+dotnet publish "src/app/$BUILD_SOURCE_DIR/GitExtensions.csproj" \
+    --configuration $BUILD_CONFIGURATION \
+    --runtime $BUILD_RUNTIME \
+    --output build/GitExtensions \
+    -p:PublishSingleFile=false \
+    -p:PublishTrimmed=false
+
+collect_and_zip_pdb
 
 # Make the main executable... executable
 chmod +x build/GitExtensions/GitExtensions
