@@ -60,7 +60,7 @@ cd build
 
 # Run the packaging script
 echo "Running packaging script..."
-
+setup_icons
 . "$PWD/scripts/package.linux.sh"
 
     echo "Build completed successfully!"
