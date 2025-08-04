@@ -20,8 +20,6 @@ initialize_common
 # Source template generation functions
 source "$PWD/generate-templates.sh"
 
-
-
 generate_desktop_file
 
 # Variables are now set by common.conf:
@@ -56,6 +54,14 @@ if [[ ! -f "resources/_common/icons/hicolor/48x48/apps/gitextensions.png" ]]; th
     fi
 fi
 
+generate_rpm() {
+    echo Build RPM package
+echo need rpmbuild , install rpm first
+generate_rpm_spec
+rpmbuild -bb --target="$RPM_TARGET" resources/rpm/SPECS/build.spec --define "_topdir $(pwd)/resources/rpm" --define "_version $APP_VERSION"
+mv "resources/rpm/RPMS/$RPM_TARGET/$APP_NAME_KEY-$APP_VERSION-1.$RPM_TARGET.rpm" ./
+}
+
 if [[ ! -f "appimagetool" ]]; then
     curl -o appimagetool -L "$APPIMAGETOOL_URL"
     chmod +x appimagetool
@@ -63,8 +69,8 @@ fi
 
 # Use shared configuration variables
 APPNAME=$APP_NAME
-APPNAMEkey=$APP_NAME_KEY
 APPNAMEkey_scm=$APP_NAME_SCM
+APPNAMEkey=$APP_NAME_KEY
 APPNAMEopt="${APPNAMEkey}"
 BUILDSRC=$BUILD_SOURCE_DIR
 rm -f $BUILDSRC/*.dbg
@@ -161,10 +167,4 @@ if [[ "$DEB_BUILD_DIR" != "resources/deb" ]]; then
     rm -rf "$DEB_BUILD_DIR"
 fi
 
-generate_rpm() {
-    echo Build RPM package
-echo need rpm-build
-generate_rpm_spec
-rpmbuild -bb --target="$RPM_TARGET" resources/rpm/SPECS/build.spec --define "_topdir $(pwd)/resources/rpm" --define "_version $APP_VERSION"
-mv "resources/rpm/RPMS/$RPM_TARGET/$APPNAMEkey-$APP_VERSION-1.$RPM_TARGET.rpm" ./
-}
+generate_rpm

@@ -9,22 +9,34 @@ echo This scripts not fully tested yet
 # Initialize build variables and display configuration
 initialize_build_vars() {
     # do in build subfolder - imported scripts
-    # cd "$(dirname "$0")"
+    cd "$(dirname "$0")"
     # Source common configuration
-    source "$(dirname "$0")/common.sh"
+    source "$PWD/common.sh"
     initialize_common
     
     # Generate packaging templates with current configuration
-    source "$(dirname "$0")/generate-templates.sh"
+    source "$PWD/generate-templates.sh"
 }
-
+# Function to collect all .pdb files and archive them into a zip
+collect_and_zip_pdb() {
+    local pdb_dir="build/GitExtensions"
+    local zip_name="pdb_files_$(date +%Y%m%d_%H%M%S).zip"
+    echo "Collecting .pdb files from $pdb_dir and archiving into $zip_name..."
+    find "$pdb_dir" -type f -name '*.pdb' -print | zip -@ "build/$zip_name"
+    if [[ $? -eq 0 ]]; then
+        echo "PDB files successfully archived into $zip_name."
+    else
+        echo "Failed to archive PDB files." >&2
+        return 1
+    fi
+}
 # Main execution (only run if script is executed directly, not sourced)
 main() {
     # Initialize build configuration
     initialize_build_vars
-
     # Ensure we're in the project root
 cd "$(dirname "$0")/.."
+collect_and_zip_pdb
 
 # Clean previous builds
 echo "Cleaning previous builds..."
