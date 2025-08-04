@@ -94,8 +94,7 @@ mv -v $APPNAME.AppDir/usr/share/applications/{$APPNAMEkey,com.$APPNAMEkey_scm.$A
 
 # Copy icon
 cp resources/appimage/gitextensions.png $APPNAME.AppDir/com.$APPNAMEkey_scm.$APPNAME.png
-ExeName=GitExtensions
-ln -v -rsf $APPNAME.AppDir/opt/$APPNAMEopt/$ExeName $APPNAME.AppDir/AppRun
+ln -v -rsf $APPNAME.AppDir/opt/$APPNAMEopt/$APP_EXE_NAME $APPNAME.AppDir/AppRun
 ln -rsf $APPNAME.AppDir/usr/share/applications/com.$APPNAMEkey_scm.$APPNAME.desktop $APPNAME.AppDir
 
 # Copy appdata
@@ -150,7 +149,7 @@ mkdir -p "$DEB_BUILD_DIR/DEBIAN"
 
 # Copy application files
 cp -fr $BUILDSRC/* "$DEB_BUILD_DIR/opt/$APPNAMEkey/"
-ln -rsf "$DEB_BUILD_DIR/opt/$APPNAMEkey/$ExeName" "$DEB_BUILD_DIR/usr/bin/"
+ln -rsf "$DEB_BUILD_DIR/opt/$APPNAMEkey/$APP_EXE_NAME" "$DEB_BUILD_DIR/usr/bin/$APPNAMEkey"
 
 # Copy desktop files and icons
 cp -r resources/_common/applications "$DEB_BUILD_DIR/usr/share/"

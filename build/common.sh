@@ -5,6 +5,7 @@
 # Application metadata
 export APP_NAME="GitMoLiNet"
 export APP_NAME_KEY="gitmolinet"
+export APP_EXE_NAME="GitExtensions"
 export APP_NAME_SCM="gitmolinet_scm"
 export APP_VERSION="${VERSION:-5.9.2}"
 export APP_DESCRIPTION="Git MoLiNet is a standalone UI tool for managing git repositories"

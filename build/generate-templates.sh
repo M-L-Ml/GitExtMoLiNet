@@ -93,7 +93,7 @@ mkdir -p %{buildroot}/usr/share/pixmaps
 cp -r ../../../$BUILD_SOURCE_DIR/* %{buildroot}/opt/$APP_NAME_KEY/
 
 # Create symlink
-ln -sf /opt/$APP_NAME_KEY/$APP_NAME_KEY %{buildroot}/usr/bin/$APP_NAME_KEY
+ln -sf /opt/$APP_NAME_KEY/$APP_EXE_NAME %{buildroot}/usr/bin/$APP_NAME_KEY
 
 # Copy desktop file and icons
 cp ../../../resources/_common/applications/$APP_NAME_KEY.desktop %{buildroot}/usr/share/applications/
