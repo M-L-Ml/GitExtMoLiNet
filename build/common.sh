@@ -3,13 +3,13 @@
 # This file is sourced by all build and packaging scripts
 
 # Application metadata
-export APP_NAME="GitExtensions"
-export APP_NAME_KEY="gitextensions"
-export APP_NAME_SCM="gitextensions_scm"
-export APP_VERSION="${VERSION:-5.9.1}"
-export APP_DESCRIPTION="Git Extensions is a standalone UI tool for managing git repositories"
+export APP_NAME="GitMoLiNet"
+export APP_NAME_KEY="gitmolinet"
+export APP_NAME_SCM="gitmolinet_scm"
+export APP_VERSION="${VERSION:-5.9.2}"
+export APP_DESCRIPTION="Git MoLiNet is a standalone UI tool for managing git repositories"
 export APP_HOMEPAGE="https://gitextensions.github.io/"
-export APP_MAINTAINER="Git Extensions Team <gitextensions@gmail.com>"
+export APP_MAINTAINER="Mihail Malinouski <m.l.malinouski@gmail.com> , Git Extensions Team <gitextensions@gmail.com>"
 export APP_LICENSE="GPL-3.0+"
 
 # Build configuration
