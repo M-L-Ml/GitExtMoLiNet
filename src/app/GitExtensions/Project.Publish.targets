@@ -284,21 +284,21 @@
     </PropertyGroup>
 
     <!-- Determine WiX version from the referenced package -->
-    <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('that disabled WiX'))">
+    <ItemGroup>
       <_WiX Include="@(PackageVersion)"  Condition="$([System.String]::Copy('%(Identity)')) == 'WiX'" />
     </ItemGroup>
-    <Error Text="WiX package reference can't be found" Condition="'@(_WiX->Count())' != 1 AND $(RuntimeIdentifier.StartsWith('that disabled WiX'))" />
+    <Error Text="WiX package reference can't be found" Condition="'@(_WiX->Count())' != 1" />
 
-    <PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('that disabled WiX'))">
+    <PropertyGroup>
       <_WiXVersion>%(_WiX.Version)</_WiXVersion>
     </PropertyGroup>
 
     <!-- Work out VS installation path, so we can find MSBuild.exe -->
-    <PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('that disabled WiX'))">
+    <PropertyGroup>
       <VSWherePath>$([MSBuild]::NormalizePath('$(Pkgvswhere)', 'tools'))</VSWherePath>
     </PropertyGroup>
 
-    <Exec  Condition="$(RuntimeIdentifier.StartsWith('that disabled WiX'))"
+    <Exec
         Command="vswhere.exe -latest -prerelease -property installationPath -requires Microsoft.Component.MSBuild"
         WorkingDirectory="$(VSWherePath)"
         EchoOff="true"
@@ -307,7 +307,7 @@
         <Output TaskParameter="ConsoleOutput" PropertyName="_VSInstallPath" />
     </Exec>
 
-    <PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('that disabled WiX'))">
+    <PropertyGroup>
       <_MSBuildCurrentPath>$([MSBuild]::NormalizePath('$(_VSInstallPath)', 'MSBuild', 'Current', 'Bin'))</_MSBuildCurrentPath>
       <_SetupArgs>/p:Configuration=$(Configuration);Platform=$(TargetPlatform);WiXVersion=$(_WiXVersion);Version=$(CurrentBuildVersion);ArtifactsBinPath=$(ArtifactsBinDir);ArtifactsPublishPath=$(AppPublishDir);OutputPath=$(_PublishMsiPath.TrimEnd('\'));TargetName=$(_PublishMsiFileName)</_SetupArgs>
     </PropertyGroup>
@@ -325,7 +325,7 @@
         StopOnFirstFailure="true"
         />
       -->
-    <Exec  Condition="$(RuntimeIdentifier.StartsWith('that disabled WiX'))"
+    <Exec
         Command="msbuild.exe $(RepoRoot)\setup\installer\Setup.wixproj /v:q /t:Build $(_SetupArgs) /bl:$(ArtifactsLogDir)\setup.binlog"
         WorkingDirectory="$(_MSBuildCurrentPath)"
         EchoOff="true"
