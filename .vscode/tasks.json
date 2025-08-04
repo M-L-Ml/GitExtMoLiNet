@@ -7,6 +7,7 @@
             "type": "process",
             "args": [
                 "build",
+                "${workspaceFolder}/GitExtensions.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -44,6 +45,7 @@
             "type": "process",
             "args": [
                 "publish",
+                "${workspaceFolder}/GitExtensions.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -55,7 +57,9 @@
             "type": "process",
             "args": [
                 "watch",
-                "run"
+                "run",
+                "--project",
+                "${workspaceFolder}/GitExtensions.sln"
             ],
             "problemMatcher": "$msCompile"
         },

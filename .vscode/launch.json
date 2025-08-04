@@ -5,6 +5,30 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "type": "bashdb",
+        "request": "launch",
+        "name": "build.sh Bash",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/build/build.sh",
+        "args": []
+      },
+      {
+        "type": "bashdb",
+        "request": "launch",
+        "name": "package.linux.sh Bash",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/build/scripts/package.linux.sh",
+        "args": []
+      },
+      {
+        "type": "bashdb",
+        "request": "launch",
+        "name": "Bash-Debug (select script from list of sh files)",
+        "cwd": "${workspaceFolder}",
+        "program": "${command:SelectScriptName}",
+        "args": []
+      },
+      {
         "name": "GitExtensions Launch with Profile",
         "type": "coreclr",
         "request": "launch",
@@ -12,6 +36,18 @@
         "cwd": "${workspaceFolder}/artifacts/Debug/bin/GitExtensions/net9.0",
      //   "launchSettingsFilePath": "${workspaceFolder}/src/GitExtensions/Properties/launchSettings.json",
         "launchSettingsProfile": "Blame"
+      },
+      {
+        "name": "Just launch1",
+        "type": "dotnet",
+        "request": "launch",
+        // "program": "${workspaceFolder}/artifacts/Debug/bin/GitExtensions/net9.0/GitExtensions.dll",
+        // "cwd": "${workspaceFolder}/artifacts/Debug/bin/GitExtensions/net9.0",
+     //   "launchSettingsFilePath": "${workspaceFolder}/src/GitExtensions/Properties/launchSettings.json",
+        // "launchSettingsProfile": "Blame"
+                "projectPath": "${workspaceFolder}/src/app/GitExtensions/GitExtensions.csproj"
+,
+"preLaunchTask": ""
       },
       {
         "name": "C#: GitExtensions Debug",
